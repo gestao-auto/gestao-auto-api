@@ -7,4 +7,6 @@
 
 3-Configure no standalone.xml o datasource apontando para o mysql da sua máquina.
 
-4-Inicie o standalone.bat
+4-Na pasta standalone/deployments insira o war do projeto.
+
+5-Inicie o standalone.bat
