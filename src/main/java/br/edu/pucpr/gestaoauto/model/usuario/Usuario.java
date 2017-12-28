@@ -69,7 +69,7 @@ public class Usuario implements java.io.Serializable {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "dataceitetermouso", length = 10)
-	public Date getDatAceiteTermoUso() {
+	public Date getDataAceiteTermoUso() {
 		return this.dataAceiteTermoUso;
 	}
 

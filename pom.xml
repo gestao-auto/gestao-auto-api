@@ -11,6 +11,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+		<!--Logging-->
+		<sfl4j.version>1.7.22</sfl4j.version>
+
 		<!-- Hibernate / JPA -->
 		<hibernate.version>5.2.12.Final</hibernate.version>
 		
@@ -18,9 +21,12 @@
 		<mysql.connector.version>5.1.35</mysql.connector.version>
 		
 		<ejb.api.version>3.0</ejb.api.version>
-		
-		<!-- Weld - Implementação do CDI -->
-		<weld.version>2.2.10.Final</weld.version>
+		<jee.version>7.0</jee.version>
+
+		<!-- REST -->
+		<rs.version>2.0.1</rs.version>
+		<jackson.version>1.9.13</jackson.version>
+		<resteasy.version>3.0.24.Final</resteasy.version>
 		
 		<!-- JUnit -->
 		<junit.version>4.12</junit.version>
@@ -46,6 +52,7 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -61,21 +68,75 @@
 		    <version>${ejb.api.version}</version>
 		    <scope>provided</scope>
 		</dependency>
-		
-		 <dependency>
-            <groupId>org.jboss.weld.servlet</groupId>
-            <artifactId>weld-servlet</artifactId>
-            <version>${weld.version}</version>
-            <scope>compile</scope>
-        </dependency>		
-        
+
 		<dependency>
-		    <groupId>junit</groupId>
-		    <artifactId>junit</artifactId>
-		    <version>${junit.version}</version>
-		    <scope>test</scope>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+			<version>1.0.0.Final</version>
+			<scope>provided</scope>
 		</dependency>
-        
+		<dependency>
+			<groupId>org.jboss.javaee</groupId>
+			<artifactId>jboss-transaction-api</artifactId>
+			<version>1.0.1.GA</version>
+			<scope>provided</scope>
+		</dependency>
+
+		 <dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>${jee.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${sfl4j.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>${rs.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>${resteasy.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-validator-provider-11</artifactId>
+			<version>${resteasy.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 </project>

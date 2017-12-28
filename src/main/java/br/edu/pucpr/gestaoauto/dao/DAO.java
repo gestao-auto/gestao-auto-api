@@ -11,8 +11,8 @@ import javax.persistence.PersistenceContext;
 @SuppressWarnings("unchecked")
 public class DAO<Id, T> {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+	@PersistenceContext(name="gestaoAuto")
+	protected EntityManager entityManager;
 
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public T getById(Id id) {
@@ -20,13 +20,14 @@ public class DAO<Id, T> {
 	}
 
 	@TransactionAttribute(TransactionAttributeType.MANDATORY)
-	public void save(T entity) {
+	public T save(T entity) {
 		entityManager.persist(entity);
+		return entity;
 	}
 
 	@TransactionAttribute(TransactionAttributeType.MANDATORY)
-	public void update(T entity) {
-		entityManager.merge(entity);
+	public T update(T entity) {
+		return entityManager.merge(entity);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.MANDATORY)
