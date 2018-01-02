@@ -1,31 +1,25 @@
-package br.edu.pucpr.gestaoauto.model.manutencao;
+package br.edu.pucpr.gestaoauto.model.pessoaJuridica;
+
+import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 @Entity
-@Table(name = "reparador", catalog = "gestao_auto")
-public class Reparador implements java.io.Serializable {
-
-	private static final long serialVersionUID = -5023288711885485686L;
+@Table(name = "pessoa_juridica", catalog = "gestao_auto")
+public abstract class PessoaJuridica implements java.io.Serializable {
 
 	private Integer codigo;
 	private Integer cnpj;
 	private String razaosocial;
 	private String nomefantasia;
 
-	public Reparador() {
+	public PessoaJuridica() {
 	}
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 
-	@Column(name = "codreparador", unique = true, nullable = false)
+	@Column(name = "codigo", unique = true, nullable = false)
 	public Integer getCodigo() {
 		return this.codigo;
 	}

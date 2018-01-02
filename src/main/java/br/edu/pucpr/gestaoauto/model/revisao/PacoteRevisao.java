@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import br.edu.pucpr.gestaoauto.model.veiculo.MarcaVeiculo;
+import br.edu.pucpr.gestaoauto.model.veiculo.Marca;
 
 @Entity
 @Table(name = "pacote_revisao", catalog = "gestao_auto")
@@ -20,7 +20,7 @@ public class PacoteRevisao implements java.io.Serializable {
 	private static final long serialVersionUID = 6660095982718297373L;
 
 	private Integer codigo;
-	private MarcaVeiculo marcaVeiculo;
+	private Marca marca;
 	private String nome;
 
 	public PacoteRevisao() {
@@ -40,12 +40,12 @@ public class PacoteRevisao implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "codmarca", nullable = false)
-	public MarcaVeiculo getMarcaVeiculo() {
-		return this.marcaVeiculo;
+	public Marca getMarca() {
+		return this.marca;
 	}
 
-	public void setMarcaVeiculo(MarcaVeiculo marcaVeiculo) {
-		this.marcaVeiculo = marcaVeiculo;
+	public void setMarca(Marca marca) {
+		this.marca = marca;
 	}
 
 	@Column(name = "nome", length = 45)
