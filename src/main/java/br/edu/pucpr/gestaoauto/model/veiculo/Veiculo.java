@@ -3,14 +3,7 @@ package br.edu.pucpr.gestaoauto.model.veiculo;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import br.edu.pucpr.gestaoauto.model.usuario.Proprietario;
 
@@ -21,7 +14,7 @@ public class Veiculo implements java.io.Serializable {
 	private static final long serialVersionUID = 8577505457395568330L;
 
 	private Integer codigo;
-	private ModeloVeiculo modeloVeiculo;
+	private Modelo modelo;
 	private Proprietario proprietario;
 	private String placa;
 	private String nome;
@@ -29,9 +22,7 @@ public class Veiculo implements java.io.Serializable {
 	private String modalidade;
 	private String renavam;
 	private Integer odometro;
-
-	public Veiculo() {
-	}
+	protected Short rodas;
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -46,12 +37,12 @@ public class Veiculo implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "codmodelo", nullable = false)
-	public ModeloVeiculo getModeloVeiculo() {
-		return this.modeloVeiculo;
+	public Modelo getModelo() {
+		return this.modelo;
 	}
 
-	public void setModeloVeiculo(ModeloVeiculo modeloVeiculo) {
-		this.modeloVeiculo = modeloVeiculo;
+	public void setModelo(Modelo modelo) {
+		this.modelo = modelo;
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -118,4 +109,7 @@ public class Veiculo implements java.io.Serializable {
 		this.odometro = odometro;
 	}
 
+    public Short getRodas() { return this.rodas; }
+
+    public void setRodas(Short rodas) { this.rodas = rodas; }
 }

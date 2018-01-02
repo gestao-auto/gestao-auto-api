@@ -4,7 +4,7 @@ import javax.ws.rs.core.Response;
 
 import br.edu.pucpr.gestaoauto.api.Message;
 
-abstract class AbstractRest {
+public abstract class AbstractRest {
 	protected Throwable rootCause(Throwable e){
 		Throwable root = e;
 		if(e.getCause() != null){

@@ -12,7 +12,7 @@ public class VeiculoDTO {
 	private String modalidade;
 	private String renavam;
 	private Integer odometro;
-	private ProprietarioDTO proprietario;
+	private Integer proprietario;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -78,11 +78,11 @@ public class VeiculoDTO {
 		this.odometro = odometro;
 	}
 
-	public ProprietarioDTO getProprietario() {
+	public Integer getProprietario() {
 		return proprietario;
 	}
 
-	public void setProprietario(ProprietarioDTO proprietario) {
+	public void setProprietario(Integer proprietario) {
 		this.proprietario = proprietario;
 	}
 	

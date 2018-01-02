@@ -1,4 +1,4 @@
-package br.edu.pucpr.gestaoauto.api.service;
+package br.edu.pucpr.gestaoauto.api.service.veiculo;
 
 import java.util.List;
 
@@ -10,28 +10,31 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import br.edu.pucpr.gestaoauto.api.service.AbstractRest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.edu.pucpr.gestaoauto.api.dto.veiculo.ModeloVeiculoDTO;
-import br.edu.pucpr.gestaoauto.manager.veiculo.MarcaVeiculoManager;
-import br.edu.pucpr.gestaoauto.manager.veiculo.ModeloVeiculoManager;
-import br.edu.pucpr.gestaoauto.model.veiculo.MarcaVeiculo;
+import br.edu.pucpr.gestaoauto.manager.veiculo.MarcaManager;
+import br.edu.pucpr.gestaoauto.manager.veiculo.ModeloManager;
+import br.edu.pucpr.gestaoauto.model.veiculo.Marca;
 
 @Path("/veiculo/modelo")
 public class ModeloVeiculoRest extends AbstractRest {
 
 	private static Logger log = LoggerFactory.getLogger(MarcaVeiculoRest.class);
 
-	@Inject ModeloVeiculoManager modeloManager;
-	@Inject MarcaVeiculoManager marcaManager;
+	@Inject
+    ModeloManager modeloManager;
+	@Inject
+	MarcaManager marcaManager;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/lista/porMarca/{codigo}")
 	public Response getListModeloVeiculoPorMarca(@PathParam("codigo") Integer codigoMarca) {
 		try {
-			MarcaVeiculo marca = marcaManager.getById(codigoMarca);
+			Marca marca = marcaManager.getById(codigoMarca);
 			List<ModeloVeiculoDTO> modeloList = modeloManager.convertListModeloToDTO(modeloManager.getListModeloVeiculoByMarca(marca));
 			return Response.ok().entity(modeloList).build();
 		} catch (Exception e) {

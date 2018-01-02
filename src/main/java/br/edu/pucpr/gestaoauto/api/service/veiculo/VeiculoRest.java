@@ -1,4 +1,4 @@
-package br.edu.pucpr.gestaoauto.api.service;
+package br.edu.pucpr.gestaoauto.api.service.veiculo;
 
 import java.util.List;
 
@@ -14,12 +14,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import br.edu.pucpr.gestaoauto.api.service.AbstractRest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoDTO;
 import br.edu.pucpr.gestaoauto.manager.UsuarioManager;
-import br.edu.pucpr.gestaoauto.manager.veiculo.MarcaVeiculoManager;
+import br.edu.pucpr.gestaoauto.manager.veiculo.MarcaManager;
 import br.edu.pucpr.gestaoauto.manager.veiculo.VeiculoManager;
 import br.edu.pucpr.gestaoauto.model.usuario.Usuario;
 import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
@@ -31,7 +32,7 @@ public class VeiculoRest extends AbstractRest {
 
 	@Inject VeiculoManager veiculoManager;
 	@Inject UsuarioManager usuarioManager;
-	@Inject MarcaVeiculoManager marcaManager;
+	@Inject	MarcaManager marcaManager;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

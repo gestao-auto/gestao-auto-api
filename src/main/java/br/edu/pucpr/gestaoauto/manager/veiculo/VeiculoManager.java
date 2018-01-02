@@ -1,24 +1,24 @@
 package br.edu.pucpr.gestaoauto.manager.veiculo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ejb.EJB;
-import javax.ejb.LocalBean;
-import javax.ejb.ObjectNotFoundException;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-
 import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoDTO;
 import br.edu.pucpr.gestaoauto.dao.usuario.ProprietarioDAO;
 import br.edu.pucpr.gestaoauto.dao.veiculo.MarcaVeiculoDAO;
 import br.edu.pucpr.gestaoauto.dao.veiculo.ModeloVeiculoDAO;
 import br.edu.pucpr.gestaoauto.dao.veiculo.VeiculoDAO;
 import br.edu.pucpr.gestaoauto.manager.Manager;
+import br.edu.pucpr.gestaoauto.manager.ProprietarioManager;
 import br.edu.pucpr.gestaoauto.model.usuario.Proprietario;
 import br.edu.pucpr.gestaoauto.model.usuario.Usuario;
-import br.edu.pucpr.gestaoauto.model.veiculo.ModeloVeiculo;
+import br.edu.pucpr.gestaoauto.model.veiculo.Modelo;
 import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
+
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.ObjectNotFoundException;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 @Stateless
 @LocalBean
@@ -28,7 +28,8 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 	@EJB MarcaVeiculoDAO marcaDAO;
 	@EJB ModeloVeiculoDAO modeloDAO;
 	@EJB ProprietarioDAO proprietarioDAO;
-	@Inject ModeloVeiculoManager modeloManager;
+	@Inject ModeloManager modeloManager;
+    @Inject ProprietarioManager proprietarioManager;
 
 	@Override
 	public void save(Veiculo entity) {
@@ -96,11 +97,12 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		veiculoDTO.setCodigo(veiculo.getCodigo());
 		veiculoDTO.setNome(veiculo.getNome());
 		veiculoDTO.setModalidade(veiculo.getModalidade());
-		veiculoDTO.setModelo(modeloManager.convertModeloVeiculoToDTO(veiculo.getModeloVeiculo()));
+		veiculoDTO.setModelo(modeloManager.convertModeloVeiculoToDTO(veiculo.getModelo()));
 		veiculoDTO.setOdometro(veiculo.getOdometro());
 		veiculoDTO.setRenavam(veiculo.getRenavam());
 		veiculoDTO.setAno(veiculo.getAno());
 		veiculoDTO.setPlaca(veiculo.getPlaca());
+		veiculoDTO.setProprietario(veiculo.getProprietario().getCodigo());
 		return veiculoDTO;
 	}
 
@@ -114,10 +116,10 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		veiculo.setAno(veiculoDTO.getAno());
 		veiculo.setPlaca(veiculoDTO.getPlaca());
 
-		ModeloVeiculo modelo = modeloDAO.getById(veiculoDTO.getModelo().getCodigo());
-		veiculo.setModeloVeiculo(modelo);
+		Modelo modelo = modeloDAO.getById(veiculoDTO.getModelo().getCodigo());
+		veiculo.setModelo(modelo);
 
-		Proprietario proprietario = proprietarioDAO.getById(veiculoDTO.getProprietario().getCodigo());
+		Proprietario proprietario = proprietarioDAO.getById(veiculoDTO.getProprietario());
 		veiculo.setProprietario(proprietario);
 
 		return veiculo;
