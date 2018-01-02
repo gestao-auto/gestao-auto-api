@@ -13,7 +13,6 @@ import javax.persistence.Table;
 
 import br.edu.pucpr.gestaoauto.model.manutencao.PecaServico;
 
-
 @Entity
 @Table(name = "itens_revisao", catalog = "gestao_auto")
 public class ItensRevisao implements java.io.Serializable {
