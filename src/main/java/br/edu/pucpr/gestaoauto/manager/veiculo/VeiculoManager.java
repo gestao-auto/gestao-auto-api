@@ -79,6 +79,9 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 
 	public void update(VeiculoDTO dto) throws Exception {
 		Veiculo veiculo = this.getById(dto.getCodigo());
+		if (veiculo == null) {
+			throw new ObjectNotFoundException("Veículo não encontrado");
+		}
 		if (veiculo.getOdometro() > dto.getOdometro()) {
 			throw new Exception("A quilometragem atual do veículo " + veiculo.getNome() + " (" + veiculo.getOdometro() + ") é maior que a informada ("
 					+ dto.getOdometro() + ")");
