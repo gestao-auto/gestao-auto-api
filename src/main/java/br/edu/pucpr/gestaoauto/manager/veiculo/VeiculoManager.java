@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
+import javax.ejb.ObjectNotFoundException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -35,8 +36,8 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 	}
 
 	@Override
-	public void delete(Veiculo entity) {
-		veiculoDAO.delete(entity);
+	public void delete(Integer id) {
+		veiculoDAO.delete(this.getById(id));
 	}
 
 	@Override
@@ -59,6 +60,35 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 			veiculoDTOList.add(this.convertVeiculoToDTO(veiculo));
 		}
 		return veiculoDTOList;
+	}
+
+	public void updateOdometroVeiculo(Integer codigoVeiculo, Integer odometro) throws Exception {
+		Veiculo veiculo = this.getById(codigoVeiculo);
+		if (veiculo == null) {
+			throw new ObjectNotFoundException("Veículo não encontrado");
+		}
+		Integer odometroAtual = veiculo.getOdometro();
+		if (odometroAtual.intValue() > odometro.intValue()) {
+			throw new Exception("A quilometragem atual do veículo " + veiculo.getNome() + " (" + odometroAtual 
+					+ ") é maior que a informada (" + odometro + ")");
+		}
+		veiculo.setOdometro(odometro);
+		this.update(veiculo);
+	}
+
+	public void update(VeiculoDTO dto) throws Exception {
+		Veiculo veiculo = this.getById(dto.getCodigo());
+		if (veiculo.getOdometro() > dto.getOdometro()) {
+			throw new Exception("A quilometragem atual do veículo " + veiculo.getNome() + " (" + veiculo.getOdometro() + ") é maior que a informada ("
+					+ dto.getOdometro() + ")");
+		}
+		veiculo.setOdometro(dto.getOdometro());
+		veiculo.setNome(dto.getNome());
+		veiculo.setPlaca(dto.getPlaca());
+		veiculo.setRenavam(dto.getRenavam());
+		veiculo.setAno(dto.getAno());
+		// Demais informações não poderão ser alteradas.
+		this.update(veiculo);
 	}
 
 	public VeiculoDTO convertVeiculoToDTO(Veiculo veiculo) {

@@ -29,8 +29,8 @@ public class ModeloVeiculoManager implements Manager<Integer, ModeloVeiculo> {
 	}
 
 	@Override
-	public void delete(ModeloVeiculo entity) {
-		modeloDAO.delete(entity);
+	public void delete(Integer id) {
+		modeloDAO.delete(this.getById(id));
 	}
 
 	@Override

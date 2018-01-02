@@ -9,7 +9,7 @@ public interface Manager<Id, T> {
 	
 	void update(T entity);
 
-	void delete(T entity);	
+	void delete(Id id);
 
 	T getById(Id id);
 }

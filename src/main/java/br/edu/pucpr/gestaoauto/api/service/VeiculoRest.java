@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -31,6 +33,33 @@ public class VeiculoRest extends AbstractRest {
 	@Inject UsuarioManager usuarioManager;
 	@Inject MarcaVeiculoManager marcaManager;
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{codigo}")
+	public Response getVeiculo(@PathParam("codigo") Integer codigoVeiculo) {
+		try {
+			VeiculoDTO dto = veiculoManager.convertVeiculoToDTO(veiculoManager.getById(codigoVeiculo));
+			return Response.ok().entity(dto).build();
+		} catch (Exception e) {
+			log.error(e.toString());
+			return super.serverError(e);
+		}
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/lista/porUsuario/{codigo}")
+	public Response getListVeiculoPorUsuario(@PathParam("codigo") Integer codigoUsuario) {
+		try {
+			Usuario usuario = usuarioManager.getById(codigoUsuario);
+			List<VeiculoDTO> veiculoList = veiculoManager.convertListVeiculoToDTO(veiculoManager.getListVeiculoByUsuario(usuario));
+			return Response.ok().entity(veiculoList).build();
+		} catch (Exception e) {
+			log.error(e.toString());
+			return super.serverError(e);
+		}
+	}
+
 	@POST
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -46,17 +75,43 @@ public class VeiculoRest extends AbstractRest {
 		}
 	}
 
-	@GET
+	@PUT
+	@Path("/update/{codigo}/odometro/{odometro}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/lista/porUsuario/{codigo}")
-	public Response getListVeiculoPorUsuario(@PathParam("codigo") Integer codigoUsuario) {
+	public Response updateOdometroVeiculo(@PathParam("codigo") Integer codigoVeiculo, @PathParam("odometro") Integer odometro) {
 		try {
-			Usuario usuario = usuarioManager.getById(codigoUsuario);
-			List<VeiculoDTO> veiculoList = veiculoManager.convertListVeiculoToDTO(veiculoManager.getListVeiculoByUsuario(usuario));
-			return Response.ok().entity(veiculoList).build();
+			veiculoManager.updateOdometroVeiculo(codigoVeiculo, odometro);
+			return Response.ok().build();
 		} catch (Exception e) {
 			log.error(e.toString());
-			return super.serverError(e);
+			return this.serverError(e);
+		}
+	}
+
+	@PUT
+	@Path("/update")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateVeiculo(VeiculoDTO dto) {
+		try {
+			veiculoManager.update(dto);
+			return Response.ok().build();
+		} catch (Exception e) {
+			log.error(e.toString());
+			return this.serverError(e);
+		}
+	}
+
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/delete/{codigo}")
+	public Response deleteVeiculo(@PathParam("codigo") Integer codigoVeiculo) {
+		try {
+			veiculoManager.delete(codigoVeiculo);
+			return Response.ok().build();
+		} catch (Exception e) {
+			log.error(e.toString());
+			return this.serverError(e);
 		}
 	}
 }

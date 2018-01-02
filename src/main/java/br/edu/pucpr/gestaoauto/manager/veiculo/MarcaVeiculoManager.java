@@ -30,8 +30,8 @@ public class MarcaVeiculoManager implements Manager<Integer, MarcaVeiculo> {
 	}
 
 	@Override
-	public void delete(MarcaVeiculo entity) {
-		marcaDAO.delete(entity);
+	public void delete(Integer id) {
+		marcaDAO.delete(this.getById(id));
 	}
 
 	@Override
