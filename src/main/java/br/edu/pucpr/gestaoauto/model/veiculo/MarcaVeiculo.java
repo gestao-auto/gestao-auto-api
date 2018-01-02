@@ -22,7 +22,6 @@ public class MarcaVeiculo implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-
 	@Column(name = "codmarca", unique = true, nullable = false)
 	public Integer getCodigo() {
 		return this.codigo;

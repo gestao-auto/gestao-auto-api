@@ -22,7 +22,7 @@ public class Veiculo implements java.io.Serializable {
 
 	private Integer codigo;
 	private ModeloVeiculo modeloVeiculo;
-	private Proprietario proprietarioVeiculo;
+	private Proprietario proprietario;
 	private String placa;
 	private String nome;
 	private Integer ano;
@@ -44,7 +44,7 @@ public class Veiculo implements java.io.Serializable {
 		this.codigo = codigo;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "codmodelo", nullable = false)
 	public ModeloVeiculo getModeloVeiculo() {
 		return this.modeloVeiculo;
@@ -54,14 +54,14 @@ public class Veiculo implements java.io.Serializable {
 		this.modeloVeiculo = modeloVeiculo;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "codproprietario", nullable = false)
-	public Proprietario getProprietarioVeiculo() {
-		return this.proprietarioVeiculo;
+	public Proprietario getProprietario() {
+		return this.proprietario;
 	}
 
-	public void setProprietarioVeiculo(Proprietario proprietarioVeiculo) {
-		this.proprietarioVeiculo = proprietarioVeiculo;
+	public void setProprietario(Proprietario proprietario) {
+		this.proprietario = proprietario;
 	}
 
 	@Column(name = "placa", length = 8)

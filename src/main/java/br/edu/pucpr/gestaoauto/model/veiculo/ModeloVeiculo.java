@@ -39,7 +39,7 @@ public class ModeloVeiculo implements java.io.Serializable {
 		this.codigo = codigo;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "codmarca", nullable = false)
 	public MarcaVeiculo getMarcaVeiculo() {
 		return this.marcaVeiculo;

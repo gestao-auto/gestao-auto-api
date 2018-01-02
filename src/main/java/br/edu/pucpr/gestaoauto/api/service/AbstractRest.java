@@ -1,8 +1,8 @@
 package br.edu.pucpr.gestaoauto.api.service;
 
-import br.edu.pucpr.gestaoauto.api.Message;
-
 import javax.ws.rs.core.Response;
+
+import br.edu.pucpr.gestaoauto.api.Message;
 
 abstract class AbstractRest {
 	protected Throwable rootCause(Throwable e){

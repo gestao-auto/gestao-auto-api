@@ -1,4 +1,4 @@
-package br.edu.pucpr.gestaoauto.api.dto;
+package br.edu.pucpr.gestaoauto.api.dto.usuario;
 
 import java.util.Date;
 

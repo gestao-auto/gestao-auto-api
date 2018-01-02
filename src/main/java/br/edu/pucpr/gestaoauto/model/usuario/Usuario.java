@@ -18,7 +18,7 @@ public class Usuario implements java.io.Serializable {
 
 	private static final long serialVersionUID = -4812102239033165636L;
 
-	private Integer codusuario;
+	private Integer codigo;
 	private String email;
 	private String senha;
 	private String tokenRecuperarSenha;
@@ -32,12 +32,12 @@ public class Usuario implements java.io.Serializable {
 	@GeneratedValue(strategy = IDENTITY)
 
 	@Column(name = "codusuario", unique = true, nullable = false)
-	public Integer getCodusuario() {
-		return this.codusuario;
+	public Integer getCodigo() {
+		return this.codigo;
 	}
 
-	public void setCodusuario(Integer codusuario) {
-		this.codusuario = codusuario;
+	public void setCodigo(Integer codusuario) {
+		this.codigo = codusuario;
 	}
 
 	@Column(name = "email", length = 200)

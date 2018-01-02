@@ -4,16 +4,14 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
-import br.edu.pucpr.gestaoauto.api.dto.UsuarioCompletoDTO;
-import br.edu.pucpr.gestaoauto.api.dto.UsuarioDTO;
-import br.edu.pucpr.gestaoauto.dao.UsuarioDAO;
+import br.edu.pucpr.gestaoauto.api.dto.usuario.UsuarioCompletoDTO;
+import br.edu.pucpr.gestaoauto.api.dto.usuario.UsuarioDTO;
+import br.edu.pucpr.gestaoauto.dao.usuario.UsuarioDAO;
 import br.edu.pucpr.gestaoauto.model.usuario.Usuario;
-
-import java.util.HashSet;
 
 @Stateless
 @LocalBean
-public class UsuarioManager implements Manager{
+public class UsuarioManager { //implements Manager {
 
 	@EJB
 	UsuarioDAO dao;
@@ -36,7 +34,7 @@ public class UsuarioManager implements Manager{
 
 	public Usuario getEntity(UsuarioCompletoDTO dto) throws Exception {
 		Usuario entity = new Usuario();
-		entity.setCodusuario(dto.getCodusuario());
+		entity.setCodigo(dto.getCodusuario());
 		entity.setDataAceiteTermoUso(dto.getDataAceiteTermoUso());
 		entity.setEmail(dto.getEmail());
 		entity.setFoto(dto.getFoto());
@@ -47,7 +45,7 @@ public class UsuarioManager implements Manager{
 
 	public UsuarioCompletoDTO getDTOCompleto(Usuario entity){
 		return (new UsuarioCompletoDTO())
-				.setCodusuario(entity.getCodusuario())
+				.setCodusuario(entity.getCodigo())
 				.setDataAceiteTermoUso(entity.getDataAceiteTermoUso())
 				.setEmail(entity.getEmail())
 				.setFoto(entity.getFoto())
@@ -59,7 +57,7 @@ public class UsuarioManager implements Manager{
 
 	public UsuarioDTO getDTO(Usuario entity){
 		return (new UsuarioDTO())
-				.setCodusuario(entity.getCodusuario())
+				.setCodusuario(entity.getCodigo())
 				.setDataAceiteTermoUso(entity.getDataAceiteTermoUso())
 				.setEmail(entity.getEmail())
 				//XXX:Nao retornar a senha do usuario
