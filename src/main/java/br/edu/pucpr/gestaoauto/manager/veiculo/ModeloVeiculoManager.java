@@ -47,7 +47,7 @@ public class ModeloVeiculoManager implements Manager<Integer, ModeloVeiculo> {
 		modeloDTO.setCodigo(modelo.getCodigo());
 		modeloDTO.setNome(modelo.getNome());
 		modeloDTO.setAno(modelo.getAno());
-		modeloDTO.setMarca(marcaManager.convertMarcaVeiculoToDTO(modelo.getMarcaVeiculo()));
+		modeloDTO.setMarca(marcaManager.convertMarcaVeiculoToDTO(modelo.getMarca()));
 		return modeloDTO;
 	}
 

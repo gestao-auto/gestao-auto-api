@@ -17,15 +17,11 @@ public class ModeloVeiculo implements java.io.Serializable {
 
 	private static final long serialVersionUID = -5763024517503780570L;
 	private Integer codigo;
-	private MarcaVeiculo marcaVeiculo;
+	private MarcaVeiculo marca;
 	private String nome;
 	private Integer ano;
 
 	public ModeloVeiculo() {
-	}
-
-	public ModeloVeiculo(MarcaVeiculo marcaVeiculo) {
-		this.marcaVeiculo = marcaVeiculo;
 	}
 
 	@Id
@@ -41,12 +37,12 @@ public class ModeloVeiculo implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "codmarca", nullable = false)
-	public MarcaVeiculo getMarcaVeiculo() {
-		return this.marcaVeiculo;
+	public MarcaVeiculo getMarca() {
+		return this.marca;
 	}
 
-	public void setMarcaVeiculo(MarcaVeiculo marcaVeiculo) {
-		this.marcaVeiculo = marcaVeiculo;
+	public void setMarca(MarcaVeiculo marca) {
+		this.marca = marca;
 	}
 
 	@Column(name = "nome", length = 200)
