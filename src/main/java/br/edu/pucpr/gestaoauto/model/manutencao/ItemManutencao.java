@@ -20,8 +20,8 @@ public class ItemManutencao implements java.io.Serializable {
 	private Integer codigo;
 	private Manutencao manutencao;
 	private PecaServico pecaServico;
-	private String valorUnitario;
-	private String quantidade;
+	private Double valorUnitario;
+	private Float quantidade;
 	private String observacao;
 
 	public ItemManutencao() {
@@ -59,21 +59,21 @@ public class ItemManutencao implements java.io.Serializable {
 		this.pecaServico = pecaServico;
 	}
 
-	@Column(name = "valorunitario", length = 45)
-	public String valorUnitario() {
+	@Column(name = "valorunitario")
+	public Double valorUnitario() {
 		return this.valorUnitario;
 	}
 
-	public void setValorUnitario(String valorUnitario) {
+	public void setValorUnitario(Double valorUnitario) {
 		this.valorUnitario = valorUnitario;
 	}
 
-	@Column(name = "quantidade", length = 45)
-	public String getQuantidade() {
+	@Column(name = "quantidade")
+	public Float getQuantidade() {
 		return this.quantidade;
 	}
 
-	public void setQuantidade(String quantidade) {
+	public void setQuantidade(Float quantidade) {
 		this.quantidade = quantidade;
 	}
 

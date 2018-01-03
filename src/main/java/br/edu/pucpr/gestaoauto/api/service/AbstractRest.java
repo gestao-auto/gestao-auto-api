@@ -17,10 +17,10 @@ public abstract class AbstractRest {
 	}
 	
 	protected Response serverError(Exception e) {
-		return Response.serverError().
-				entity(new Message(
-						this.rootCause(e).getMessage()
-						, this.rootCause(e).getClass().getName()))
+		return Response.serverError()
+				.entity(new Message(
+						this.rootCause(e).getMessage(), 
+						this.rootCause(e).getClass().getName()))
 				.build();
 	}
 }
