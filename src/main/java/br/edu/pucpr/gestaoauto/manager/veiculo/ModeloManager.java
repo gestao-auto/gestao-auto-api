@@ -1,6 +1,6 @@
 package br.edu.pucpr.gestaoauto.manager.veiculo;
 
-import br.edu.pucpr.gestaoauto.api.dto.veiculo.ModeloVeiculoDTO;
+import br.edu.pucpr.gestaoauto.api.dto.veiculo.ModeloDTO;
 import br.edu.pucpr.gestaoauto.dao.veiculo.ModeloVeiculoDAO;
 import br.edu.pucpr.gestaoauto.manager.Manager;
 import br.edu.pucpr.gestaoauto.model.veiculo.Marca;
@@ -38,12 +38,12 @@ public class ModeloManager implements Manager<Integer, Modelo> {
 		return modeloDAO.getById(id);
 	}
 
-	public List<Modelo> getListModeloVeiculoByMarca(Marca marca) {
+	public List<Modelo> getListByMarca(Marca marca) {
 		return modeloDAO.getModeloVeiculoPorMarca(marca);
 	}
 
-	public ModeloVeiculoDTO convertModeloVeiculoToDTO(Modelo modelo) {
-		ModeloVeiculoDTO modeloDTO = new ModeloVeiculoDTO();
+	public ModeloDTO convertModeloVeiculoToDTO(Modelo modelo) {
+		ModeloDTO modeloDTO = new ModeloDTO();
 		modeloDTO.setCodigo(modelo.getCodigo());
 		modeloDTO.setNome(modelo.getNome());
 		modeloDTO.setAno(modelo.getAno());
@@ -51,8 +51,8 @@ public class ModeloManager implements Manager<Integer, Modelo> {
 		return modeloDTO;
 	}
 
-	public List<ModeloVeiculoDTO> convertListModeloToDTO(List<Modelo> modeloList) {
-		List<ModeloVeiculoDTO> modeloDTOList = new ArrayList<>();
+	public List<ModeloDTO> convertListToDTO(List<Modelo> modeloList) {
+		List<ModeloDTO> modeloDTOList = new ArrayList<>();
 		for (Modelo modeloVeiculo : modeloList) {
 			modeloDTOList.add(this.convertModeloVeiculoToDTO(modeloVeiculo));
 		}

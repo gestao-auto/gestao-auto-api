@@ -21,7 +21,7 @@ import br.edu.pucpr.gestaoauto.manager.manutencao.ManutencaoManager;
 @Path("/manutencao")
 public class ManutencaoRest extends AbstractRest {
 
-	private static Logger log = LoggerFactory.getLogger(VeiculoRest.class);
+	private static Logger log = LoggerFactory.getLogger(ManutencaoRest.class);
 	
 	@Inject ManutencaoManager manutencaoManager;
 

@@ -1,29 +1,19 @@
 package br.edu.pucpr.gestaoauto.api.service.veiculo;
 
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import br.edu.pucpr.gestaoauto.api.service.AbstractRest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoDTO;
+import br.edu.pucpr.gestaoauto.api.service.AbstractRest;
 import br.edu.pucpr.gestaoauto.manager.UsuarioManager;
-import br.edu.pucpr.gestaoauto.manager.veiculo.MarcaManager;
 import br.edu.pucpr.gestaoauto.manager.veiculo.VeiculoManager;
 import br.edu.pucpr.gestaoauto.model.usuario.Usuario;
 import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/veiculo")
 public class VeiculoRest extends AbstractRest {
@@ -32,7 +22,6 @@ public class VeiculoRest extends AbstractRest {
 
 	@Inject VeiculoManager veiculoManager;
 	@Inject UsuarioManager usuarioManager;
-	@Inject	MarcaManager marcaManager;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -53,7 +42,7 @@ public class VeiculoRest extends AbstractRest {
 	public Response getListVeiculoPorUsuario(@PathParam("codigo") Integer codigoUsuario) {
 		try {
 			Usuario usuario = usuarioManager.getById(codigoUsuario);
-			List<VeiculoDTO> veiculoList = veiculoManager.convertListVeiculoToDTO(veiculoManager.getListVeiculoByUsuario(usuario));
+			List<VeiculoDTO> veiculoList = veiculoManager.convertListToDTO(veiculoManager.getListByUsuario(usuario));
 			return Response.ok().entity(veiculoList).build();
 		} catch (Exception e) {
 			log.error(e.toString());
@@ -67,7 +56,7 @@ public class VeiculoRest extends AbstractRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createVeiculo(VeiculoDTO dto) {
 		try {
-			Veiculo veiculo = veiculoManager.convertVeiculoDTOToEntity(dto);
+			Veiculo veiculo = veiculoManager.convertDTOToEntity(dto);
 			veiculoManager.save(veiculo);
 			return Response.ok().build();
 		} catch (Exception e) {

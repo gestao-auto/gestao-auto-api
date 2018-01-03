@@ -51,11 +51,11 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		return veiculoDAO.getById(id);
 	}
 
-	public List<Veiculo> getListVeiculoByUsuario(Usuario usuario) {
+	public List<Veiculo> getListByUsuario(Usuario usuario) {
 		return veiculoDAO.getListVeiculoPorUsuario(usuario);
 	}
 
-	public List<VeiculoDTO> convertListVeiculoToDTO(List<Veiculo> veiculoList) {
+	public List<VeiculoDTO> convertListToDTO(List<Veiculo> veiculoList) {
 		List<VeiculoDTO> veiculoDTOList = new ArrayList<>();
 		for (Veiculo veiculo : veiculoList) {
 			veiculoDTOList.add(this.convertVeiculoToDTO(veiculo));
@@ -109,7 +109,7 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		return veiculoDTO;
 	}
 
-	public Veiculo convertVeiculoDTOToEntity(VeiculoDTO veiculoDTO) {
+	public Veiculo convertDTOToEntity(VeiculoDTO veiculoDTO) {
 		Veiculo veiculo = new Veiculo();
 		veiculo.setCodigo(veiculoDTO.getCodigo());
 		veiculo.setNome(veiculoDTO.getNome());

@@ -14,15 +14,15 @@ import br.edu.pucpr.gestaoauto.api.service.AbstractRest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.edu.pucpr.gestaoauto.api.dto.veiculo.ModeloVeiculoDTO;
+import br.edu.pucpr.gestaoauto.api.dto.veiculo.ModeloDTO;
 import br.edu.pucpr.gestaoauto.manager.veiculo.MarcaManager;
 import br.edu.pucpr.gestaoauto.manager.veiculo.ModeloManager;
 import br.edu.pucpr.gestaoauto.model.veiculo.Marca;
 
 @Path("/veiculo/modelo")
-public class ModeloVeiculoRest extends AbstractRest {
+public class ModeloRest extends AbstractRest {
 
-	private static Logger log = LoggerFactory.getLogger(MarcaVeiculoRest.class);
+	private static Logger log = LoggerFactory.getLogger(ModeloRest.class);
 
 	@Inject
     ModeloManager modeloManager;
@@ -32,10 +32,10 @@ public class ModeloVeiculoRest extends AbstractRest {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/lista/porMarca/{codigo}")
-	public Response getListModeloVeiculoPorMarca(@PathParam("codigo") Integer codigoMarca) {
+	public Response getListModeloPorMarca(@PathParam("codigo") Integer codigoMarca) {
 		try {
 			Marca marca = marcaManager.getById(codigoMarca);
-			List<ModeloVeiculoDTO> modeloList = modeloManager.convertListModeloToDTO(modeloManager.getListModeloVeiculoByMarca(marca));
+			List<ModeloDTO> modeloList = modeloManager.convertListToDTO(modeloManager.getListByMarca(marca));
 			return Response.ok().entity(modeloList).build();
 		} catch (Exception e) {
 			log.error(e.toString());

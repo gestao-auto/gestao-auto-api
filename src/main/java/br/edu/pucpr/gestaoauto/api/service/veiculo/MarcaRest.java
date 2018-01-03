@@ -13,13 +13,13 @@ import br.edu.pucpr.gestaoauto.api.service.AbstractRest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.edu.pucpr.gestaoauto.api.dto.veiculo.MarcaVeiculoDTO;
+import br.edu.pucpr.gestaoauto.api.dto.veiculo.MarcaDTO;
 import br.edu.pucpr.gestaoauto.manager.veiculo.MarcaManager;
 
 @Path("/veiculo/marca")
-public class MarcaVeiculoRest extends AbstractRest {
+public class MarcaRest extends AbstractRest {
 	
-	private static Logger log = LoggerFactory.getLogger(MarcaVeiculoRest.class);
+	private static Logger log = LoggerFactory.getLogger(MarcaRest.class);
 
 	@Inject
 	MarcaManager marcaManager;
@@ -27,9 +27,9 @@ public class MarcaVeiculoRest extends AbstractRest {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/lista")
-	public Response getListMarcaVeiculo() {
+	public Response getListMarca() {
 		try {
-			List<MarcaVeiculoDTO> marcaList = marcaManager.convertListMarcaVeiculoToDTO(marcaManager.getListMarcaVeiculo());
+			List<MarcaDTO> marcaList = marcaManager.convertListToDTO(marcaManager.getList());
 			return Response.ok().entity(marcaList).build();
 		} catch (Exception e) {
 			log.error(e.toString());

@@ -1,6 +1,6 @@
 package br.edu.pucpr.gestaoauto.manager.veiculo;
 
-import br.edu.pucpr.gestaoauto.api.dto.veiculo.MarcaVeiculoDTO;
+import br.edu.pucpr.gestaoauto.api.dto.veiculo.MarcaDTO;
 import br.edu.pucpr.gestaoauto.dao.veiculo.MarcaVeiculoDAO;
 import br.edu.pucpr.gestaoauto.manager.Manager;
 import br.edu.pucpr.gestaoauto.model.veiculo.Marca;
@@ -38,20 +38,20 @@ public class MarcaManager implements Manager<Integer, Marca> {
 		return marcaDAO.getById(id);
 	}
 
-	public List<Marca> getListMarcaVeiculo() {
+	public List<Marca> getList() {
 		return marcaDAO.findAll();
 	}
 
-	public List<MarcaVeiculoDTO> convertListMarcaVeiculoToDTO(List<Marca> listMarcaVeiculo) {
-		List<MarcaVeiculoDTO> dtoList = new ArrayList<>();
+	public List<MarcaDTO> convertListToDTO(List<Marca> listMarcaVeiculo) {
+		List<MarcaDTO> dtoList = new ArrayList<>();
 		for (Marca marca : listMarcaVeiculo) {
 			dtoList.add(this.convertMarcaVeiculoToDTO(marca));
 		}
 		return dtoList;
 	}
 
-	public MarcaVeiculoDTO convertMarcaVeiculoToDTO(Marca marca) {
-		MarcaVeiculoDTO marcaDTO = new MarcaVeiculoDTO();
+	public MarcaDTO convertMarcaVeiculoToDTO(Marca marca) {
+		MarcaDTO marcaDTO = new MarcaDTO();
 		marcaDTO.setCodigo(marca.getCodigo());
 		marcaDTO.setNome(marca.getNome());
 		return marcaDTO;
