@@ -19,13 +19,13 @@ public class MarcaManager implements Manager<Integer, Marca> {
 	MarcaVeiculoDAO marcaDAO;
 
 	@Override
-	public void save(Marca entity) {
-		marcaDAO.save(entity);
+	public Marca save(Marca entity) {
+		return marcaDAO.save(entity);
 	}
 
 	@Override
-	public void update(Marca entity) {
-		marcaDAO.update(entity);
+	public Marca update(Marca entity) {
+		return marcaDAO.update(entity);
 	}
 
 	@Override
@@ -43,17 +43,24 @@ public class MarcaManager implements Manager<Integer, Marca> {
 	}
 
 	public List<MarcaDTO> convertListToDTO(List<Marca> listMarcaVeiculo) {
-		List<MarcaDTO> dtoList = new ArrayList<>();
+		List<MarcaDTO> dtos = new ArrayList<>();
 		for (Marca marca : listMarcaVeiculo) {
-			dtoList.add(this.convertMarcaVeiculoToDTO(marca));
+			dtos.add(this.convertEntityToDTO(marca));
 		}
-		return dtoList;
+		return dtos;
 	}
 
-	public MarcaDTO convertMarcaVeiculoToDTO(Marca marca) {
-		MarcaDTO marcaDTO = new MarcaDTO();
-		marcaDTO.setCodigo(marca.getCodigo());
-		marcaDTO.setNome(marca.getNome());
-		return marcaDTO;
+	public MarcaDTO convertEntityToDTO(Marca marca) {
+		MarcaDTO dto = new MarcaDTO();
+		dto.setCodigo(marca.getCodigo());
+		dto.setNome(marca.getNome());
+		return dto;
+	}
+
+	public Marca convertDTOToEntity(MarcaDTO dto) {
+		Marca entity = new Marca();
+		entity.setCodigo(dto.getCodigo());
+		entity.setNome(dto.getNome());
+		return entity;
 	}
 }

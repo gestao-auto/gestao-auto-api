@@ -19,13 +19,13 @@ public class ModeloManager implements Manager<Integer, Modelo> {
     MarcaManager marcaManager;
 	
 	@Override
-	public void save(Modelo entity) {
-		modeloDAO.save(entity);
+	public Modelo save(Modelo entity) {
+		return modeloDAO.save(entity);
 	}
 
 	@Override
-	public void update(Modelo entity) {
-		modeloDAO.update(entity);
+	public Modelo update(Modelo entity) {
+		return modeloDAO.update(entity);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class ModeloManager implements Manager<Integer, Modelo> {
 		modeloDTO.setCodigo(modelo.getCodigo());
 		modeloDTO.setNome(modelo.getNome());
 		modeloDTO.setAno(modelo.getAno());
-		modeloDTO.setMarca(marcaManager.convertMarcaVeiculoToDTO(modelo.getMarca()));
+		modeloDTO.setMarca(marcaManager.convertEntityToDTO(modelo.getMarca()));
 		return modeloDTO;
 	}
 

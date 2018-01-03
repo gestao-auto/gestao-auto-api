@@ -3,9 +3,7 @@ package br.edu.pucpr.gestaoauto.api.service.veiculo;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -22,18 +20,51 @@ public class MarcaRest extends AbstractRest {
 	private static Logger log = LoggerFactory.getLogger(MarcaRest.class);
 
 	@Inject
-	MarcaManager marcaManager;
+	MarcaManager manager;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/lista")
-	public Response getListMarca() {
+	@Path("/{codigo}")
+	public Response getById(@PathParam("codigo") int codigo) {
+		log.info("MarcaRest -> getById");
 		try {
-			List<MarcaDTO> marcaList = marcaManager.convertListToDTO(marcaManager.getList());
+			return Response.ok().entity(manager.getById(codigo)).build();
+		} catch (Exception e) {
+			log.error(e.toString());
+			return super.serverError(e);
+		}
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/")
+	public Response getListMarca() {
+		log.info("MarcaRest -> getListMarca");
+		try {
+			List<MarcaDTO> marcaList = manager.convertListToDTO(manager.getList());
 			return Response.ok().entity(marcaList).build();
 		} catch (Exception e) {
 			log.error(e.toString());
 			return super.serverError(e);
+		}
+	}
+
+	@POST
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response create (MarcaDTO dto){
+		log.info("MarcaRest -> create");
+		try {
+			return Response.ok().entity(
+					manager.convertEntityToDTO(
+							manager.save(
+									manager.convertDTOToEntity(
+											dto))))
+					.build();
+		} catch (Exception e) {
+			log.error(e.toString());
+			return this.serverError(e);
 		}
 	}
 }

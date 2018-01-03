@@ -18,13 +18,13 @@ public class PessoaJuridicaManager implements Manager<Integer, PessoaJuridica> {
 	PessoaJuridicaDAO pessoaJuridicaDAO;
 
 	@Override
-	public void save(PessoaJuridica entity) {
-		pessoaJuridicaDAO.save(entity);
+	public PessoaJuridica save(PessoaJuridica entity) {
+        return pessoaJuridicaDAO.save(entity);
 	}
 
 	@Override
-	public void update(PessoaJuridica entity) {
-		pessoaJuridicaDAO.update(entity);
+	public PessoaJuridica update(PessoaJuridica entity) {
+        return pessoaJuridicaDAO.update(entity);
 	}
 
 	@Override

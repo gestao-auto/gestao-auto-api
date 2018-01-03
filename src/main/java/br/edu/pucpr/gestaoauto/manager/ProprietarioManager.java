@@ -11,7 +11,7 @@ import javax.ejb.Stateless;
 
 @Stateless
 @LocalBean
-public class ProprietarioManager {
+public class ProprietarioManager implements Manager<Integer, Proprietario>{
     @EJB
     ProprietarioDAO dao;
     @EJB
@@ -21,16 +21,19 @@ public class ProprietarioManager {
         return dao.save(proprietario);
     }
 
-    public Proprietario getById(int id) {
-        return dao.getById(id);
+    @Override
+    public Proprietario update(Proprietario entity) {
+        return dao.update(entity);
     }
 
-    public Proprietario update(ProprietarioDTO dto) throws Exception {
-        return dao.update(this.getEntity(dto));
-    }
-
-    public void delete(int id) {
+    @Override
+    public void delete(Integer id) {
         dao.delete(dao.getById(id));
+    }
+
+    @Override
+    public Proprietario getById(Integer id) {
+        return dao.getById(id);
     }
 
     public Proprietario getEntity(ProprietarioDTO dto) throws Exception {

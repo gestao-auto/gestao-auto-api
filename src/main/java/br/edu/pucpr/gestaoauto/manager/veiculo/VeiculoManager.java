@@ -25,15 +25,13 @@ import java.util.List;
 public class VeiculoManager implements Manager<Integer, Veiculo> {
 
 	@EJB VeiculoDAO veiculoDAO;
-	@EJB MarcaVeiculoDAO marcaDAO;
 	@EJB ModeloVeiculoDAO modeloDAO;
 	@EJB ProprietarioDAO proprietarioDAO;
 	@Inject ModeloManager modeloManager;
-    @Inject ProprietarioManager proprietarioManager;
 
 	@Override
-	public void save(Veiculo entity) {
-		veiculoDAO.save(entity);
+	public Veiculo save(Veiculo entity) {
+        return veiculoDAO.save(entity);
 	}
 
 	@Override
@@ -42,8 +40,8 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 	}
 
 	@Override
-	public void update(Veiculo entity) {
-		veiculoDAO.update(entity);
+	public Veiculo update(Veiculo entity) {
+        return veiculoDAO.update(entity);
 	}
 
 	@Override
