@@ -1,5 +1,7 @@
 package br.edu.pucpr.gestaoauto.api.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -30,12 +32,13 @@ public class ManutencaoRest extends AbstractRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getListManutencaoPorVeiculo(@PathParam("codigo") Integer codigoVeiculo) {
 		try {
-
+			List<ManutencaoDTO> manutencaoList = manutencaoManager
+					.convertListManutencaoToDTO(manutencaoManager.getListManutencaoPorVeiculo(codigoVeiculo));
+			return Response.ok(manutencaoList).build();
 		} catch (Exception e) {
 			log.error(e.toString());
 			return super.serverError(e);
 		}
-		return null;
 	}
 
 	@GET
@@ -63,7 +66,4 @@ public class ManutencaoRest extends AbstractRest {
 	public Response deleteManutencao(@PathParam("codigo") Integer codigoManutencao) {
 		return null;
 	}
-
-
-
 }

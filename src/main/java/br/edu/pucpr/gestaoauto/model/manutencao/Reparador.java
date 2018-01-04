@@ -16,15 +16,14 @@ public class Reparador implements java.io.Serializable {
 
 	private Integer codigo;
 	private Integer cnpj;
-	private String razaosocial;
-	private String nomefantasia;
+	private String razaoSocial;
+	private String nomeFantasia;
 
 	public Reparador() {
 	}
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-
 	@Column(name = "codreparador", unique = true, nullable = false)
 	public Integer getCodigo() {
 		return this.codigo;
@@ -44,20 +43,20 @@ public class Reparador implements java.io.Serializable {
 	}
 
 	@Column(name = "razaosocial", length = 200)
-	public String getRazaosocial() {
-		return this.razaosocial;
+	public String getRazaoSocial() {
+		return this.razaoSocial;
 	}
 
-	public void setRazaosocial(String razaosocial) {
-		this.razaosocial = razaosocial;
+	public void setRazaoSocial(String razaoSocial) {
+		this.razaoSocial = razaoSocial;
 	}
 
 	@Column(name = "nomefantasia", length = 200)
-	public String getNomefantasia() {
-		return this.nomefantasia;
+	public String getNomeFantasia() {
+		return this.nomeFantasia;
 	}
 
-	public void setNomefantasia(String nomefantasia) {
-		this.nomefantasia = nomefantasia;
+	public void setNomeFantasia(String nomeFantasia) {
+		this.nomeFantasia = nomeFantasia;
 	}
 }

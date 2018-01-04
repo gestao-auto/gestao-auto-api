@@ -15,7 +15,7 @@ import br.edu.pucpr.gestaoauto.model.manutencao.PecaServico;
 
 @Entity
 @Table(name = "itens_revisao", catalog = "gestao_auto")
-public class ItensRevisao implements java.io.Serializable {
+public class ItemRevisao implements java.io.Serializable {
 
 	private static final long serialVersionUID = 8900393981450077302L;
 
@@ -24,7 +24,7 @@ public class ItensRevisao implements java.io.Serializable {
 	private PecaServico pecaServico;
 	private Integer quantidade;
 
-	public ItensRevisao() {
+	public ItemRevisao() {
 	}
 
 	@Id

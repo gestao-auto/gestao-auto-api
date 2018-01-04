@@ -20,6 +20,7 @@ public class ModeloVeiculo implements java.io.Serializable {
 	private MarcaVeiculo marca;
 	private String nome;
 	private Integer ano;
+	private Modalidade modalidade;
 
 	public ModeloVeiculo() {
 	}
@@ -61,6 +62,16 @@ public class ModeloVeiculo implements java.io.Serializable {
 
 	public void setAno(Integer ano) {
 		this.ano = ano;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "codmodalidade", nullable = false)
+	public Modalidade getModalidade() {
+		return modalidade;
+	}
+
+	public void setModalidade(Modalidade modalidade) {
+		this.modalidade = modalidade;
 	}
 
 }

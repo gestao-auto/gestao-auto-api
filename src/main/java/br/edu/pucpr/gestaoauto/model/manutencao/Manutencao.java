@@ -1,13 +1,19 @@
 package br.edu.pucpr.gestaoauto.model.manutencao;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,11 +32,15 @@ public class Manutencao implements java.io.Serializable {
 	private int odometro;
 	private Date data;
 	private String status;
+	private Integer odometroPrevisto;
+	private Integer tempoUsoPrevisto;
+	private List<ItemManutencao> itemManutencao = new ArrayList<>();
 
 	public Manutencao() {
 	}
 
 	@Id
+	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "codmanutencao", unique = true, nullable = false)
 	public Integer getCodigo() {
 		return this.codigo;
@@ -40,8 +50,8 @@ public class Manutencao implements java.io.Serializable {
 		this.codigo = codigo;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "codreparador", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "codreparador")
 	public Reparador getReparador() {
 		return this.reparador;
 	}
@@ -50,7 +60,7 @@ public class Manutencao implements java.io.Serializable {
 		this.reparador = reparador;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "codveiculo", nullable = false)
 	public Veiculo getVeiculo() {
 		return this.veiculo;
@@ -87,5 +97,33 @@ public class Manutencao implements java.io.Serializable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	@Column(name = "onometroprevisto")
+	public Integer getOdometroPrevisto() {
+		return odometroPrevisto;
+	}
+
+	public void setOdometroPrevisto(Integer odometroPrevisto) {
+		this.odometroPrevisto = odometroPrevisto;
+	}
+
+	@Column(name = "tempousoprevisto")
+	public Integer getTempoUsoPrevisto() {
+		return tempoUsoPrevisto;
+	}
+
+	public void setTempoUsoPrevisto(Integer tempoUsoPrevisto) {
+		this.tempoUsoPrevisto = tempoUsoPrevisto;
+	}
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "manutencao")
+	public List<ItemManutencao> getItemManutencao() {
+		return itemManutencao;
+	}
+
+	public void setItemManutencao(List<ItemManutencao> itemManutencao) {
+		this.itemManutencao = itemManutencao;
+	}
+
 
 }

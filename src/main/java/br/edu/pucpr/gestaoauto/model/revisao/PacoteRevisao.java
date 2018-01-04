@@ -2,6 +2,9 @@ package br.edu.pucpr.gestaoauto.model.revisao;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import br.edu.pucpr.gestaoauto.model.veiculo.MarcaVeiculo;
@@ -22,6 +26,8 @@ public class PacoteRevisao implements java.io.Serializable {
 	private Integer codigo;
 	private MarcaVeiculo marcaVeiculo;
 	private String nome;
+	private Integer ano;
+	private Set<Revisao> revisaoList = new HashSet<Revisao>();
 
 	public PacoteRevisao() {
 	}
@@ -57,5 +63,21 @@ public class PacoteRevisao implements java.io.Serializable {
 		this.nome = nome;
 	}
 
+	@Column(name = "ano")
+	public Integer getAno() {
+		return ano;
+	}
 
+	public void setAno(Integer ano) {
+		this.ano = ano;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pacoteRevisao")
+	public Set<Revisao> getRevisaoList() {
+		return this.revisaoList;
+	}
+
+	public void setRevisaoList(Set<Revisao> revisaoList) {
+		this.revisaoList = revisaoList;
+	}
 }

@@ -12,7 +12,9 @@ public class ManutencaoDTO {
 	private VeiculoDTO veiculo;
 	private Integer odometro;
 	private Date data;
-	private StatusDTO status;
+	private String status;
+	private Integer tempoUsoPrevisto;
+	private Integer odometroPrevisto;
 	private List<ItemManutencaoDTO> itemManuteido;
 
 	public Integer getCodigo() {
@@ -55,11 +57,11 @@ public class ManutencaoDTO {
 		this.data = data;
 	}
 
-	public StatusDTO getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(StatusDTO status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -71,4 +73,19 @@ public class ManutencaoDTO {
 		this.itemManuteido = itemManuteido;
 	}
 
+	public Integer getTempoUsoPrevisto() {
+		return tempoUsoPrevisto;
+	}
+
+	public void setTempoUsoPrevisto(Integer tempoUsoPrevisto) {
+		this.tempoUsoPrevisto = tempoUsoPrevisto;
+	}
+
+	public Integer getOdometroPrevisto() {
+		return odometroPrevisto;
+	}
+
+	public void setOdometroPrevisto(Integer odometroPrevisto) {
+		this.odometroPrevisto = odometroPrevisto;
+	}
 }
