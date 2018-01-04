@@ -10,14 +10,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "marca_veiculo", catalog = "gestao_auto")
-public class MarcaVeiculo implements java.io.Serializable {
+public class Marca implements java.io.Serializable {
 
 	private static final long serialVersionUID = 6537648009628484983L;
 
 	private Integer codigo;
 	private String nome;
 
-	public MarcaVeiculo() {
+	public Marca() {
 	}
 
 	@Id

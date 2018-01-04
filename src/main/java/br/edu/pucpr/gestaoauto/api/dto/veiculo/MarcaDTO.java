@@ -1,11 +1,9 @@
 package br.edu.pucpr.gestaoauto.api.dto.veiculo;
 
-public class ModeloVeiculoDTO {
+public class MarcaDTO {
 
 	private Integer codigo;
 	private String nome;
-	private MarcaVeiculoDTO marca;
-	private Integer ano;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -21,22 +19,6 @@ public class ModeloVeiculoDTO {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public MarcaVeiculoDTO getMarca() {
-		return marca;
-	}
-
-	public void setMarca(MarcaVeiculoDTO marca) {
-		this.marca = marca;
-	}
-
-	public Integer getAno() {
-		return ano;
-	}
-
-	public void setAno(Integer ano) {
-		this.ano = ano;
 	}
 
 }

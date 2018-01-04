@@ -11,25 +11,29 @@ import br.edu.pucpr.gestaoauto.model.usuario.Usuario;
 
 @Stateless
 @LocalBean
-public class UsuarioManager { //implements Manager {
+public class UsuarioManager implements Manager<Integer, Usuario>  {
 
 	@EJB
 	UsuarioDAO dao;
 
+	@Override
 	public Usuario save(Usuario usuario) {
 		return dao.save(usuario);
 	}
 
-	public Usuario getById(int id) {
-		return dao.getById(id);
+	@Override
+	public Usuario update(Usuario entity) {
+		return dao.update(entity);
 	}
 
-	public Usuario update(UsuarioCompletoDTO dto) throws Exception {
-		return dao.update(this.getEntity(dto));
-	}
-
-	public void delete(int id) {
+	@Override
+	public void delete(Integer id) {
 		dao.delete(dao.getById(id));
+	}
+
+	@Override
+	public Usuario getById(Integer id) {
+		return dao.getById(id);
 	}
 
 	public Usuario getEntity(UsuarioCompletoDTO dto) throws Exception {

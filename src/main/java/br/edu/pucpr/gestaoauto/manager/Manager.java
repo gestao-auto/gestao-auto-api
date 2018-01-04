@@ -5,9 +5,9 @@ import javax.ejb.Local;
 @Local
 public interface Manager<Id, T> {
 	
-	void save(T entity);
+	T save(T entity);
 	
-	void update(T entity);
+	T update(T entity);
 
 	void delete(Id id);
 

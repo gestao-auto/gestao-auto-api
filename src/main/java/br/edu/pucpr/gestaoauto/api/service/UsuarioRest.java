@@ -67,7 +67,7 @@ public class UsuarioRest extends AbstractRest {
 								, ValidationException.class.getName()))
 						.build();
 			}
-			return Response.ok().entity(service.update(dto)).build();
+			return Response.ok().entity(service.update(service.getEntity(dto))).build();
 		} catch (Exception e) {
 			log.error(e.toString());
 			return this.serverError(e);

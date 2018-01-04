@@ -1,5 +1,6 @@
 package br.edu.pucpr.gestaoauto.manager.manutencao;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,19 +28,16 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 	
 	@EJB ManutencaoDAO manutencaoDAO;
 	@EJB ItemManutencaoDAO itemManutencaoDAO;
-	@Inject ReparadorManager reparadorManager;
 	@Inject VeiculoManager veiculoManager;
 	@Inject PacoteRevisaoManager pacoteRevisaoManager;
 
-
-	@Override
-	public void save(Manutencao entity) {
-		manutencaoDAO.save(entity);
+	public Manutencao save(Manutencao entity) {
+		return manutencaoDAO.save(entity);
 	}
 
 	@Override
-	public void update(Manutencao entity) {
-		manutencaoDAO.update(entity);
+	public Manutencao update(Manutencao entity) {
+		return manutencaoDAO.update(entity);
 	}
 
 	@Override
@@ -63,7 +61,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 
 	public List<Manutencao> carregarPacoteRevisaoParaManutencao(Integer codigoVeiculo) {
 		Veiculo veiculo = veiculoManager.getById(codigoVeiculo);
-		PacoteRevisao pacoteRevisao = pacoteRevisaoManager.getPacoteRevisaoPorMarcaAnoVeiculo(veiculo.getModeloVeiculo().getMarca(), veiculo.getAno());
+		PacoteRevisao pacoteRevisao = pacoteRevisaoManager.getPacoteRevisaoPorMarcaAnoVeiculo(veiculo.getModelo().getMarca(), veiculo.getAno());
 
 		List<Manutencao> manutencaoList = new ArrayList<>();
 		for (Revisao revisao : pacoteRevisao.getRevisaoList()) {
@@ -110,7 +108,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setData(manutencao.getData());
 		dto.setOdometro(manutencao.getOdometro());
 		dto.setStatus(manutencao.getStatus());
-		dto.setReparador(manutencao.getReparador() != null ? reparadorManager.convertReparadorToDTO(manutencao.getReparador()) : null);
+		dto.setReparador(null);
 		dto.setItemManuteido(null); // TODO: alterar aqui para retornar a lista de itens manuteidos
 		dto.setVeiculo(veiculoManager.convertVeiculoToDTO(manutencao.getVeiculo()));
 		return dto;

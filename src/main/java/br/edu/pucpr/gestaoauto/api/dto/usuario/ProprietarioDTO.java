@@ -5,7 +5,7 @@ import java.util.Date;
 public class ProprietarioDTO {
 
 	private Integer codigo;
-	private UsuarioDTO usuario;
+	private Integer usuario;
 	private String nome;
 	private String sobrenome;
 	private String sexo;
@@ -15,48 +15,53 @@ public class ProprietarioDTO {
 		return codigo;
 	}
 
-	public void setCodigo(Integer codigo) {
+	public ProprietarioDTO setCodigo(Integer codigo) {
 		this.codigo = codigo;
+		return this;
 	}
 
-	public UsuarioDTO getUsuario() {
+	public Integer getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(UsuarioDTO usuario) {
+	public ProprietarioDTO setUsuario(Integer usuario) {
 		this.usuario = usuario;
+		return this;
 	}
 
 	public String getNome() {
 		return nome;
 	}
 
-	public void setNome(String nome) {
+	public ProprietarioDTO setNome(String nome) {
 		this.nome = nome;
+		return this;
 	}
 
 	public String getSobrenome() {
 		return sobrenome;
 	}
 
-	public void setSobrenome(String sobrenome) {
+	public ProprietarioDTO setSobrenome(String sobrenome) {
 		this.sobrenome = sobrenome;
+		return this;
 	}
 
 	public String getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(String sexo) {
+	public ProprietarioDTO setSexo(String sexo) {
 		this.sexo = sexo;
+		return this;
 	}
 
 	public Date getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Date dataNascimento) {
+	public ProprietarioDTO setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
+		return this;
 	}
-
 }
