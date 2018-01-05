@@ -1,13 +1,15 @@
 package br.edu.pucpr.gestaoauto.model.veiculo;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 
 @Entity
-@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
+@DiscriminatorValue(value = "MOTOCICLETA")
 public class Moto extends Veiculo {
-    public Moto() {
+
+	private static final long serialVersionUID = -1616988479273263891L;
+
+	public Moto() {
         this.rodas = 2;
     }
 

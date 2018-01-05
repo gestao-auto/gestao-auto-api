@@ -1,11 +1,12 @@
 package br.edu.pucpr.gestaoauto.manager.manutencao;
 
-
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
+import javax.ejb.ObjectNotFoundException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -17,9 +18,11 @@ import br.edu.pucpr.gestaoauto.manager.revisao.PacoteRevisaoManager;
 import br.edu.pucpr.gestaoauto.manager.veiculo.VeiculoManager;
 import br.edu.pucpr.gestaoauto.model.manutencao.ItemManutencao;
 import br.edu.pucpr.gestaoauto.model.manutencao.Manutencao;
+import br.edu.pucpr.gestaoauto.model.manutencao.Revisao;
+import br.edu.pucpr.gestaoauto.model.manutencao.Status;
 import br.edu.pucpr.gestaoauto.model.revisao.ItemRevisao;
+import br.edu.pucpr.gestaoauto.model.revisao.ModeloRevisao;
 import br.edu.pucpr.gestaoauto.model.revisao.PacoteRevisao;
-import br.edu.pucpr.gestaoauto.model.revisao.Revisao;
 import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
 
 @Stateless
@@ -50,7 +53,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		return manutencaoDAO.getById(id);
 	}
 
-	public List<Manutencao> getListManutencaoPorVeiculo(Integer codigoVeiculo) {
+	public List<Manutencao> getListManutencaoPorVeiculo(Integer codigoVeiculo) throws ObjectNotFoundException {
 		List<Manutencao> manutencaoList = manutencaoDAO.getListManutencaoPorVeiculo(codigoVeiculo);
 		if (manutencaoList.isEmpty()) {
 			return this.carregarPacoteRevisaoParaManutencao(codigoVeiculo);
@@ -59,39 +62,50 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 
 	}
 
-	public List<Manutencao> carregarPacoteRevisaoParaManutencao(Integer codigoVeiculo) {
+	public List<Manutencao> carregarPacoteRevisaoParaManutencao(Integer codigoVeiculo) throws ObjectNotFoundException {
 		Veiculo veiculo = veiculoManager.getById(codigoVeiculo);
-		PacoteRevisao pacoteRevisao = pacoteRevisaoManager.getPacoteRevisaoPorMarcaAnoVeiculo(veiculo.getModelo().getMarca(), veiculo.getAno());
+		PacoteRevisao pacoteRevisao = pacoteRevisaoManager.getPacoteRevisaoPorModeloVeiculo(veiculo.getModelo());
+
+		if (pacoteRevisao == null) {
+			throw new ObjectNotFoundException("Programação de revisão não encontrada para o veículo marca: " 
+					+ veiculo.getModelo().getMarca() + " ano: " + veiculo.getAno());
+		}
 
 		List<Manutencao> manutencaoList = new ArrayList<>();
-		for (Revisao revisao : pacoteRevisao.getRevisaoList()) {
-			Manutencao manutencao = new Manutencao();
-			manutencao.setOdometroPrevisto(revisao.getOdometro());
-			manutencao.setTempoUsoPrevisto(revisao.getTempouso());
-			manutencao.setStatus(this.definirStatusRevisao(veiculo, revisao));
-			manutencao.setVeiculo(veiculo);
-			
-			List<ItemManutencao> itemList = new ArrayList<>();
-			for (ItemRevisao itemRevisao : revisao.getItemRevisaoList()) {
+		for (ModeloRevisao modelo : pacoteRevisao.getModeloRevisaoList()) {
+			Revisao manutencaoProgramada = new Revisao();
+			manutencaoProgramada.setDescricao(modelo.getDescricao());
+			manutencaoProgramada.setVeiculo(veiculo);
+			manutencaoProgramada.setDataPrevista(this.getCalcularDataPrevistaRevisao(veiculo, modelo));
+			manutencaoProgramada.setStatus(this.getStatusRevisaoPorTempoDeUsoOuOdometroPrevisto(veiculo, modelo));
+
+			List<ItemManutencao> itemManutencaoList = new ArrayList<>();
+			for (ItemRevisao itemRevisao : modelo.getItemRevisaoList()) {
 				ItemManutencao item = new ItemManutencao();
 				item.setPecaServico(itemRevisao.getPecaServico());
 				item.setQuantidade(item.getQuantidade());
-				item.setManutencao(manutencao);
-				itemList.add(item);
+				item.setManutencao(manutencaoProgramada);
+				itemManutencaoList.add(item);
 			}
-			manutencaoDAO.save(manutencao);
-			itemManutencaoDAO.saveAll(itemList);
 
-			manutencao.setItemManutencao(itemList);
-			manutencaoList.add(manutencao);
+			manutencaoDAO.save(manutencaoProgramada);
+			itemManutencaoDAO.saveAll(itemManutencaoList);
+
+			manutencaoProgramada.setItemManutencao(itemManutencaoList);
+			manutencaoList.add(manutencaoProgramada);
 		}
 		return manutencaoList;
 	}
 
-	private String definirStatusRevisao(Veiculo veiculo, Revisao revisao) {
+	private Date getCalcularDataPrevistaRevisao(Veiculo veiculo, ModeloRevisao modelo) {
+		// TODO Auto-generated method stub
+		return new Date();
+	}
+
+	private Status getStatusRevisaoPorTempoDeUsoOuOdometroPrevisto(Veiculo veiculo, ModeloRevisao revisao) {
 		// TODO validar se o tempo de aquisição do veículo ou sua quilometragem é maior
 		// ou igual a informada na revisão.
-		return "PENDENTE";
+		return Status.PENDENTE;
 	}
 
 	public List<ManutencaoDTO> convertListManutencaoToDTO(List<Manutencao> listManutencaoPorVeiculo) {
@@ -107,7 +121,6 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setCodigo(manutencao.getCodigo());
 		dto.setData(manutencao.getData());
 		dto.setOdometro(manutencao.getOdometro());
-		dto.setStatus(manutencao.getStatus());
 		dto.setReparador(null);
 		dto.setItemManuteido(null); // TODO: alterar aqui para retornar a lista de itens manuteidos
 		dto.setVeiculo(veiculoManager.convertVeiculoToDTO(manutencao.getVeiculo()));

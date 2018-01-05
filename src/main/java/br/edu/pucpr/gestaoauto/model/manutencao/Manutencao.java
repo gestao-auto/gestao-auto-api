@@ -7,10 +7,14 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -22,19 +26,17 @@ import br.edu.pucpr.gestaoauto.model.pessoaJuridica.Reparador;
 import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipmanutencao", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "manutencao", catalog = "gestao_auto")
-public class Manutencao implements java.io.Serializable {
+public abstract class Manutencao {
 
-	private static final long serialVersionUID = 5827011733126840023L;
-	
 	private Integer codigo;
+	private String descricao;
 	private Reparador reparador;
 	private Veiculo veiculo;
-	private int odometro;
+	private Integer odometro;
 	private Date data;
-	private String status;
-	private Integer odometroPrevisto;
-	private Integer tempoUsoPrevisto;
 	private List<ItemManutencao> itemManutencao = new ArrayList<>();
 
 	public Manutencao() {
@@ -61,6 +63,15 @@ public class Manutencao implements java.io.Serializable {
 		this.reparador = reparador;
 	}
 
+	@Column(name = "descricao", length = 45)
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "codveiculo", nullable = false)
 	public Veiculo getVeiculo() {
@@ -71,12 +82,12 @@ public class Manutencao implements java.io.Serializable {
 		this.veiculo = veiculo;
 	}
 
-	@Column(name = "odometro", nullable = false)
-	public int getOdometro() {
+	@Column(name = "odometro")
+	public Integer getOdometro() {
 		return this.odometro;
 	}
 
-	public void setOdometro(int odometro) {
+	public void setOdometro(Integer odometro) {
 		this.odometro = odometro;
 	}
 
@@ -90,33 +101,6 @@ public class Manutencao implements java.io.Serializable {
 		this.data = data;
 	}
 
-	@Column(name = "status", length = 15)
-	public String getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	@Column(name = "onometroprevisto")
-	public Integer getOdometroPrevisto() {
-		return odometroPrevisto;
-	}
-
-	public void setOdometroPrevisto(Integer odometroPrevisto) {
-		this.odometroPrevisto = odometroPrevisto;
-	}
-
-	@Column(name = "tempousoprevisto")
-	public Integer getTempoUsoPrevisto() {
-		return tempoUsoPrevisto;
-	}
-
-	public void setTempoUsoPrevisto(Integer tempoUsoPrevisto) {
-		this.tempoUsoPrevisto = tempoUsoPrevisto;
-	}
-
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "manutencao")
 	public List<ItemManutencao> getItemManutencao() {
 		return itemManutencao;
@@ -125,6 +109,4 @@ public class Manutencao implements java.io.Serializable {
 	public void setItemManutencao(List<ItemManutencao> itemManutencao) {
 		this.itemManutencao = itemManutencao;
 	}
-
-
 }

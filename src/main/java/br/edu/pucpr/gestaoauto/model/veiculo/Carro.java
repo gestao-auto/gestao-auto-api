@@ -1,14 +1,16 @@
 package br.edu.pucpr.gestaoauto.model.veiculo;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 
 @Entity
-@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
+@DiscriminatorValue(value = "CARRO")
 public class Carro extends Veiculo {
-    public Carro() {
-        this.rodas = 4;
+
+	private static final long serialVersionUID = -1677960466983444204L;
+
+	public Carro() {
+		this.rodas = 5;
     }
 
     @Override
@@ -18,6 +20,6 @@ public class Carro extends Veiculo {
 
     @Override
     public void setRodas(Short rodas) {
-        this.rodas = 4;
+		this.rodas = 5;
     }
 }

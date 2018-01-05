@@ -1,15 +1,30 @@
 package br.edu.pucpr.gestaoauto.model.veiculo;
 
-
 import static javax.persistence.GenerationType.IDENTITY;
 
-import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import br.edu.pucpr.gestaoauto.model.usuario.Proprietario;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipveiculo", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "veiculo", catalog = "gestao_auto")
-public class Veiculo implements java.io.Serializable {
+public abstract class Veiculo implements Serializable {
 
 	private static final long serialVersionUID = 8577505457395568330L;
 
@@ -19,9 +34,13 @@ public class Veiculo implements java.io.Serializable {
 	private String placa;
 	private String nome;
 	private Integer ano;
-	private String modalidade;
 	private String renavam;
 	private Integer odometro;
+	private Date dataAquisicao;
+	private Integer odometroAquisicao;
+	private Boolean unicoDono;
+	private Date dataAquisicaoPrimeiroDono;
+
 	protected Short rodas;
 
 	@Id
@@ -82,15 +101,6 @@ public class Veiculo implements java.io.Serializable {
 		this.ano = ano;
 	}
 
-	@Column(name = "modalidade", length = 10)
-	public String getModalidade() {
-		return this.modalidade;
-	}
-
-	public void setModalidade(String modalidade) {
-		this.modalidade = modalidade;
-	}
-
 	@Column(name = "renavam", length = 45)
 	public String getRenavam() {
 		return this.renavam;
@@ -109,7 +119,48 @@ public class Veiculo implements java.io.Serializable {
 		this.odometro = odometro;
 	}
 
-    public Short getRodas() { return this.rodas; }
+	public Short getRodas() {
+		return this.rodas;
+	}
 
-    public void setRodas(Short rodas) { this.rodas = rodas; }
+	public void setRodas(Short rodas) {
+		this.rodas = rodas;
+	}
+
+	@Column(name = "dataquisicao")
+	public Date getDataAquisicao() {
+		return dataAquisicao;
+	}
+
+	public void setDataAquisicao(Date dataAquisicao) {
+		this.dataAquisicao = dataAquisicao;
+	}
+
+	@Column(name = "odometroaquisicao")
+	public Integer getOdometroAquisicao() {
+		return odometroAquisicao;
+	}
+
+	public void setOdometroAquisicao(Integer odometroAquisicao) {
+		this.odometroAquisicao = odometroAquisicao;
+	}
+
+	@Column(name = "unicodono")
+	public Boolean getUnicoDono() {
+		return unicoDono;
+	}
+
+	public void setUnicoDono(Boolean unicoDono) {
+		this.unicoDono = unicoDono;
+	}
+
+	@Column(name = "dataquisicaoprimeirodono")
+	public Date getDataAquisicaoPrimeiroDono() {
+		return dataAquisicaoPrimeiroDono;
+	}
+
+	public void setDataAquisicaoPrimeiroDono(Date dataAquisicaoPrimeiroDono) {
+		this.dataAquisicaoPrimeiroDono = dataAquisicaoPrimeiroDono;
+	}
+
 }

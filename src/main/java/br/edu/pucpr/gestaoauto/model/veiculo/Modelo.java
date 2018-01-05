@@ -2,6 +2,8 @@ package br.edu.pucpr.gestaoauto.model.veiculo;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "modelo_veiculo", catalog = "gestao_auto")
-public class Modelo implements java.io.Serializable {
+public class Modelo implements Serializable {
 
 	private static final long serialVersionUID = -5763024517503780570L;
 	private Integer codigo;
@@ -22,7 +24,6 @@ public class Modelo implements java.io.Serializable {
 	private Integer ano;
 	private String versao;
 	private Short capacidadeCombustivel;
-	private Modalidade modalidade;
 
 	public Modelo() {
 	}
@@ -71,7 +72,9 @@ public class Modelo implements java.io.Serializable {
 		return this.versao;
 	}
 
-	public void setVersao(String versao) { this.versao = versao; }
+	public void setVersao(String versao) {
+		this.versao = versao;
+	}
 
 	@Column(name = "capacidadetanque")
 	public Short getCapacidadeCombustivel() {
@@ -81,15 +84,4 @@ public class Modelo implements java.io.Serializable {
 	public void setCapacidadeCombustivel(Short capacidadeCombustivel) {
 		this.capacidadeCombustivel = capacidadeCombustivel;
 	}
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "codmodalidade", nullable = false)
-	public Modalidade getModalidade() {
-		return modalidade;
-	}
-
-	public void setModalidade(Modalidade modalidade) {
-		this.modalidade = modalidade;
-	}
-
 }

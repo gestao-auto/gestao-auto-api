@@ -6,14 +6,9 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import br.edu.pucpr.gestaoauto.model.veiculo.Modalidade;
 
 
 @Entity
@@ -24,7 +19,6 @@ public class PecaServico implements Serializable {
 	private Integer codigo;
 	private String tipo;
 	private String nome;
-	private Modalidade modalidade;
 
 	public PecaServico() {
 	}
@@ -57,15 +51,4 @@ public class PecaServico implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "codmodalidadeveiculo", nullable = false)
-	public Modalidade getModalidade() {
-		return modalidade;
-	}
-
-	public void setModalidade(Modalidade modalidade) {
-		this.modalidade = modalidade;
-	}
-
 }

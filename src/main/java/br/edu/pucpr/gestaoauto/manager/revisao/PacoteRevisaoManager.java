@@ -6,7 +6,7 @@ import javax.ejb.Stateless;
 
 import br.edu.pucpr.gestaoauto.dao.revisao.PacoteRevisaoDAO;
 import br.edu.pucpr.gestaoauto.model.revisao.PacoteRevisao;
-import br.edu.pucpr.gestaoauto.model.veiculo.Marca;
+import br.edu.pucpr.gestaoauto.model.veiculo.Modelo;
 
 @Stateless
 @LocalBean
@@ -15,8 +15,8 @@ public class PacoteRevisaoManager {
 	@EJB
 	PacoteRevisaoDAO dao;
 
-	public PacoteRevisao getPacoteRevisaoPorMarcaAnoVeiculo(Marca marca, Integer ano) {
-		return dao.getPacoteRevisaoPorMarcaAnoVeiculo(marca, ano);
+	public PacoteRevisao getPacoteRevisaoPorModeloVeiculo(Modelo modelo) {
+		return dao.getPacoteRevisaoPorModeloVeiculo(modelo);
 	}
 
 }

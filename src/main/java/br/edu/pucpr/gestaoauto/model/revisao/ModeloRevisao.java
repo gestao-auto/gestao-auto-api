@@ -2,8 +2,8 @@ package br.edu.pucpr.gestaoauto.model.revisao;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,25 +16,25 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "revisao", catalog = "gestao_auto")
-public class Revisao implements java.io.Serializable {
+@Table(name = "modelo_revisao", catalog = "gestao_auto")
+public class ModeloRevisao implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1265657507301391141L;
 
 	private Integer codigo;
-	private PacoteRevisao pacoteRevisao;
+	private PacoteRevisao pacote;
 	private String descricao;
 	private Integer tempouso;
 	private Integer odometro;
-	private Set<ItemRevisao> itemRevisaoList = new HashSet<>();
+	private List<ItemRevisao> itemRevisaoList = new ArrayList<>();
 
-	public Revisao() {
+	public ModeloRevisao() {
 	}
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 
-	@Column(name = "codrevisao", unique = true, nullable = false)
+	@Column(name = "codmodelo", unique = true, nullable = false)
 	public Integer getCodigo() {
 		return this.codigo;
 	}
@@ -46,11 +46,11 @@ public class Revisao implements java.io.Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "codpacrevisao", nullable = false)
 	public PacoteRevisao getPacoteRevisao() {
-		return this.pacoteRevisao;
+		return this.pacote;
 	}
 
 	public void setPacoteRevisao(PacoteRevisao pacoteRevisao) {
-		this.pacoteRevisao = pacoteRevisao;
+		this.pacote = pacoteRevisao;
 	}
 
 	@Column(name = "descricao", length = 45)
@@ -81,12 +81,11 @@ public class Revisao implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "revisao")
-	public Set<ItemRevisao> getItemRevisaoList() {
+	public List<ItemRevisao> getItemRevisaoList() {
 		return itemRevisaoList;
 	}
 
-	public void setItemRevisaoList(Set<ItemRevisao> itemRevisaoList) {
+	public void setItemRevisaoList(List<ItemRevisao> itemRevisaoList) {
 		this.itemRevisaoList = itemRevisaoList;
 	}
-
 }

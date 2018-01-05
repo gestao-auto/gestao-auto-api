@@ -7,16 +7,15 @@ import javax.persistence.Query;
 
 import br.edu.pucpr.gestaoauto.dao.DAO;
 import br.edu.pucpr.gestaoauto.model.revisao.PacoteRevisao;
-import br.edu.pucpr.gestaoauto.model.veiculo.Marca;
+import br.edu.pucpr.gestaoauto.model.veiculo.Modelo;
 
 @Stateless
 public class PacoteRevisaoDAO extends DAO<Integer, PacoteRevisao> {
 
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
-	public PacoteRevisao getPacoteRevisaoPorMarcaAnoVeiculo(Marca marca, Integer ano) {
-		Query query = super.entityManager.createQuery("select p from PacoteRevisao p where p.marca.codigo = :marca and p.ano = :ano");
-		query.setParameter("marca", marca.getCodigo());
-		query.setParameter("ano", ano);
+	public PacoteRevisao getPacoteRevisaoPorModeloVeiculo(Modelo modelo) {
+		Query query = super.entityManager.createQuery("select p from PacoteRevisao p where p.modeloVeiculo.codigo = :modeloVeiculo");
+		query.setParameter("modeloVeiculo", modelo.getCodigo());
 		return (PacoteRevisao) query.getSingleResult();
 	}
 }

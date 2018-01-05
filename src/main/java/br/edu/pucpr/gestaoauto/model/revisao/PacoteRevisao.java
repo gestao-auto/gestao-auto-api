@@ -2,8 +2,8 @@ package br.edu.pucpr.gestaoauto.model.revisao;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import br.edu.pucpr.gestaoauto.model.veiculo.Marca;
+import br.edu.pucpr.gestaoauto.model.veiculo.Modelo;
 
 @Entity
 @Table(name = "pacote_revisao", catalog = "gestao_auto")
@@ -24,10 +24,10 @@ public class PacoteRevisao implements java.io.Serializable {
 	private static final long serialVersionUID = 6660095982718297373L;
 
 	private Integer codigo;
-	private Marca marca;
+	private Modelo modeloVeiculo;
 	private String nome;
 	private Integer ano;
-	private Set<Revisao> revisaoList = new HashSet<Revisao>();
+	private List<ModeloRevisao> modeloRevisaoList = new ArrayList<>();
 
 	public PacoteRevisao() {
 	}
@@ -45,13 +45,13 @@ public class PacoteRevisao implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "codmarca", nullable = false)
-	public Marca getMarca() {
-		return this.marca;
+	@JoinColumn(name = "codmodeloveiculo", nullable = false)
+	public Modelo getModeloVeiculo() {
+		return this.modeloVeiculo;
 	}
 
-	public void setMarca(Marca marca) {
-		this.marca = marca;
+	public void setModeloVeiculo(Modelo modeloVeiculo) {
+		this.modeloVeiculo = modeloVeiculo;
 	}
 
 	@Column(name = "nome", length = 45)
@@ -73,11 +73,11 @@ public class PacoteRevisao implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pacoteRevisao")
-	public Set<Revisao> getRevisaoList() {
-		return this.revisaoList;
+	public List<ModeloRevisao> getModeloRevisaoList() {
+		return this.modeloRevisaoList;
 	}
 
-	public void setRevisaoList(Set<Revisao> revisaoList) {
-		this.revisaoList = revisaoList;
+	public void setModeloRevisaoList(List<ModeloRevisao> modeloRevisaoList) {
+		this.modeloRevisaoList = modeloRevisaoList;
 	}
 }
