@@ -9,7 +9,9 @@ import javax.ejb.ObjectNotFoundException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoDTO;
+import br.edu.pucpr.gestaoauto.api.dto.veiculo.ModeloDTO;
+import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoAlteracaoDTO;
+import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoCompletoDTO;
 import br.edu.pucpr.gestaoauto.dao.usuario.ProprietarioDAO;
 import br.edu.pucpr.gestaoauto.dao.veiculo.ModeloVeiculoDAO;
 import br.edu.pucpr.gestaoauto.dao.veiculo.VeiculoDAO;
@@ -25,8 +27,10 @@ import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
 @LocalBean
 public class VeiculoManager implements Manager<Integer, Veiculo> {
 
-	@EJB VeiculoDAO veiculoDAO;
-	@EJB ModeloVeiculoDAO modeloDAO;
+    public static final String CARRO = "Carro";
+    public static final String MOTOCICLETA = "Motocicleta";
+
+    @EJB VeiculoDAO veiculoDAO;
 	@EJB ProprietarioDAO proprietarioDAO;
 	@Inject ModeloManager modeloManager;
 
@@ -54,15 +58,15 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		return veiculoDAO.getListVeiculoPorUsuario(usuario);
 	}
 
-	public List<VeiculoDTO> convertListToDTO(List<Veiculo> veiculoList) {
-		List<VeiculoDTO> veiculoDTOList = new ArrayList<>();
+	public List<VeiculoCompletoDTO> convertListToDTO(List<Veiculo> veiculoList) {
+		List<VeiculoCompletoDTO> veiculoDTOList = new ArrayList<>();
 		for (Veiculo veiculo : veiculoList) {
 			veiculoDTOList.add(this.convertVeiculoToDTO(veiculo));
 		}
 		return veiculoDTOList;
 	}
 
-	public void updateOdometroVeiculo(Integer codigoVeiculo, Integer odometro) throws Exception {
+	public void updateOdometro(Integer codigoVeiculo, Integer odometro) throws Exception {
 		Veiculo veiculo = this.getById(codigoVeiculo);
 		if (veiculo == null) {
 			throw new ObjectNotFoundException("Veículo não encontrado");
@@ -76,7 +80,7 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		this.update(veiculo);
 	}
 
-	public void update(VeiculoDTO dto) throws Exception {
+	public void update(VeiculoCompletoDTO dto) throws Exception {
 		Veiculo veiculo = this.getById(dto.getCodigo());
 		if (veiculo == null) {
 			throw new ObjectNotFoundException("Veículo não encontrado");
@@ -94,11 +98,11 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		this.update(veiculo);
 	}
 
-	public VeiculoDTO convertVeiculoToDTO(Veiculo veiculo) {
-		VeiculoDTO veiculoDTO = new VeiculoDTO();
+	public VeiculoCompletoDTO convertVeiculoToDTO(Veiculo veiculo) {
+		VeiculoCompletoDTO veiculoDTO = new VeiculoCompletoDTO();
 		veiculoDTO.setCodigo(veiculo.getCodigo());
 		veiculoDTO.setNome(veiculo.getNome());
-		veiculoDTO.setModalidade(veiculo instanceof Carro ? "Carro" : "Motocicleta");
+		veiculoDTO.setModalidade(veiculo instanceof Carro ? CARRO : MOTOCICLETA);
 		veiculoDTO.setModelo(modeloManager.convertModeloVeiculoToDTO(veiculo.getModelo()));
 		veiculoDTO.setOdometro(veiculo.getOdometro());
 		veiculoDTO.setRenavam(veiculo.getRenavam());
@@ -108,9 +112,26 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		return veiculoDTO;
 	}
 
-	public Veiculo convertDTOToEntity(VeiculoDTO veiculoDTO) {
+    public Veiculo convertDTOToEntity(VeiculoAlteracaoDTO veiculoDTO) {
+        VeiculoCompletoDTO completoDTO = new VeiculoCompletoDTO();
+        completoDTO.setCodigo(veiculoDTO.getCodigo());
+        completoDTO.setNome(veiculoDTO.getNome());
+
+        Modelo modelo = modeloManager.getById(veiculoDTO.getModelo());
+        completoDTO.setModelo(modeloManager.convertModeloVeiculoToDTO(modelo));
+
+        completoDTO.setPlaca(veiculoDTO.getPlaca());
+        completoDTO.setAno(veiculoDTO.getAno());
+        completoDTO.setModalidade(veiculoDTO.getModalidade());
+        completoDTO.setRenavam(veiculoDTO.getRenavam());
+        completoDTO.setOdometro(veiculoDTO.getOdometro());
+        completoDTO.setProprietario(veiculoDTO.getProprietario());
+	    return this.convertDTOToEntity(completoDTO);
+    }
+
+	public Veiculo convertDTOToEntity(VeiculoCompletoDTO veiculoDTO) {
 		Veiculo veiculo = null;
-		if (veiculoDTO.getModalidade().equals("Carro")) {
+		if (veiculoDTO.getModalidade().equals(CARRO)) {
 			veiculo = new Carro();
 		} else {
 			veiculo = new Moto();
@@ -122,7 +143,7 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		veiculo.setAno(veiculoDTO.getAno());
 		veiculo.setPlaca(veiculoDTO.getPlaca());
 
-		Modelo modelo = modeloDAO.getById(veiculoDTO.getModelo().getCodigo());
+		Modelo modelo = modeloManager.getById(veiculoDTO.getModelo().getCodigo());
 		veiculo.setModelo(modelo);
 
 		Proprietario proprietario = proprietarioDAO.getById(veiculoDTO.getProprietario());
@@ -130,5 +151,4 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 
 		return veiculo;
 	}
-
 }

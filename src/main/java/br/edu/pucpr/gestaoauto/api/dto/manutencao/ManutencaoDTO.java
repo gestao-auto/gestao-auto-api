@@ -3,13 +3,13 @@ package br.edu.pucpr.gestaoauto.api.dto.manutencao;
 import java.util.Date;
 import java.util.List;
 
-import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoDTO;
+import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoCompletoDTO;
 
 public class ManutencaoDTO {
 
 	private Integer codigo;
 	private ReparadorDTO reparador;
-	private VeiculoDTO veiculo;
+	private VeiculoCompletoDTO veiculo;
 	private Integer odometro;
 	private Date data;
 	private String status;
@@ -33,11 +33,11 @@ public class ManutencaoDTO {
 		this.reparador = reparador;
 	}
 
-	public VeiculoDTO getVeiculo() {
+	public VeiculoCompletoDTO getVeiculo() {
 		return veiculo;
 	}
 
-	public void setVeiculo(VeiculoDTO veiculo) {
+	public void setVeiculo(VeiculoCompletoDTO veiculo) {
 		this.veiculo = veiculo;
 	}
 
