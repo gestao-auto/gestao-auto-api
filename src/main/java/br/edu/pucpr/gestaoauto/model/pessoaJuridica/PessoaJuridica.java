@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @Table(name = "pessoa_juridica", catalog = "gestao_auto")
 public abstract class PessoaJuridica implements java.io.Serializable {
 
+	private static final long serialVersionUID = -7043219405189925632L;
 	private Integer codigo;
 	private Integer cnpj;
 	private String razaoSocial;

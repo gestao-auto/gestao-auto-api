@@ -31,6 +31,9 @@
 		<!-- JUnit -->
 		<junit.version>4.12</junit.version>
 		
+		<!-- JWT -->
+		<auth0.version>3.2.0</auth0.version>
+		
 	</properties>
 
 	<build>
@@ -135,6 +138,12 @@
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.auth0</groupId>
+  			<artifactId>java-jwt</artifactId>
+  			<version>${auth0.version}</version>
 		</dependency>
 
 	</dependencies>

@@ -5,11 +5,11 @@ import javax.ejb.Local;
 @Local
 public interface Manager<Id, T> {
 	
-	T save(T entity);
+	T save(T entity) throws Exception;
 	
-	T update(T entity);
+	T update(T entity)throws Exception;
 
-	void delete(Id id);
+	void delete(Id id)throws Exception;
 
-	T getById(Id id);
+	T getById(Id id)throws Exception;
 }

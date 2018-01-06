@@ -9,11 +9,9 @@ import javax.ejb.ObjectNotFoundException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import br.edu.pucpr.gestaoauto.api.dto.veiculo.ModeloDTO;
 import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoAlteracaoDTO;
 import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoCompletoDTO;
 import br.edu.pucpr.gestaoauto.dao.usuario.ProprietarioDAO;
-import br.edu.pucpr.gestaoauto.dao.veiculo.ModeloVeiculoDAO;
 import br.edu.pucpr.gestaoauto.dao.veiculo.VeiculoDAO;
 import br.edu.pucpr.gestaoauto.manager.Manager;
 import br.edu.pucpr.gestaoauto.model.usuario.Proprietario;
