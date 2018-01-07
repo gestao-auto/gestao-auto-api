@@ -6,6 +6,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -17,7 +19,7 @@ public class PecaServico implements Serializable {
 
 	private static final long serialVersionUID = -256078620631633338L;
 	private Integer codigo;
-	private String tipo;
+	private TipoPecaServico tipo;
 	private String nome;
 
 	public PecaServico() {
@@ -34,12 +36,13 @@ public class PecaServico implements Serializable {
 		this.codigo = codpecaservico;
 	}
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo", nullable = false, length = 10)
-	public String getTipo() {
+	public TipoPecaServico getTipo() {
 		return this.tipo;
 	}
 
-	public void setTipo(String tipo) {
+	public void setTipo(TipoPecaServico tipo) {
 		this.tipo = tipo;
 	}
 

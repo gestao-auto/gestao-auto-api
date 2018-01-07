@@ -22,7 +22,7 @@ public class ItemRevisao implements java.io.Serializable {
 	private Integer codigo;
 	private ModeloRevisao revisao;
 	private PecaServico pecaServico;
-	private Integer quantidade;
+	private Float quantidade;
 
 	public ItemRevisao() {
 	}
@@ -38,7 +38,7 @@ public class ItemRevisao implements java.io.Serializable {
 		this.codigo = codigo;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "codpecaservico", nullable = false)
 	public PecaServico getPecaServico() {
 		return this.pecaServico;
@@ -48,7 +48,7 @@ public class ItemRevisao implements java.io.Serializable {
 		this.pecaServico = pecaServico;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "codrevisao", nullable = false)
 	public ModeloRevisao getRevisao() {
 		return this.revisao;
@@ -59,11 +59,11 @@ public class ItemRevisao implements java.io.Serializable {
 	}
 
 	@Column(name = "quantidade")
-	public Integer getQuantidade() {
+	public Float getQuantidade() {
 		return this.quantidade;
 	}
 
-	public void setQuantidade(Integer quantidade) {
+	public void setQuantidade(Float quantidade) {
 		this.quantidade = quantidade;
 	}
 }

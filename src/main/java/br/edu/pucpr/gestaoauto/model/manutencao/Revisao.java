@@ -1,15 +1,15 @@
 package br.edu.pucpr.gestaoauto.model.manutencao;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import br.edu.pucpr.gestaoauto.model.revisao.PacoteRevisao;
 
@@ -17,18 +17,17 @@ import br.edu.pucpr.gestaoauto.model.revisao.PacoteRevisao;
 @DiscriminatorValue(value = "REVISAO")
 public class Revisao extends Manutencao {
 
-	private Date dataPrevista;
+	private LocalDate dataPrevista;
 	private Integer odometroPrevisto;
 	private PacoteRevisao pacote;
 	private Status status;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name = "datprevista")
-	public Date getDataPrevista() {
+	public LocalDate getDataPrevista() {
 		return dataPrevista;
 	}
 
-	public void setDataPrevista(Date dataPrevista) {
+	public void setDataPrevista(LocalDate dataPrevista) {
 		this.dataPrevista = dataPrevista;
 	}
 
@@ -51,6 +50,7 @@ public class Revisao extends Manutencao {
 		this.pacote = pacote;
 	}
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "status", length = 15)
 	public Status getStatus() {
 		return this.status;

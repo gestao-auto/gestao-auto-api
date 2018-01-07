@@ -3,7 +3,7 @@ package br.edu.pucpr.gestaoauto.model.veiculo;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -36,10 +36,10 @@ public abstract class Veiculo implements Serializable {
 	private Integer ano;
 	private String renavam;
 	private Integer odometro;
-	private Date dataAquisicao;
+	private LocalDate dataAquisicao;
 	private Integer odometroAquisicao;
 	private Boolean unicoDono;
-	private Date dataAquisicaoPrimeiroDono;
+	private LocalDate dataAquisicaoPrimeiroDono;
 
 	protected Short rodas;
 
@@ -128,11 +128,11 @@ public abstract class Veiculo implements Serializable {
 	}
 
 	@Column(name = "dataquisicao")
-	public Date getDataAquisicao() {
+	public LocalDate getDataAquisicao() {
 		return dataAquisicao;
 	}
 
-	public void setDataAquisicao(Date dataAquisicao) {
+	public void setDataAquisicao(LocalDate dataAquisicao) {
 		this.dataAquisicao = dataAquisicao;
 	}
 
@@ -155,11 +155,11 @@ public abstract class Veiculo implements Serializable {
 	}
 
 	@Column(name = "dataquisicaoprimeirodono")
-	public Date getDataAquisicaoPrimeiroDono() {
+	public LocalDate getDataAquisicaoPrimeiroDono() {
 		return dataAquisicaoPrimeiroDono;
 	}
 
-	public void setDataAquisicaoPrimeiroDono(Date dataAquisicaoPrimeiroDono) {
+	public void setDataAquisicaoPrimeiroDono(LocalDate dataAquisicaoPrimeiroDono) {
 		this.dataAquisicaoPrimeiroDono = dataAquisicaoPrimeiroDono;
 	}
 

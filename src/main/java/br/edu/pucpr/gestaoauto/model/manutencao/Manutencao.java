@@ -2,8 +2,8 @@ package br.edu.pucpr.gestaoauto.model.manutencao;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -19,8 +19,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import br.edu.pucpr.gestaoauto.model.pessoaJuridica.Reparador;
 import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
@@ -36,7 +34,7 @@ public abstract class Manutencao {
 	private Reparador reparador;
 	private Veiculo veiculo;
 	private Integer odometro;
-	private Date data;
+	private LocalDate data;
 	private List<ItemManutencao> itemManutencao = new ArrayList<>();
 
 	public Manutencao() {
@@ -91,13 +89,12 @@ public abstract class Manutencao {
 		this.odometro = odometro;
 	}
 
-	@Temporal(TemporalType.DATE)
 	@Column(name = "data", length = 10)
-	public Date getData() {
+	public LocalDate getData() {
 		return this.data;
 	}
 
-	public void setData(Date data) {
+	public void setData(LocalDate data) {
 		this.data = data;
 	}
 

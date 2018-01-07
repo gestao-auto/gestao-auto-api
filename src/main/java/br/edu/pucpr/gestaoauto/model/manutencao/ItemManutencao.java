@@ -49,7 +49,7 @@ public class ItemManutencao implements java.io.Serializable {
 		this.manutencao = manutencao;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "codpecaservico", nullable = false)
 	public PecaServico getPecaServico() {
 		return this.pecaServico;
@@ -60,7 +60,7 @@ public class ItemManutencao implements java.io.Serializable {
 	}
 
 	@Column(name = "valorunitario")
-	public Double valorUnitario() {
+	public Double getValorUnitario() {
 		return this.valorUnitario;
 	}
 
