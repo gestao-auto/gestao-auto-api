@@ -21,6 +21,7 @@ public class Usuario implements java.io.Serializable {
 	private Integer codigo;
 	private String email;
 	private String senha;
+	private String salt;
 	private String tokenRecuperarSenha;
 	private Date dataAceiteTermoUso;
 	private byte[] foto;
@@ -40,7 +41,7 @@ public class Usuario implements java.io.Serializable {
 		this.codigo = codusuario;
 	}
 
-	@Column(name = "email", length = 200)
+	@Column(unique = true, name = "email", length = 200)
 	public String getEmail() {
 		return this.email;
 	}
@@ -49,7 +50,7 @@ public class Usuario implements java.io.Serializable {
 		this.email = email;
 	}
 
-	@Column(name = "senha", length = 45)
+	@Column(name = "senha", length = 100)
 	public String getSenha() {
 		return this.senha;
 	}
@@ -84,5 +85,14 @@ public class Usuario implements java.io.Serializable {
 
 	public void setFoto(byte[] foto) {
 		this.foto = foto;
+	}
+	
+	@Column(name = "salt", length = 64)
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 }

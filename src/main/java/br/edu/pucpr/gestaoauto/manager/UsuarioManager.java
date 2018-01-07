@@ -1,5 +1,7 @@
 package br.edu.pucpr.gestaoauto.manager;
 
+import java.security.NoSuchAlgorithmException;
+
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -8,6 +10,8 @@ import br.edu.pucpr.gestaoauto.api.dto.usuario.UsuarioCompletoDTO;
 import br.edu.pucpr.gestaoauto.api.dto.usuario.UsuarioDTO;
 import br.edu.pucpr.gestaoauto.dao.usuario.UsuarioDAO;
 import br.edu.pucpr.gestaoauto.model.usuario.Usuario;
+import br.edu.pucpr.gestaoauto.seguranca.REQUEST_Autenticacao;
+import br.edu.pucpr.gestaoauto.seguranca.util.SegurancaUtil;
 
 @Stateless
 @LocalBean
@@ -17,13 +21,15 @@ public class UsuarioManager implements Manager<Integer, Usuario>  {
 	UsuarioDAO dao;
 
 	@Override
-	public Usuario save(Usuario usuario) {
+	public Usuario save(Usuario usuario) throws NoSuchAlgorithmException {
+		this.implementarSeguranca(usuario);
 		return dao.save(usuario);
 	}
 
 	@Override
-	public Usuario update(Usuario entity) {
-		return dao.update(entity);
+	public Usuario update(Usuario usuario) throws NoSuchAlgorithmException {
+		this.implementarSeguranca(usuario);
+		return dao.update(usuario);
 	}
 
 	@Override
@@ -67,5 +73,21 @@ public class UsuarioManager implements Manager<Integer, Usuario>  {
 				//XXX:Nao retornar a senha do usuario
 				.setSenha("")
 				;
+	}
+	
+	public Usuario validaAcesso(REQUEST_Autenticacao credenciais) throws NoSuchAlgorithmException {
+		Usuario usuario = dao.getByLogin(credenciais.getUsuario());
+		if (usuario != null && validarAcesso(credenciais, usuario))
+			return usuario;
+		return null;
+	}
+
+	private boolean validarAcesso(REQUEST_Autenticacao credenciais, Usuario usuario) throws NoSuchAlgorithmException {
+		return usuario.getSenha().equals(SegurancaUtil.gerarSaltedPassword(credenciais.getSenha(), usuario.getSalt()));
+	}
+	
+	private void implementarSeguranca(Usuario usuario) throws NoSuchAlgorithmException {
+		usuario.setSalt(SegurancaUtil.getNovoSalt());
+		usuario.setSenha(SegurancaUtil.gerarSaltedPassword(usuario.getSenha(), usuario.getSalt()));
 	}
 }

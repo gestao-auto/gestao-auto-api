@@ -20,7 +20,6 @@ public class ManutencaoDTO {
 	private String motivo;
 	private List<ItemManutencaoDTO> itemManutencaoList;
 
-
 	public Integer getCodigo() {
 		return codigo;
 	}
