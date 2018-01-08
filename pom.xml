@@ -18,7 +18,7 @@
 		<hibernate.version>5.2.12.Final</hibernate.version>
 		
 		<!-- Driver MySQL -->
-		<mysql.connector.version>5.1.45</mysql.connector.version>
+		<mysql.connector.version>5.1.35</mysql.connector.version>
 		
 		<ejb.api.version>3.0</ejb.api.version>
 		<jee.version>7.0</jee.version>
