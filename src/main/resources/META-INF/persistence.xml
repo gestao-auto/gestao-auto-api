@@ -5,9 +5,9 @@
         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
         http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
         version="2.1">
-<persistence-unit name="gestaoAuto" transaction-type="JTA">
+<persistence-unit name="GestaoAutoDS" transaction-type="JTA">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <jta-data-source>java:/jdbc/gestaoAutoDS</jta-data-source>
+    <jta-data-source>java:/jdbc/GestaoAutoDS</jta-data-source>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties>
         <!--property name="eclipselink.logging.level" value="FINEST"/> <property
@@ -23,8 +23,8 @@
         <property name="hibernate.connection.autoReconnectForPools" value="true" />
         <property name="hibernate.connection.autoReconnect" value="true" />
         <property name="hibernate.generate_statistics" value="true" />
-        <property name="hibernate.format_sql" value="false" />
-        <property name="hibernate.show_sql" value="false" />
+        <property name="hibernate.format_sql" value="true" />
+        <property name="hibernate.show_sql" value="true" />
 
         <property name="hibernate.cache.use_second_level_cache" value="false" />
         <property name="hibernate.cache.use_query_cache" value="false" />

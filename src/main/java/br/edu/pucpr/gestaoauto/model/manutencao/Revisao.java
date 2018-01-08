@@ -11,7 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import br.edu.pucpr.gestaoauto.model.revisao.PacoteRevisao;
+import br.edu.pucpr.gestaoauto.model.revisao.ModeloRevisao;
 
 @Entity
 @DiscriminatorValue(value = "REVISAO")
@@ -19,7 +19,7 @@ public class Revisao extends Manutencao {
 
 	private LocalDate dataPrevista;
 	private Integer odometroPrevisto;
-	private PacoteRevisao pacote;
+	private ModeloRevisao modeloRevisao;
 	private Status status;
 
 	@Column(name = "datprevista")
@@ -40,14 +40,14 @@ public class Revisao extends Manutencao {
 		this.odometroPrevisto = odometroPrevisto;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "codpacrevisao")
-	public PacoteRevisao getPacote() {
-		return pacote;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "codmodelorevisao")
+	public ModeloRevisao getModeloRevisao() {
+		return modeloRevisao;
 	}
 
-	public void setPacote(PacoteRevisao pacote) {
-		this.pacote = pacote;
+	public void setModeloRevisao(ModeloRevisao modeloRevisao) {
+		this.modeloRevisao = modeloRevisao;
 	}
 
 	@Enumerated(EnumType.STRING)

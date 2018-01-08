@@ -80,7 +80,7 @@ public class ModeloRevisao implements java.io.Serializable {
 		this.odometro = odometro;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "revisao")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "revisao")
 	public List<ItemRevisao> getItemRevisaoList() {
 		return itemRevisaoList;
 	}

@@ -27,7 +27,7 @@ public class ItemManutencaoManager implements Manager<Integer, ItemManutencao> {
 
 	@Override
 	public ItemManutencao update(ItemManutencao entity) {
-		return dao.save(entity);
+		return dao.update(entity);
 	}
 
 	@Override
@@ -39,6 +39,12 @@ public class ItemManutencaoManager implements Manager<Integer, ItemManutencao> {
 	@Override
 	public ItemManutencao getById(Integer id) {
 		return dao.getById(id);
+	}
+
+	public void deleteAll(List<ItemManutencao> list) {
+		for (ItemManutencao itemManutencao : list) {
+			this.delete(itemManutencao.getCodigo());
+		}
 	}
 
 	public List<ItemManutencao> saveAll(List<ItemManutencao> itemManutencaoList) {
@@ -74,7 +80,7 @@ public class ItemManutencaoManager implements Manager<Integer, ItemManutencao> {
 	}
 
 	private ItemManutencao convertItemManutencaoListToDTO(ItemManutencaoDTO dto) {
-		ItemManutencao itemManutencao = new ItemManutencao();
+		ItemManutencao itemManutencao = (dto.getCodigo() != null ? this.getById(dto.getCodigo()) : new ItemManutencao());
 		itemManutencao.setPecaServico(pecaServicoManager.getById(dto.getPecaServico().getCodigo()));
 		itemManutencao.setQuantidade(dto.getQuantidade());
 		itemManutencao.setValorUnitario(dto.getValorUnitario());

@@ -30,26 +30,6 @@ public class ManutencaoRest extends AbstractRest {
 	@Inject ManutencaoManager manutencaoManager;
 	@Inject ItemManutencaoManager itemManutencaoManager;
 	
-	@GET
-	@Path("/lista/porVeiculo/{codigo}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getListManutencaoPorVeiculo(@PathParam("codigo") Integer codigoVeiculo) {
-		try {
-			List<ManutencaoDTO> manutencaoList = manutencaoManager.convertListManutencaoToDTO(manutencaoManager.getListManutencaoPorVeiculo(codigoVeiculo));
-			return Response.ok(manutencaoList).build();
-		} catch (Exception e) {
-			log.error(e.toString());
-			return super.serverError(e);
-		}
-	}
-
-	@GET
-	@Path("/revisao/{codigo}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getRevisaoComCalculoValorMedioItens(@PathParam("codigo") Integer codigoManutencao) {
-		return null;
-	}
-
 	@POST
 	@Path("/create")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -66,13 +46,49 @@ public class ManutencaoRest extends AbstractRest {
 
 	@PUT
 	@Path("/update")
-	public Response updateManutencao(ManutencaoDTO manutencaoDTO) {
-		return null;
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateManutencao(ManutencaoDTO dto) {
+		try {
+			Manutencao manutencao = manutencaoManager.update(manutencaoManager.convertManutencaoDTOToEntity(dto));
+			return Response.ok(manutencaoManager.convertManutencaoToDTO(manutencaoManager.getById(manutencao.getCodigo()))).build();
+		} catch (Exception e) {
+			log.error(e.toString());
+			return super.serverError(e);
+		}
 	}
 
 	@DELETE
 	@Path("/delete/{codigo}")
 	public Response deleteManutencao(@PathParam("codigo") Integer codigoManutencao) {
+		try {
+			manutencaoManager.delete(codigoManutencao);
+			return Response.ok().build();
+		} catch (Exception e) {
+			log.error(e.toString());
+			return super.serverError(e);
+		}
+	}
+
+	@GET
+	@Path("/lista/porVeiculo/{codigo}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getListManutencaoPorVeiculo(@PathParam("codigo") Integer codigoVeiculo) {
+		try {
+			List<ManutencaoDTO> manutencaoList = manutencaoManager
+					.convertListManutencaoToDTO(manutencaoManager.getListManutencaoPorVeiculo(codigoVeiculo));
+			return Response.ok(manutencaoList).build();
+		} catch (Exception e) {
+			log.error(e.toString());
+			return super.serverError(e);
+		}
+	}
+
+	@GET
+	@Path("/revisao/{codigo}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getRevisaoComCalculoValorMedioItens(@PathParam("codigo") Integer codigoManutencao) {
 		return null;
 	}
+
 }
