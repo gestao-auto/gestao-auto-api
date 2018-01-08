@@ -3,12 +3,18 @@ package br.edu.pucpr.gestaoauto.model.pessoaJuridica;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tippesjuridica", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "pessoa_juridica", catalog = "gestao_auto")
 public abstract class PessoaJuridica implements java.io.Serializable {
 
@@ -23,8 +29,7 @@ public abstract class PessoaJuridica implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "codigo", unique = true, nullable = false)
-
+	@Column(name = "codpesjuridica", unique = true, nullable = false)
 	public Integer getCodigo() {
 		return this.codigo;
 	}
@@ -51,7 +56,7 @@ public abstract class PessoaJuridica implements java.io.Serializable {
 		this.razaoSocial = razaoSocial;
 	}
 
-	@Column(name = "nomefantasia", length = 200)
+	@Column(name = "nomfantasia", length = 200)
 	public String getNomeFantasia() {
 		return this.nomeFantasia;
 	}

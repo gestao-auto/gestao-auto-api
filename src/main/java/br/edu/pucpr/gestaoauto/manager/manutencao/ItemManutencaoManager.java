@@ -65,4 +65,20 @@ public class ItemManutencaoManager implements Manager<Integer, ItemManutencao> {
 		return dto;
 	}
 
+	public List<ItemManutencao> convertListItemManutencaoDTOToEntity(List<ItemManutencaoDTO> itemManutencaoDTOList) {
+		List<ItemManutencao> itemList = new ArrayList<>();
+		for (ItemManutencaoDTO dto : itemManutencaoDTOList) {
+			itemList.add(this.convertItemManutencaoListToDTO(dto));
+		}
+		return itemList;
+	}
+
+	private ItemManutencao convertItemManutencaoListToDTO(ItemManutencaoDTO dto) {
+		ItemManutencao itemManutencao = new ItemManutencao();
+		itemManutencao.setPecaServico(pecaServicoManager.getById(dto.getPecaServico().getCodigo()));
+		itemManutencao.setQuantidade(dto.getQuantidade());
+		itemManutencao.setValorUnitario(dto.getValorUnitario());
+		itemManutencao.setObservacao(dto.getObservacao());
+		return itemManutencao;
+	}
 }

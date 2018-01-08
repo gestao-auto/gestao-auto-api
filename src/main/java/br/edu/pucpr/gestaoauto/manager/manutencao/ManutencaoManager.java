@@ -24,6 +24,7 @@ import br.edu.pucpr.gestaoauto.model.manutencao.Reparo;
 import br.edu.pucpr.gestaoauto.model.manutencao.Revisao;
 import br.edu.pucpr.gestaoauto.model.manutencao.Sinistro;
 import br.edu.pucpr.gestaoauto.model.manutencao.Status;
+import br.edu.pucpr.gestaoauto.model.pessoaJuridica.Reparador;
 import br.edu.pucpr.gestaoauto.model.revisao.ItemRevisao;
 import br.edu.pucpr.gestaoauto.model.revisao.ModeloRevisao;
 import br.edu.pucpr.gestaoauto.model.revisao.PacoteRevisao;
@@ -40,8 +41,15 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 	@Inject PessoaJuridicaManager pessoaJuridicaManager;
 	@Inject ItemManutencaoManager itemManutencaoManager;
 
-	public Manutencao save(Manutencao entity) {
-		return dao.save(entity);
+	@Override
+	public Manutencao save(Manutencao manutencao) throws Exception {
+		veiculoManager.updateOdometro(manutencao.getVeiculo().getCodigo(), manutencao.getOdometro());
+		dao.save(manutencao);
+		for (ItemManutencao item : manutencao.getItemManutencao()) {
+			item.setManutencao(manutencao);
+			itemManutencaoManager.save(item);
+		}
+		return manutencao;
 	}
 
 	@Override
@@ -143,7 +151,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setOdometro(revisao.getOdometro());
 		dto.setOdometroPrevisto(revisao.getOdometroPrevisto());
 		if (revisao.getReparador() != null) {
-			dto.setReparador(pessoaJuridicaManager.convertPessoaJuridicaToDTO(revisao.getReparador()));
+			dto.setCodigoReparador(revisao.getReparador().getCodigo());
 		}
 		dto.setStatus(revisao.getStatus().getNome());
 		dto.setItemManutencaoList(itemManutencaoManager.convertItemManutencaoListToDTO(revisao.getItemManutencao()));
@@ -159,7 +167,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setData(reparo.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		dto.setOdometro(reparo.getOdometro());
 		dto.setMotivo(reparo.getMotivo());
-		dto.setReparador(pessoaJuridicaManager.convertPessoaJuridicaToDTO(reparo.getReparador()));
+		dto.setCodigoReparador(reparo.getReparador().getCodigo());
 		dto.setItemManutencaoList(itemManutencaoManager.convertItemManutencaoListToDTO(reparo.getItemManutencao()));
 		return dto;
 	}
@@ -172,9 +180,51 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setCodigoVeiculo(sinistro.getVeiculo().getCodigo());
 		dto.setData(sinistro.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		dto.setOdometro(sinistro.getOdometro());
-		dto.setReparador(pessoaJuridicaManager.convertPessoaJuridicaToDTO(sinistro.getReparador()));
+		dto.setCodigoReparador(sinistro.getReparador().getCodigo());
 		// dto.setSeguradora(pessoaJuridicaManager.convertPessoaJuridicaToDTO(sinistro.getSeguradora()));
 		dto.setItemManutencaoList(itemManutencaoManager.convertItemManutencaoListToDTO(sinistro.getItemManutencao()));
 		return dto;
+	}
+
+	public Manutencao convertManutencaoDTOToEntity(ManutencaoDTO dto) {
+		if (dto.getTipoManutencao().equals(TipoManutencaoDTO.REPARO)) {
+			Reparo reparo = new Reparo();
+			reparo.setDescricao("MANUT");
+			reparo.setVeiculo(veiculoManager.getById(dto.getCodigoVeiculo()));
+			reparo.setData(LocalDate.parse(dto.getData(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+			reparo.setMotivo(dto.getMotivo());
+			reparo.setOdometro(dto.getOdometro());
+			reparo.setReparador((Reparador) pessoaJuridicaManager.getById(dto.getCodigoReparador()));
+			reparo.setItemManutencao(itemManutencaoManager.convertListItemManutencaoDTOToEntity(dto.getItemManutencaoList()));
+			return reparo;
+		} else if (dto.getTipoManutencao().equals(TipoManutencaoDTO.SINISTRO)) {
+			Sinistro sinistro = new Sinistro();
+			sinistro.setDescricao("SINIS");
+			sinistro.setVeiculo(veiculoManager.getById(dto.getCodigoVeiculo()));
+			sinistro.setData(LocalDate.parse(dto.getData(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+			sinistro.setOdometro(dto.getOdometro());
+			sinistro.setReparador((Reparador) pessoaJuridicaManager.getById(dto.getCodigoReparador()));
+			// sinistro.setSeguradora((Seguradora) pessoaJuridicaManager.getById(dto.getSeguradora().getCodigo()));
+			sinistro.setItemManutencao(itemManutencaoManager.convertListItemManutencaoDTOToEntity(dto.getItemManutencaoList()));
+			return sinistro;
+		} else {
+			Revisao revisao = (Revisao) this.getById(dto.getCodigo());
+			revisao.setData(LocalDate.parse(dto.getData(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+			revisao.setOdometro(dto.getOdometro());
+			revisao.setReparador((Reparador) pessoaJuridicaManager.getById(dto.getCodigoReparador()));
+			revisao.setStatus(Status.valueOf(dto.getStatus()));
+			revisao.setItemManutencao(itemManutencaoManager.convertListItemManutencaoDTOToEntity(dto.getItemManutencaoList()));
+			return revisao;
+		}
+	}
+
+	public ManutencaoDTO convertManutencaoToDTO(Manutencao manutencao) {
+		if (manutencao instanceof Reparo) {
+			return this.convertReparoToDTO((Reparo) manutencao);
+		} else if (manutencao instanceof Sinistro) {
+			return this.convertSinistroToDTO((Sinistro) manutencao);
+		} else {
+			return this.convertRevisaoToDTO((Revisao) manutencao);
+		}
 	}
 }

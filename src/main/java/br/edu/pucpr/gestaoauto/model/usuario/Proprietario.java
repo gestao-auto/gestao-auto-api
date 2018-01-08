@@ -43,7 +43,7 @@ public class Proprietario implements java.io.Serializable {
 		this.codigo = codigo;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "codusuario", nullable = false)
 	public Usuario getUsuario() {
 		return this.usuario;

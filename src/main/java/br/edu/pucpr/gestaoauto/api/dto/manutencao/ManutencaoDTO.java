@@ -2,15 +2,13 @@ package br.edu.pucpr.gestaoauto.api.dto.manutencao;
 
 import java.util.List;
 
-import br.edu.pucpr.gestaoauto.api.dto.pessoaJuridica.PessoaJuridicaDTO;
-
 public class ManutencaoDTO {
 
 	private TipoManutencaoDTO tipoManutencao;
 	private Integer codigo;
 	private String descricao;
-	private PessoaJuridicaDTO reparador;
-	private PessoaJuridicaDTO seguradora;
+	private Integer codigoReparador;
+	private Integer codigoSeguradora;
 	private Integer codigoVeiculo;
 	private Integer odometro;
 	private String data;
@@ -36,20 +34,20 @@ public class ManutencaoDTO {
 		this.descricao = descricao;
 	}
 
-	public PessoaJuridicaDTO getReparador() {
-		return reparador;
+	public Integer getCodigoReparador() {
+		return codigoReparador;
 	}
 
-	public void setReparador(PessoaJuridicaDTO reparador) {
-		this.reparador = reparador;
+	public void setCodigoReparador(Integer codigoReparador) {
+		this.codigoReparador = codigoReparador;
 	}
 
-	public PessoaJuridicaDTO getSeguradora() {
-		return seguradora;
+	public Integer getCodigoSeguradora() {
+		return codigoSeguradora;
 	}
 
-	public void setSeguradora(PessoaJuridicaDTO seguradora) {
-		this.seguradora = seguradora;
+	public void setCodigoSeguradora(Integer codigoSeguradora) {
+		this.codigoSeguradora = codigoSeguradora;
 	}
 
 	public Integer getCodigoVeiculo() {
