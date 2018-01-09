@@ -12,6 +12,7 @@ import br.edu.pucpr.gestaoauto.api.dto.manutencao.ItemManutencaoDTO;
 import br.edu.pucpr.gestaoauto.dao.manutencao.ItemManutencaoDAO;
 import br.edu.pucpr.gestaoauto.manager.Manager;
 import br.edu.pucpr.gestaoauto.model.manutencao.ItemManutencao;
+import br.edu.pucpr.gestaoauto.model.manutencao.Manutencao;
 
 @Stateless
 @LocalBean
@@ -67,20 +68,22 @@ public class ItemManutencaoManager implements Manager<Integer, ItemManutencao> {
 		dto.setCodigo(itemManutencao.getCodigo());
 		dto.setQuantidade(itemManutencao.getQuantidade());
 		dto.setValorUnitario(itemManutencao.getValorUnitario());
+		dto.setObservacao(itemManutencao.getObservacao());
 		dto.setPecaServico(pecaServicoManager.convertPecaServicoToDTO(itemManutencao.getPecaServico()));
 		return dto;
 	}
 
-	public List<ItemManutencao> convertListItemManutencaoDTOToEntity(List<ItemManutencaoDTO> itemManutencaoDTOList) {
+	public List<ItemManutencao> convertListItemManutencaoDTOToEntity(List<ItemManutencaoDTO> itemManutencaoDTOList, Manutencao manutencao) {
 		List<ItemManutencao> itemList = new ArrayList<>();
 		for (ItemManutencaoDTO dto : itemManutencaoDTOList) {
-			itemList.add(this.convertItemManutencaoListToDTO(dto));
+			itemList.add(this.converItemManutencaoDTOToEntity(dto, manutencao));
 		}
 		return itemList;
 	}
 
-	private ItemManutencao convertItemManutencaoListToDTO(ItemManutencaoDTO dto) {
+	private ItemManutencao converItemManutencaoDTOToEntity(ItemManutencaoDTO dto, Manutencao manutencao) {
 		ItemManutencao itemManutencao = (dto.getCodigo() != null ? this.getById(dto.getCodigo()) : new ItemManutencao());
+		itemManutencao.setManutencao(manutencao);
 		itemManutencao.setPecaServico(pecaServicoManager.getById(dto.getPecaServico().getCodigo()));
 		itemManutencao.setQuantidade(dto.getQuantidade());
 		itemManutencao.setValorUnitario(dto.getValorUnitario());

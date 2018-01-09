@@ -75,9 +75,12 @@ public class ManutencaoRest extends AbstractRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getListManutencaoPorVeiculo(@PathParam("codigo") Integer codigoVeiculo) {
 		try {
-			List<ManutencaoDTO> manutencaoList = manutencaoManager
-					.convertListManutencaoToDTO(manutencaoManager.getListManutencaoPorVeiculo(codigoVeiculo));
-			return Response.ok(manutencaoList).build();
+			List<Manutencao> manutencaoList = manutencaoManager.getListManutencaoPorVeiculo(codigoVeiculo);
+			if (manutencaoList.isEmpty()) {
+				manutencaoManager.carregarPacoteRevisaoParaManutencao(codigoVeiculo);
+				manutencaoList.addAll(manutencaoManager.getListManutencaoPorVeiculo(codigoVeiculo));
+			}
+			return Response.ok(manutencaoManager.convertListManutencaoToDTO(manutencaoManager.getListManutencaoPorVeiculo(codigoVeiculo))).build();
 		} catch (Exception e) {
 			log.error(e.toString());
 			return super.serverError(e);
@@ -85,10 +88,15 @@ public class ManutencaoRest extends AbstractRest {
 	}
 
 	@GET
-	@Path("/revisao/{codigo}")
+	@Path("/{codigo}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getRevisaoComCalculoValorMedioItens(@PathParam("codigo") Integer codigoManutencao) {
-		return null;
+	public Response getManutencao(@PathParam("codigo") Integer codigoManutencao) {
+		try {
+			return Response.ok(manutencaoManager.convertManutencaoToDTO(manutencaoManager.getById(codigoManutencao))).build();
+		} catch (Exception e) {
+			log.error(e.toString());
+			return super.serverError(e);
+		}
 	}
 
 }
