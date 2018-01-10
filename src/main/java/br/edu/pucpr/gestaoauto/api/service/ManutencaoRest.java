@@ -100,4 +100,16 @@ public class ManutencaoRest extends AbstractRest {
 			return super.serverError(e);
 		}
 	}
+
+	@DELETE
+	@Path("/delete/item/{codigo}")
+	public Response deleteItemManuencao(@PathParam("codigo") Integer codigoItemManutencao) {
+		try {
+			itemManutencaoManager.delete(codigoItemManutencao);
+			return Response.ok().build();
+		} catch (Exception e) {
+			log.error(e.toString());
+			return super.serverError(e);
+		}
+	}
 }
