@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoAlteracaoDTO;
 import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoCompletoDTO;
 import br.edu.pucpr.gestaoauto.api.service.AbstractRest;
-import br.edu.pucpr.gestaoauto.manager.UsuarioManager;
+import br.edu.pucpr.gestaoauto.manager.usuario.UsuarioManager;
 import br.edu.pucpr.gestaoauto.manager.veiculo.VeiculoManager;
 import br.edu.pucpr.gestaoauto.model.usuario.Usuario;
 

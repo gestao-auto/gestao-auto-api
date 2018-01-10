@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import br.edu.pucpr.gestaoauto.api.Message;
 import br.edu.pucpr.gestaoauto.api.dto.usuario.UsuarioCompletoDTO;
-import br.edu.pucpr.gestaoauto.manager.UsuarioManager;
+import br.edu.pucpr.gestaoauto.manager.usuario.UsuarioManager;
 import br.edu.pucpr.gestaoauto.model.usuario.Usuario;
 import br.edu.pucpr.gestaoauto.seguranca.REQUEST_Autenticacao;
 import br.edu.pucpr.gestaoauto.seguranca.TokenHandler;

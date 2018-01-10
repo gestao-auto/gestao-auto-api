@@ -2,7 +2,7 @@ package br.edu.pucpr.gestaoauto.api.service;
 
 import br.edu.pucpr.gestaoauto.api.Message;
 import br.edu.pucpr.gestaoauto.api.dto.usuario.UsuarioCompletoDTO;
-import br.edu.pucpr.gestaoauto.manager.UsuarioManager;
+import br.edu.pucpr.gestaoauto.manager.usuario.UsuarioManager;
 
 import javax.inject.Inject;
 import javax.validation.ValidationException;

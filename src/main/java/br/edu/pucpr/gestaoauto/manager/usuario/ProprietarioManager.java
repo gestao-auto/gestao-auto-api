@@ -1,8 +1,9 @@
-package br.edu.pucpr.gestaoauto.manager;
+package br.edu.pucpr.gestaoauto.manager.usuario;
 
 import br.edu.pucpr.gestaoauto.api.dto.usuario.ProprietarioDTO;
 import br.edu.pucpr.gestaoauto.dao.usuario.ProprietarioDAO;
 import br.edu.pucpr.gestaoauto.dao.usuario.UsuarioDAO;
+import br.edu.pucpr.gestaoauto.manager.Manager;
 import br.edu.pucpr.gestaoauto.model.usuario.Proprietario;
 
 import javax.ejb.EJB;

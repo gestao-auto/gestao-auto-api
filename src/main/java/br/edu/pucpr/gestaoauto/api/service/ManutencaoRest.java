@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import br.edu.pucpr.gestaoauto.api.dto.manutencao.ManutencaoDTO;
 import br.edu.pucpr.gestaoauto.manager.manutencao.ItemManutencaoManager;
 import br.edu.pucpr.gestaoauto.manager.manutencao.ManutencaoManager;
+import br.edu.pucpr.gestaoauto.manager.usuario.PreferenciaUsuarioManager;
 import br.edu.pucpr.gestaoauto.model.manutencao.Manutencao;
 
 @Path("/manutencao")
@@ -29,6 +30,7 @@ public class ManutencaoRest extends AbstractRest {
 	
 	@Inject ManutencaoManager manutencaoManager;
 	@Inject ItemManutencaoManager itemManutencaoManager;
+	@Inject PreferenciaUsuarioManager manager;
 	
 	@POST
 	@Path("/create")
@@ -98,5 +100,4 @@ public class ManutencaoRest extends AbstractRest {
 			return super.serverError(e);
 		}
 	}
-
 }

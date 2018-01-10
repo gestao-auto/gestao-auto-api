@@ -1,4 +1,4 @@
-package br.edu.pucpr.gestaoauto.manager;
+package br.edu.pucpr.gestaoauto.manager.usuario;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import br.edu.pucpr.gestaoauto.api.dto.usuario.UsuarioCompletoDTO;
 import br.edu.pucpr.gestaoauto.api.dto.usuario.UsuarioDTO;
 import br.edu.pucpr.gestaoauto.dao.usuario.UsuarioDAO;
+import br.edu.pucpr.gestaoauto.manager.Manager;
 import br.edu.pucpr.gestaoauto.model.usuario.Usuario;
 import br.edu.pucpr.gestaoauto.seguranca.REQUEST_Autenticacao;
 import br.edu.pucpr.gestaoauto.seguranca.util.SegurancaUtil;

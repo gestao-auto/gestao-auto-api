@@ -8,6 +8,7 @@ import javax.ws.rs.ApplicationPath;
 import br.edu.pucpr.gestaoauto.api.service.ManutencaoRest;
 import br.edu.pucpr.gestaoauto.api.service.PecaServicoRest;
 import br.edu.pucpr.gestaoauto.api.service.PessoaJuridicaRest;
+import br.edu.pucpr.gestaoauto.api.service.PreferenciaUsuarioRest;
 import br.edu.pucpr.gestaoauto.api.service.UsuarioRest;
 import br.edu.pucpr.gestaoauto.api.service.veiculo.MarcaRest;
 import br.edu.pucpr.gestaoauto.api.service.veiculo.ModeloRest;
@@ -29,7 +30,7 @@ public class ApplicationConfig extends javax.ws.rs.core.Application {
 		classes.add(PessoaJuridicaRest.class);
 		classes.add(UsuarioRest.class);
 		classes.add(VeiculoRest.class);
-		
+		classes.add(PreferenciaUsuarioRest.class);
 		//Filtros 
 		classes.add(JWTRequestFilter.class);
 		return classes;

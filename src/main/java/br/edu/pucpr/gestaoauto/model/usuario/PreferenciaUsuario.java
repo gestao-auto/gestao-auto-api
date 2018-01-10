@@ -2,7 +2,8 @@ package br.edu.pucpr.gestaoauto.model.usuario;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,22 +13,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "preferencias_usuario", catalog = "gestao_auto")
-public class PreferenciasUsuario implements java.io.Serializable {
+@Table(name = "preferencia_usuario", catalog = "gestao_auto")
+public class PreferenciaUsuario implements Serializable {
 
 	private static final long serialVersionUID = 3935151070976116052L;
 
 	private Integer codigo;
 	private Usuario usuario;
-	private Date horarioNotificacao;
+	private LocalTime horarioNotificacao;
 	private Integer diasAntecedenciaNotificacaoRevisao;
 	private Integer hodometroAntecedenciaNotificacaoRevisao;
 
-	public PreferenciasUsuario() {
+	public PreferenciaUsuario() {
 	}
 
 	@Id
@@ -41,7 +40,7 @@ public class PreferenciasUsuario implements java.io.Serializable {
 		this.codigo = codigo;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "codusuario", nullable = false)
 	public Usuario getUsuario() {
 		return this.usuario;
@@ -51,13 +50,12 @@ public class PreferenciasUsuario implements java.io.Serializable {
 		this.usuario = usuario;
 	}
 
-	@Temporal(TemporalType.TIME)
 	@Column(name = "horarionoficacao", length = 8)
-	public Date getHorarioNoficacao() {
+	public LocalTime getHorarioNoficacao() {
 		return this.horarioNotificacao;
 	}
 
-	public void setHorarioNoficacao(Date horarioNotificacao) {
+	public void setHorarioNoficacao(LocalTime horarioNotificacao) {
 		this.horarioNotificacao = horarioNotificacao;
 	}
 
@@ -78,5 +76,4 @@ public class PreferenciasUsuario implements java.io.Serializable {
 	public void setHodometroAntecedenciaNotificacaoRevisao(Integer hodometroAntecedenciaNotificacaoRevisao) {
 		this.hodometroAntecedenciaNotificacaoRevisao = hodometroAntecedenciaNotificacaoRevisao;
 	}
-
 }
