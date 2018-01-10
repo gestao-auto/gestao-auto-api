@@ -13,9 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "preferencia_usuario", catalog = "gestao_auto")
+@Table(name = "preferencia_usuario", catalog = "gestao_auto", uniqueConstraints = @UniqueConstraint(name = "UK_PREF_USU", columnNames = {"codusuario" }))
 public class PreferenciaUsuario implements Serializable {
 
 	private static final long serialVersionUID = 3935151070976116052L;

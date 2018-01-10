@@ -45,7 +45,7 @@ public class PreferenciaUsuarioManager implements Manager<Integer, PreferenciaUs
 		PreferenciaUsuarioDTO dto = new PreferenciaUsuarioDTO();
 		dto.setCodigo(preferenciaUsuario.getCodigo());
 		dto.setCodigoUsuario(preferenciaUsuario.getUsuario().getCodigo());
-		dto.setHorarioNotificacao(preferenciaUsuario.getHorarioNoficacao().format(DateTimeFormatter.ofPattern("hh:mm:ss")));
+		dto.setHorarioNotificacao(preferenciaUsuario.getHorarioNoficacao().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 		dto.setDiasAntecedenciaNotificacaoRevisao(preferenciaUsuario.getDiasAntecedenciaNotificacaoRevisao());
 		dto.setHodometroAntecedenciaNotificacaoRevisao(preferenciaUsuario.getHodometroAntecedenciaNotificacaoRevisao());
 		return dto;
@@ -54,7 +54,7 @@ public class PreferenciaUsuarioManager implements Manager<Integer, PreferenciaUs
 	public PreferenciaUsuario convertPreferenciaUsuarioDTOToEntity(PreferenciaUsuarioDTO dto) throws Exception {
 		PreferenciaUsuario preferenciaUsuario = (dto.getCodigo() != null ? this.getById(dto.getCodigo()) : new PreferenciaUsuario());
 		preferenciaUsuario.setUsuario(usuarioManager.getById(dto.getCodigoUsuario()));
-		preferenciaUsuario.setHorarioNoficacao(LocalTime.parse(dto.getHorarioNotificacao(), DateTimeFormatter.ofPattern("hh:mm:ss")));
+		preferenciaUsuario.setHorarioNoficacao(LocalTime.parse(dto.getHorarioNotificacao(), DateTimeFormatter.ofPattern("HH:mm:ss")));
 		preferenciaUsuario.setDiasAntecedenciaNotificacaoRevisao(dto.getDiasAntecedenciaNotificacaoRevisao());
 		preferenciaUsuario.setHodometroAntecedenciaNotificacaoRevisao(dto.getHodometroAntecedenciaNotificacaoRevisao());
 		return preferenciaUsuario;
