@@ -33,7 +33,7 @@ public class ManutencaoRest extends AbstractRest {
 	@Inject PreferenciaUsuarioManager manager;
 	
 	@POST
-	@Path("/create")
+	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createManutencao(ManutencaoDTO dto) {
@@ -47,7 +47,7 @@ public class ManutencaoRest extends AbstractRest {
 	}
 
 	@PUT
-	@Path("/update")
+	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateManutencao(ManutencaoDTO dto) {
@@ -61,7 +61,7 @@ public class ManutencaoRest extends AbstractRest {
 	}
 
 	@DELETE
-	@Path("/delete/{codigo}")
+	@Path("/{codigo}")
 	public Response deleteManutencao(@PathParam("codigo") Integer codigoManutencao) {
 		try {
 			manutencaoManager.delete(codigoManutencao);
@@ -73,7 +73,7 @@ public class ManutencaoRest extends AbstractRest {
 	}
 
 	@GET
-	@Path("/lista/porVeiculo/{codigo}")
+	@Path("/porVeiculo/{codigo}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getListManutencaoPorVeiculo(@PathParam("codigo") Integer codigoVeiculo) {
 		try {
@@ -102,7 +102,7 @@ public class ManutencaoRest extends AbstractRest {
 	}
 
 	@DELETE
-	@Path("/delete/item/{codigo}")
+	@Path("/item/{codigo}")
 	public Response deleteItemManuencao(@PathParam("codigo") Integer codigoItemManutencao) {
 		try {
 			itemManutencaoManager.delete(codigoItemManutencao);
