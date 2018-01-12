@@ -44,7 +44,6 @@ public class UsuarioManager implements Manager<Integer, Usuario>  {
 	public Usuario update(Usuario usuario) throws NoSuchAlgorithmException {
 		this.criptografarSenha(usuario);
 		dao.update(usuario);
-		perfilManager.createPerfilUsuarioFinal(usuario);
 		return usuario;
 	}
 
@@ -57,6 +56,7 @@ public class UsuarioManager implements Manager<Integer, Usuario>  {
 		}
 		proprietarioManager.delete(proprietarioManager.getByUsuario(id).getCodigo());
 		preferenciaManager.delete(preferenciaManager.getByUsuario(id).getCodigo());
+		perfilManager.delete(perfilManager.getByUsuario(id).getCodigo());
 		dao.delete(dao.getById(id));
 	}
 

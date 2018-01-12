@@ -52,4 +52,8 @@ public class PerfilManager implements Manager<Integer, Perfil> {
 		perfilDAO.save(perfil);
 	}
 
+	public Perfil getByUsuario(Integer id) {
+		return perfilDAO.getByUsuario(id);
+	}
+
 }
