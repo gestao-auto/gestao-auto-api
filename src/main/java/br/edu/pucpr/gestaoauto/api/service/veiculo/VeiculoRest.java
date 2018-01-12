@@ -22,7 +22,6 @@ import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoCompletoDTO;
 import br.edu.pucpr.gestaoauto.api.service.AbstractRest;
 import br.edu.pucpr.gestaoauto.manager.usuario.UsuarioManager;
 import br.edu.pucpr.gestaoauto.manager.veiculo.VeiculoManager;
-import br.edu.pucpr.gestaoauto.model.usuario.Usuario;
 
 @Path("/veiculo")
 public class VeiculoRest extends AbstractRest {
@@ -52,8 +51,7 @@ public class VeiculoRest extends AbstractRest {
 	public Response getListVeiculoPorUsuario(@PathParam("codigo") Integer codigoUsuario) {
         log.info("VeiculoRest -> getListVeiculoPorUsuario");
 		try {
-			Usuario usuario = usuarioManager.getById(codigoUsuario);
-			List<VeiculoCompletoDTO> veiculoList = veiculoManager.convertListToDTO(veiculoManager.getListByUsuario(usuario));
+			List<VeiculoCompletoDTO> veiculoList = veiculoManager.convertListToDTO(veiculoManager.getListByUsuario(codigoUsuario));
 			return Response.ok().entity(veiculoList).build();
 		} catch (Exception e) {
 			log.error(e.toString());

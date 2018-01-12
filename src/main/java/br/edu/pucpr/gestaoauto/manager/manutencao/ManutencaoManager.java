@@ -73,14 +73,20 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dao.delete(manutencao);
 	}
 
+	public void deleteAll(List<Manutencao> manutencaoList) {
+		for (Manutencao manutencao : manutencaoList) {
+			itemManutencaoManager.deleteAll(manutencao.getItemManutencao());
+			dao.delete(manutencao);
+		}
+	}
+
 	@Override
 	public Manutencao getById(Integer id) {
 		return dao.getById(id);
 	}
 
-	public List<Manutencao> getListManutencaoPorVeiculo(Integer codigoVeiculo) throws ObjectNotFoundException {
-		List<Manutencao> manutencaoList = dao.getListManutencaoPorVeiculo(codigoVeiculo);
-		return manutencaoList;
+	public List<Manutencao> getListManutencaoByVeiculo(Integer codigoVeiculo) {
+		return dao.getListManutencaoByVeiculo(codigoVeiculo);
 	}
 
 	public void carregarPacoteRevisaoParaManutencao(Integer codigoVeiculo) throws ObjectNotFoundException {
@@ -134,23 +140,23 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		return null;
 	}
 
-	public List<ManutencaoDTO> convertListManutencaoToDTO(List<Manutencao> manutencaoList) {
+	public List<ManutencaoDTO> convertListToDTO(List<Manutencao> manutencaoList) {
 		List<ManutencaoDTO> dtoList = new ArrayList<>();
 		for (Object manutencao : manutencaoList) {
 			if (manutencao instanceof Revisao) {
-				dtoList.add(this.convertRevisaoToDTO((Revisao) manutencao));
+				dtoList.add(this.convertEntityToDTO((Revisao) manutencao));
 			}
 			if (manutencao instanceof Reparo) {
-				dtoList.add(this.convertReparoToDTO((Reparo) manutencao));
+				dtoList.add(this.convertEntityToDTO((Reparo) manutencao));
 			}
 			if (manutencao instanceof Sinistro) {
-				dtoList.add(this.convertSinistroToDTO((Sinistro) manutencao));
+				dtoList.add(this.convertEntityToDTO((Sinistro) manutencao));
 			}
 		}
 		return dtoList;
 	}
 
-	public ManutencaoDTO convertRevisaoToDTO(Revisao revisao) {
+	public ManutencaoDTO convertEntityToDTO(Revisao revisao) {
 		ManutencaoDTO dto = new ManutencaoDTO();
 		dto.setTipoManutencao(TipoManutencaoDTO.REVISAO);
 		dto.setCodigo(revisao.getCodigo());
@@ -168,7 +174,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		return dto;
 	}
 
-	public ManutencaoDTO convertReparoToDTO(Reparo reparo) {
+	public ManutencaoDTO convertEntityToDTO(Reparo reparo) {
 		ManutencaoDTO dto = new ManutencaoDTO();
 		dto.setTipoManutencao(TipoManutencaoDTO.REPARO);
 		dto.setCodigo(reparo.getCodigo());
@@ -182,7 +188,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		return dto;
 	}
 
-	public ManutencaoDTO convertSinistroToDTO(Sinistro sinistro) {
+	public ManutencaoDTO convertEntityToDTO(Sinistro sinistro) {
 		ManutencaoDTO dto = new ManutencaoDTO();
 		dto.setTipoManutencao(TipoManutencaoDTO.SINISTRO);
 		dto.setCodigo(sinistro.getCodigo());
@@ -196,7 +202,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		return dto;
 	}
 
-	public Manutencao convertManutencaoDTOToEntity(ManutencaoDTO dto) {
+	public Manutencao convertDTOToEntity(ManutencaoDTO dto) {
 		if (dto.getTipoManutencao().equals(TipoManutencaoDTO.REPARO)) {
 			Reparo reparo = (dto.getCodigo() != null ? (Reparo) this.getById(dto.getCodigo()) : new Reparo());
 			reparo.setDescricao("MANUT");
@@ -228,13 +234,13 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		}
 	}
 
-	public ManutencaoDTO convertManutencaoToDTO(Manutencao manutencao) {
+	public ManutencaoDTO convertEntityToDTO(Manutencao manutencao) {
 		if (manutencao instanceof Reparo) {
-			return this.convertReparoToDTO((Reparo) manutencao);
+			return this.convertEntityToDTO((Reparo) manutencao);
 		} else if (manutencao instanceof Sinistro) {
-			return this.convertSinistroToDTO((Sinistro) manutencao);
+			return this.convertEntityToDTO((Sinistro) manutencao);
 		} else {
-			return this.convertRevisaoToDTO((Revisao) manutencao);
+			return this.convertEntityToDTO((Revisao) manutencao);
 		}
 	}
 }

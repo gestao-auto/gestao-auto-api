@@ -15,7 +15,6 @@ import br.edu.pucpr.gestaoauto.dao.usuario.ProprietarioDAO;
 import br.edu.pucpr.gestaoauto.dao.veiculo.VeiculoDAO;
 import br.edu.pucpr.gestaoauto.manager.Manager;
 import br.edu.pucpr.gestaoauto.model.usuario.Proprietario;
-import br.edu.pucpr.gestaoauto.model.usuario.Usuario;
 import br.edu.pucpr.gestaoauto.model.veiculo.Carro;
 import br.edu.pucpr.gestaoauto.model.veiculo.Modelo;
 import br.edu.pucpr.gestaoauto.model.veiculo.Moto;
@@ -52,8 +51,14 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		return veiculoDAO.getById(id);
 	}
 
-	public List<Veiculo> getListByUsuario(Usuario usuario) {
-		return veiculoDAO.getListVeiculoPorUsuario(usuario);
+	public void deleteAll(List<Veiculo> veiculoList) {
+		for (Veiculo veiculo : veiculoList) {
+			this.delete(veiculo.getCodigo());
+		}
+	}
+
+	public List<Veiculo> getListByUsuario(Integer codigoUsuario) {
+		return veiculoDAO.getListByUsuario(codigoUsuario);
 	}
 
 	public List<VeiculoCompletoDTO> convertListToDTO(List<Veiculo> veiculoList) {

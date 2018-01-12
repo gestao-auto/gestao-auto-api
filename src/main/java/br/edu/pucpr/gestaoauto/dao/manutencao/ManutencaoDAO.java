@@ -15,11 +15,10 @@ public class ManutencaoDAO extends DAO<Integer, Manutencao> {
 
 	@SuppressWarnings("unchecked")
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
-	public List<Manutencao> getListManutencaoPorVeiculo(Integer codigoVeiculo) {
+	public List<Manutencao> getListManutencaoByVeiculo(Integer codigoVeiculo) {
 		Query query = super.entityManager.createQuery("select m from Manutencao m where m.veiculo.codigo = :veiculo");
 		query.setParameter("veiculo", codigoVeiculo);
-		List<Manutencao> resultado = query.getResultList();
-		return resultado;
+		return query.getResultList();
 	}
 
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)

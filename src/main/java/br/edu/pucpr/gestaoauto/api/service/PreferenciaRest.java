@@ -14,24 +14,24 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.edu.pucpr.gestaoauto.api.dto.usuario.PreferenciaUsuarioDTO;
-import br.edu.pucpr.gestaoauto.manager.usuario.PreferenciaUsuarioManager;
-import br.edu.pucpr.gestaoauto.model.usuario.PreferenciaUsuario;
+import br.edu.pucpr.gestaoauto.api.dto.usuario.PreferenciaDTO;
+import br.edu.pucpr.gestaoauto.manager.usuario.PreferenciaManager;
+import br.edu.pucpr.gestaoauto.model.usuario.Preferencia;
 
-@Path("/preferenciaUsuario")
-public class PreferenciaUsuarioRest extends AbstractRest {
+@Path("/preferencia")
+public class PreferenciaRest extends AbstractRest {
 
-	private static Logger log = LoggerFactory.getLogger(PreferenciaUsuarioRest.class);
+	private static Logger log = LoggerFactory.getLogger(PreferenciaRest.class);
 
-	@Inject PreferenciaUsuarioManager manager;
+	@Inject PreferenciaManager manager;
 	
 	@POST
 	@Path("/create")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(PreferenciaUsuarioDTO dto) {
+	public Response create(PreferenciaDTO dto) {
 		try {
-			return Response.ok(manager.convertPreferenciaUsuarioToDTO(manager.save(manager.convertPreferenciaUsuarioDTOToEntity(dto)))).build();
+			return Response.ok(manager.convertEntityToDTO(manager.save(manager.convertDTOToEntity(dto)))).build();
 		} catch (Exception e) {
 			log.error(e.toString());
 			return super.serverError(e);
@@ -42,9 +42,9 @@ public class PreferenciaUsuarioRest extends AbstractRest {
 	@Path("/update")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response update(PreferenciaUsuarioDTO dto) {
+	public Response update(PreferenciaDTO dto) {
 		try {
-			return Response.ok(manager.convertPreferenciaUsuarioToDTO(manager.update(manager.convertPreferenciaUsuarioDTOToEntity(dto)))).build();
+			return Response.ok(manager.convertEntityToDTO(manager.update(manager.convertDTOToEntity(dto)))).build();
 		} catch (Exception e) {
 			log.error(e.toString());
 			return super.serverError(e);
@@ -56,9 +56,9 @@ public class PreferenciaUsuarioRest extends AbstractRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getByUsuario(@PathParam("codigo") Integer codigoUsuario) {
 		try {
-			PreferenciaUsuario preferenciaUsuario = manager.getById(codigoUsuario);
+			Preferencia preferenciaUsuario = manager.getById(codigoUsuario);
 			if (preferenciaUsuario != null) {
-				return Response.ok(manager.convertPreferenciaUsuarioToDTO(preferenciaUsuario)).build();
+				return Response.ok(manager.convertEntityToDTO(preferenciaUsuario)).build();
 			} else {
 				return Response.noContent().build();
 			}

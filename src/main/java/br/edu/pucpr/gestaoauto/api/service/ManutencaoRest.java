@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 import br.edu.pucpr.gestaoauto.api.dto.manutencao.ManutencaoDTO;
 import br.edu.pucpr.gestaoauto.manager.manutencao.ItemManutencaoManager;
 import br.edu.pucpr.gestaoauto.manager.manutencao.ManutencaoManager;
-import br.edu.pucpr.gestaoauto.manager.usuario.PreferenciaUsuarioManager;
+import br.edu.pucpr.gestaoauto.manager.usuario.PreferenciaManager;
 import br.edu.pucpr.gestaoauto.model.manutencao.Manutencao;
 
 @Path("/manutencao")
@@ -30,7 +30,7 @@ public class ManutencaoRest extends AbstractRest {
 	
 	@Inject ManutencaoManager manutencaoManager;
 	@Inject ItemManutencaoManager itemManutencaoManager;
-	@Inject PreferenciaUsuarioManager manager;
+	@Inject PreferenciaManager manager;
 	
 	@POST
 	@Path("/")
@@ -38,8 +38,8 @@ public class ManutencaoRest extends AbstractRest {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createManutencao(ManutencaoDTO dto) {
 		try {
-			Manutencao manutencao = manutencaoManager.save(manutencaoManager.convertManutencaoDTOToEntity(dto));
-			return Response.ok(manutencaoManager.convertManutencaoToDTO(manutencaoManager.getById(manutencao.getCodigo()))).build();
+			Manutencao manutencao = manutencaoManager.save(manutencaoManager.convertDTOToEntity(dto));
+			return Response.ok(manutencaoManager.convertEntityToDTO(manutencaoManager.getById(manutencao.getCodigo()))).build();
 		} catch (Exception e) {
 			log.error(e.toString());
 			return super.serverError(e);
@@ -52,8 +52,8 @@ public class ManutencaoRest extends AbstractRest {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateManutencao(ManutencaoDTO dto) {
 		try {
-			Manutencao manutencao = manutencaoManager.update(manutencaoManager.convertManutencaoDTOToEntity(dto));
-			return Response.ok(manutencaoManager.convertManutencaoToDTO(manutencaoManager.getById(manutencao.getCodigo()))).build();
+			Manutencao manutencao = manutencaoManager.update(manutencaoManager.convertDTOToEntity(dto));
+			return Response.ok(manutencaoManager.convertEntityToDTO(manutencaoManager.getById(manutencao.getCodigo()))).build();
 		} catch (Exception e) {
 			log.error(e.toString());
 			return super.serverError(e);
@@ -75,14 +75,14 @@ public class ManutencaoRest extends AbstractRest {
 	@GET
 	@Path("/porVeiculo/{codigo}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getListManutencaoPorVeiculo(@PathParam("codigo") Integer codigoVeiculo) {
+	public Response getListManutencaoByVeiculo(@PathParam("codigo") Integer codigoVeiculo) {
 		try {
-			List<Manutencao> manutencaoList = manutencaoManager.getListManutencaoPorVeiculo(codigoVeiculo);
+			List<Manutencao> manutencaoList = manutencaoManager.getListManutencaoByVeiculo(codigoVeiculo);
 			if (manutencaoList.isEmpty()) {
 				manutencaoManager.carregarPacoteRevisaoParaManutencao(codigoVeiculo);
-				manutencaoList.addAll(manutencaoManager.getListManutencaoPorVeiculo(codigoVeiculo));
+				manutencaoList.addAll(manutencaoManager.getListManutencaoByVeiculo(codigoVeiculo));
 			}
-			return Response.ok(manutencaoManager.convertListManutencaoToDTO(manutencaoManager.getListManutencaoPorVeiculo(codigoVeiculo))).build();
+			return Response.ok(manutencaoManager.convertListToDTO(manutencaoManager.getListManutencaoByVeiculo(codigoVeiculo))).build();
 		} catch (Exception e) {
 			log.error(e.toString());
 			return super.serverError(e);
@@ -94,7 +94,7 @@ public class ManutencaoRest extends AbstractRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getManutencao(@PathParam("codigo") Integer codigoManutencao) {
 		try {
-			return Response.ok(manutencaoManager.convertManutencaoToDTO(manutencaoManager.getById(codigoManutencao))).build();
+			return Response.ok(manutencaoManager.convertEntityToDTO(manutencaoManager.getById(codigoManutencao))).build();
 		} catch (Exception e) {
 			log.error(e.toString());
 			return super.serverError(e);

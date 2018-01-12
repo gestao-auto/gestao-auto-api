@@ -16,7 +16,7 @@ import java.util.List;
 @Path("/notificacao")
 public class NotificacaoRest extends AbstractRest {
 
-    private static Logger log = LoggerFactory.getLogger(PreferenciaUsuarioRest.class);
+    private static Logger log = LoggerFactory.getLogger(PreferenciaRest.class);
 
     @Inject
     NotificacaoManager manager;

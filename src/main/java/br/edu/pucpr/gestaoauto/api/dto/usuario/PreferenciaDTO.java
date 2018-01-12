@@ -1,6 +1,6 @@
 package br.edu.pucpr.gestaoauto.api.dto.usuario;
 
-public class PreferenciaUsuarioDTO {
+public class PreferenciaDTO {
 
 	private Integer codigo;
 	private Integer codigoUsuario;
