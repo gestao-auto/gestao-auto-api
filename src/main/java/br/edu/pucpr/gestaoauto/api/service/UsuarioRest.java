@@ -1,7 +1,6 @@
 package br.edu.pucpr.gestaoauto.api.service;
 
 import javax.inject.Inject;
-import javax.validation.ValidationException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -15,11 +14,10 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.edu.pucpr.gestaoauto.api.Message;
 import br.edu.pucpr.gestaoauto.api.dto.usuario.UsuarioCompletoDTO;
 import br.edu.pucpr.gestaoauto.manager.usuario.UsuarioManager;
 
-@Path("/user")
+@Path("/usuario")
 public class UsuarioRest extends AbstractRest {
 	private static Logger log = LoggerFactory.getLogger(UsuarioRest.class);
 
@@ -40,17 +38,12 @@ public class UsuarioRest extends AbstractRest {
 	}
 
 	@PUT
-	@Path("/{id}")
+	@Path("/{codigo}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateUsuario(@PathParam("id") int id, UsuarioCompletoDTO dto) {
+	public Response updateUsuario(UsuarioCompletoDTO dto) {
 		log.info("UsuarioRest -> update");
 		try {
-			if (id == 0) {
-				return Response.status(Response.Status.NOT_FOUND).entity(
-						new Message("Id vazio ou recurso n\u00E3o encontrado", ValidationException.class.getName()))
-						.build();
-			}
 			return Response.ok().entity(manager.update(manager.convertUsuarioCompletoDTOToEntity(dto))).build();
 		} catch (Exception e) {
 			log.error(e.toString());
@@ -60,12 +53,12 @@ public class UsuarioRest extends AbstractRest {
 
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{id}")
-	public Response delete(@PathParam("id") int id) {
-		log.info("UsuarioRest -> delete");
+	@Path("/{codigo}")
+	public Response deleteUsuario(@PathParam("codigo") Integer codigo) {
+		log.info("UsuarioRest -> delete {codigo}");
 		try {
-			manager.delete(id);
-			return Response.ok().entity(new Message("Sucesso")).build();
+			manager.delete(codigo);
+			return Response.ok().build();
 		} catch (Exception e) {
 			log.error(e.toString());
 			return this.serverError(e);
