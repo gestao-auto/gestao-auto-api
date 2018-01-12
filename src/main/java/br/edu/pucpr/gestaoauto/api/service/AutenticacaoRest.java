@@ -26,16 +26,16 @@ public class AutenticacaoRest extends AbstractRest {
 	private static Logger log = LoggerFactory.getLogger(AutenticacaoRest.class);
 
 	@Inject
-	UsuarioManager service;
+	private UsuarioManager manager;
 
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createUsuario(UsuarioCompletoDTO dto) {
-		log.info("UsuarioRest -> create");
+		log.info("AutenticacaoRest -> create");
 		try {
-			return Response.ok().entity(service.getDTO(service.save(service.getEntity(dto)))).build();
+			return Response.ok().entity(manager.convertUsuarioToDTO(manager.save(manager.convertUsuarioCompletoDTOToEntity(dto)))).build();
 		} catch (Exception e) {
 			log.error(e.toString());
 			return this.serverError(e);
@@ -52,7 +52,7 @@ public class AutenticacaoRest extends AbstractRest {
 		Status status = Status.INTERNAL_SERVER_ERROR;// Prepara a requisição para um erro inesperado
 
 		try {
-			Usuario usuario = service.validaAcesso(credenciais);
+			Usuario usuario = manager.validaAcesso(credenciais);
 
 			if (usuario == null) {
 				return Response.status(Status.UNAUTHORIZED).entity(

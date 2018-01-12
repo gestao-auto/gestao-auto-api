@@ -2,7 +2,8 @@ package br.edu.pucpr.gestaoauto.model.usuario;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,12 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "proprietario_veiculo", catalog = "gestao_auto")
-public class Proprietario implements java.io.Serializable {
+@Table(name = "proprietario_veiculo", catalog = "gestao_auto", uniqueConstraints = @UniqueConstraint(name = "UK_PROP_USU", columnNames = {"codusuario" }))
+public class Proprietario implements Serializable {
 
 	private static final long serialVersionUID = 5921922812256420146L;
 
@@ -26,7 +26,7 @@ public class Proprietario implements java.io.Serializable {
 	private String nome;
 	private String sobrenome;
 	private String sexo;
-	private Date dataNascimento;
+	private LocalDate dataNascimento;
 
 	public Proprietario() {
 	}
@@ -80,13 +80,12 @@ public class Proprietario implements java.io.Serializable {
 		this.sexo = sexo;
 	}
 
-	@Temporal(TemporalType.DATE)
 	@Column(name = "datnascimento", length = 10)
-	public Date getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return this.dataNascimento;
 	}
 
-	public void setDataNascimento(Date dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 }

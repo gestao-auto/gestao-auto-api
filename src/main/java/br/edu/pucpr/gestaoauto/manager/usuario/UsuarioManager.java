@@ -1,16 +1,23 @@
 package br.edu.pucpr.gestaoauto.manager.usuario;
 
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 import br.edu.pucpr.gestaoauto.api.dto.usuario.UsuarioCompletoDTO;
 import br.edu.pucpr.gestaoauto.api.dto.usuario.UsuarioDTO;
 import br.edu.pucpr.gestaoauto.dao.usuario.UsuarioDAO;
 import br.edu.pucpr.gestaoauto.manager.Manager;
+import br.edu.pucpr.gestaoauto.manager.manutencao.ManutencaoManager;
+import br.edu.pucpr.gestaoauto.manager.veiculo.VeiculoManager;
 import br.edu.pucpr.gestaoauto.model.usuario.Usuario;
+import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
 import br.edu.pucpr.gestaoauto.seguranca.REQUEST_Autenticacao;
 import br.edu.pucpr.gestaoauto.seguranca.util.SegurancaUtil;
 
@@ -18,23 +25,38 @@ import br.edu.pucpr.gestaoauto.seguranca.util.SegurancaUtil;
 @LocalBean
 public class UsuarioManager implements Manager<Integer, Usuario>  {
 
-	@EJB
-	UsuarioDAO dao;
+	@EJB UsuarioDAO dao;
+	@Inject ManutencaoManager manutencaoManager;
+	@Inject VeiculoManager veiculoManager;
+	@Inject ProprietarioManager proprietarioManager;
+	@Inject PreferenciaManager preferenciaManager;
+	@Inject PerfilManager perfilManager;
 
 	@Override
 	public Usuario save(Usuario usuario) throws NoSuchAlgorithmException {
-		this.implementarSeguranca(usuario);
-		return dao.save(usuario);
+		this.criptografarSenha(usuario);
+		dao.save(usuario);
+		perfilManager.createPerfilUsuarioFinal(usuario);
+		return usuario;
 	}
 
 	@Override
 	public Usuario update(Usuario usuario) throws NoSuchAlgorithmException {
-		this.implementarSeguranca(usuario);
-		return dao.update(usuario);
+		this.criptografarSenha(usuario);
+		dao.update(usuario);
+		perfilManager.createPerfilUsuarioFinal(usuario);
+		return usuario;
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void delete(Integer id) throws Exception {
+		List<Veiculo> veiculoList = veiculoManager.getListByUsuario(id);
+		for (Veiculo veiculo : veiculoList) {
+			manutencaoManager.deleteAll(manutencaoManager.getListManutencaoByVeiculo(veiculo.getCodigo()));
+			veiculoManager.delete(veiculo.getCodigo());
+		}
+		proprietarioManager.delete(proprietarioManager.getByUsuario(id).getCodigo());
+		preferenciaManager.delete(preferenciaManager.getByUsuario(id).getCodigo());
 		dao.delete(dao.getById(id));
 	}
 
@@ -43,10 +65,10 @@ public class UsuarioManager implements Manager<Integer, Usuario>  {
 		return dao.getById(id);
 	}
 
-	public Usuario getEntity(UsuarioCompletoDTO dto) throws Exception {
-		Usuario entity = new Usuario();
-		entity.setCodigo(dto.getCodusuario());
-		entity.setDataAceiteTermoUso(dto.getDataAceiteTermoUso());
+	public Usuario convertUsuarioCompletoDTOToEntity(UsuarioCompletoDTO dto) throws Exception {
+		Usuario entity = (dto.getCodigo() != null ? this.getById(dto.getCodigo()) : new Usuario());
+		entity.setCodigo(dto.getCodigo());
+		entity.setDataAceiteTermoUso((dto.getDataAceiteTermoUso() != null ? LocalDateTime.parse(dto.getDataAceiteTermoUso(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) : null));
 		entity.setEmail(dto.getEmail());
 		entity.setFoto(dto.getFoto());
 		entity.setSenha(dto.getSenha());
@@ -54,26 +76,22 @@ public class UsuarioManager implements Manager<Integer, Usuario>  {
 		return entity;
 	}
 
-	public UsuarioCompletoDTO getDTOCompleto(Usuario entity){
-		return (new UsuarioCompletoDTO())
-				.setCodusuario(entity.getCodigo())
-				.setDataAceiteTermoUso(entity.getDataAceiteTermoUso())
-				.setEmail(entity.getEmail())
-				.setFoto(entity.getFoto())
-				//XXX:Nao retornar a senha do usuario
-				.setSenha("")
-				.setTokenRecuperarSenha(entity.getTokenRecuperarSenha())
-				;
+	public UsuarioCompletoDTO convertUsuarioToDTOCompleto(Usuario entity){
+		UsuarioCompletoDTO dto = new UsuarioCompletoDTO();
+		dto.setCodigo(entity.getCodigo());
+		dto.setDataAceiteTermoUso(entity.getDataAceiteTermoUso() != null ? entity.getDataAceiteTermoUso().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) : null);
+		dto.setEmail(entity.getEmail());
+		dto.setFoto(entity.getFoto());
+		dto.setTokenRecuperarSenha(entity.getTokenRecuperarSenha());
+		return dto;
 	}
 
-	public UsuarioDTO getDTO(Usuario entity){
-		return (new UsuarioDTO())
-				.setCodusuario(entity.getCodigo())
-				.setDataAceiteTermoUso(entity.getDataAceiteTermoUso())
-				.setEmail(entity.getEmail())
-				//XXX:Nao retornar a senha do usuario
-				.setSenha("")
-				;
+	public UsuarioDTO convertUsuarioToDTO(Usuario entity) {
+		UsuarioDTO dto = new UsuarioDTO();
+		dto.setCodigo(entity.getCodigo());
+		dto.setDataAceiteTermoUso(entity.getDataAceiteTermoUso() != null ? entity.getDataAceiteTermoUso().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) : null);
+		dto.setEmail(entity.getEmail());
+		return dto;
 	}
 	
 	public Usuario validaAcesso(REQUEST_Autenticacao credenciais) throws NoSuchAlgorithmException {
@@ -87,7 +105,7 @@ public class UsuarioManager implements Manager<Integer, Usuario>  {
 		return usuario.getSenha().equals(SegurancaUtil.gerarSaltedPassword(credenciais.getSenha(), usuario.getSalt()));
 	}
 	
-	private void implementarSeguranca(Usuario usuario) throws NoSuchAlgorithmException {
+	private void criptografarSenha(Usuario usuario) throws NoSuchAlgorithmException {
 		usuario.setSalt(SegurancaUtil.getNovoSalt());
 		usuario.setSenha(SegurancaUtil.gerarSaltedPassword(usuario.getSenha(), usuario.getSalt()));
 	}

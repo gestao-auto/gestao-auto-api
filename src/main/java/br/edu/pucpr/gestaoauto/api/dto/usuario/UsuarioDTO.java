@@ -1,46 +1,40 @@
 package br.edu.pucpr.gestaoauto.api.dto.usuario;
 
-import java.util.Date;
-
 public class UsuarioDTO {
-    private Integer codusuario;
+    private Integer codigo;
     private String email;
     private String senha;
-    private Date dataAceiteTermoUso;
+	private String dataAceiteTermoUso;
 
-    public Integer getCodusuario() {
-        return codusuario;
-    }
+	public Integer getCodigo() {
+		return codigo;
+	}
 
-    public UsuarioDTO setCodusuario(Integer codusuario) {
-        this.codusuario = codusuario;
-        return this;
-    }
+	public void setCodigo(Integer codigo) {
+		this.codigo = codigo;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public UsuarioDTO setEmail(String email) {
-        this.email = email;
-        return this;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getSenha() {
-        return this.senha;
-    }
+	public String getSenha() {
+		return senha;
+	}
 
-    public UsuarioDTO setSenha(String senha) {
-        this.senha = senha;
-        return this;
-    }
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 
-    public Date getDataAceiteTermoUso() {
-        return dataAceiteTermoUso;
-    }
+	public String getDataAceiteTermoUso() {
+		return dataAceiteTermoUso;
+	}
 
-    public UsuarioDTO setDataAceiteTermoUso(Date dataAceiteTermoUso) {
-        this.dataAceiteTermoUso = dataAceiteTermoUso;
-        return this;
-    }
+	public void setDataAceiteTermoUso(String dataAceiteTermoUso) {
+		this.dataAceiteTermoUso = dataAceiteTermoUso;
+	}
 }

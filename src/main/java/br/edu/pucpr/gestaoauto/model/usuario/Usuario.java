@@ -2,15 +2,13 @@ package br.edu.pucpr.gestaoauto.model.usuario;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "usuario", catalog = "gestao_auto")
@@ -23,7 +21,7 @@ public class Usuario implements java.io.Serializable {
 	private String senha;
 	private String salt;
 	private String tokenRecuperarSenha;
-	private Date dataAceiteTermoUso;
+	private LocalDateTime dataAceiteTermoUso;
 	private byte[] foto;
 
 	public Usuario() {
@@ -68,13 +66,12 @@ public class Usuario implements java.io.Serializable {
 		this.tokenRecuperarSenha = tokenRecuperarSenha;
 	}
 
-	@Temporal(TemporalType.DATE)
 	@Column(name = "dataceitetermouso", length = 10)
-	public Date getDataAceiteTermoUso() {
+	public LocalDateTime getDataAceiteTermoUso() {
 		return this.dataAceiteTermoUso;
 	}
 
-	public void setDataAceiteTermoUso(Date dataAceiteTermoUso) {
+	public void setDataAceiteTermoUso(LocalDateTime dataAceiteTermoUso) {
 		this.dataAceiteTermoUso = dataAceiteTermoUso;
 	}
 

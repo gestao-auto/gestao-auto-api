@@ -13,6 +13,8 @@ import javax.persistence.Table;
 public class Permissao implements java.io.Serializable {
 
 	private static final long serialVersionUID = 6787208705559520897L;
+	public static final Integer USUARIO_FINAL = 1;
+	public static final Integer USUARIO_ADMINISTRADOR = 2;
 
 	private Integer codigo;
 	private String nome;

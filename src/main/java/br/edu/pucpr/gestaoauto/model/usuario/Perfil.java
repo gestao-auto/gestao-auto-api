@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "permissao_usuario", catalog = "gestao_auto")
-public class PermissaoUsuario implements java.io.Serializable {
+public class Perfil implements java.io.Serializable {
 
 	private static final long serialVersionUID = 2570008963504521822L;
 
@@ -21,7 +21,7 @@ public class PermissaoUsuario implements java.io.Serializable {
 	private Permissao permissao;
 	private Usuario usuario;
 
-	public PermissaoUsuario() {
+	public Perfil() {
 	}
 
 	@Id

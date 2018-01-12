@@ -5,7 +5,13 @@ import java.util.Set;
 
 import javax.ws.rs.ApplicationPath;
 
-import br.edu.pucpr.gestaoauto.api.service.*;
+import br.edu.pucpr.gestaoauto.api.service.ManutencaoRest;
+import br.edu.pucpr.gestaoauto.api.service.NotificacaoRest;
+import br.edu.pucpr.gestaoauto.api.service.PecaServicoRest;
+import br.edu.pucpr.gestaoauto.api.service.PessoaJuridicaRest;
+import br.edu.pucpr.gestaoauto.api.service.PreferenciaRest;
+import br.edu.pucpr.gestaoauto.api.service.ProprietarioRest;
+import br.edu.pucpr.gestaoauto.api.service.UsuarioRest;
 import br.edu.pucpr.gestaoauto.api.service.veiculo.MarcaRest;
 import br.edu.pucpr.gestaoauto.api.service.veiculo.ModeloRest;
 import br.edu.pucpr.gestaoauto.api.service.veiculo.VeiculoRest;
@@ -26,8 +32,9 @@ public class ApplicationConfig extends javax.ws.rs.core.Application {
 		classes.add(PessoaJuridicaRest.class);
 		classes.add(UsuarioRest.class);
 		classes.add(VeiculoRest.class);
-		classes.add(PreferenciaUsuarioRest.class);
+		classes.add(PreferenciaRest.class);
 		classes.add(NotificacaoRest.class);
+		classes.add(ProprietarioRest.class);
 		//Filtros 
 		classes.add(JWTRequestFilter.class);
 		return classes;
