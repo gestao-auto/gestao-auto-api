@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 import br.edu.pucpr.gestaoauto.api.Message;
@@ -46,7 +47,11 @@ public class JWTRequestFilter implements ContainerRequestFilter {
 			}
 			msgErro = ex.getMessage() + (challenges != null ? challenges : "");
 			status = Status.UNAUTHORIZED;
-		} catch (BadRequestException ex) { // Problema nos parâmetros da requisição
+		} catch (TokenExpiredException ex) { // Token expirado
+			log.error(ex.toString());
+			msgErro = ex.getMessage();
+			status = Status.UNAUTHORIZED;
+		}catch (BadRequestException ex) { // Problema nos parâmetros da requisição
 			msgErro = ex.getMessage();
 			status = Status.BAD_REQUEST;
 		} catch (Exception ex) { // Erro inesperado
