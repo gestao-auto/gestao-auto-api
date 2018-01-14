@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
-import javax.ejb.ObjectNotFoundException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -31,6 +30,7 @@ import br.edu.pucpr.gestaoauto.model.revisao.ModeloRevisao;
 import br.edu.pucpr.gestaoauto.model.revisao.PacoteRevisao;
 import br.edu.pucpr.gestaoauto.model.veiculo.Modelo;
 import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
+import br.edu.pucpr.gestaoauto.util.ObjetoNaoEncontradoException;
 
 @Stateless
 @LocalBean
@@ -89,15 +89,16 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		return dao.getListManutencaoByVeiculo(codigoVeiculo);
 	}
 
-	public void carregarPacoteRevisaoParaManutencao(Integer codigoVeiculo) throws ObjectNotFoundException {
+	public void carregarPacoteRevisaoParaManutencao(Integer codigoVeiculo) throws ObjetoNaoEncontradoException {
 		Veiculo veiculo = veiculoManager.getById(codigoVeiculo);
-		PacoteRevisao pacoteRevisao = pacoteRevisaoManager.getPacoteRevisaoPorModeloVeiculo(veiculo.getModelo());
-
-		if (pacoteRevisao == null) {
-			throw new ObjectNotFoundException("Programação de revisão não encontrada para o veículo : " + veiculo.getModelo().getNome() 
-					+ " ano: " + veiculo.getModelo().getAno());
+		if (veiculo == null) {
+			throw new ObjetoNaoEncontradoException("error.manutencao.veiculoNaoEncontrado", new Object[] { codigoVeiculo });
 		}
-
+		PacoteRevisao pacoteRevisao = pacoteRevisaoManager.getPacoteRevisaoPorModeloVeiculo(veiculo.getModelo());
+		if (pacoteRevisao == null) {
+			throw new ObjetoNaoEncontradoException("error.manutencao.pacoteRevisaoNaoEncontrado",
+					new Object[] { veiculo.getModelo().getNome(), veiculo.getModelo().getAno() });
+		}
 		for (ModeloRevisao modelo : pacoteRevisao.getModeloRevisaoList()) {
 			this.criarManutencaoConformeModeloRevisao(modelo, veiculo);
 		}

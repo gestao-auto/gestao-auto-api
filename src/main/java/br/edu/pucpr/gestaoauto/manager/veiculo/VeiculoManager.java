@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
-import javax.ejb.ObjectNotFoundException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -19,6 +18,9 @@ import br.edu.pucpr.gestaoauto.model.veiculo.Carro;
 import br.edu.pucpr.gestaoauto.model.veiculo.Modelo;
 import br.edu.pucpr.gestaoauto.model.veiculo.Moto;
 import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
+import br.edu.pucpr.gestaoauto.util.GestaoAutoException;
+import br.edu.pucpr.gestaoauto.util.ObjetoNaoEncontradoException;
+import br.edu.pucpr.gestaoauto.util.QuilometragemExeption;
 
 @Stateless
 @LocalBean
@@ -69,28 +71,26 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		return veiculoDTOList;
 	}
 
-	public void updateOdometro(Integer codigoVeiculo, Integer odometro) throws Exception {
+	public void updateOdometro(Integer codigoVeiculo, Integer odometro) throws GestaoAutoException {
 		Veiculo veiculo = this.getById(codigoVeiculo);
 		if (veiculo == null) {
-			throw new ObjectNotFoundException("Veículo não encontrado");
+			throw new ObjetoNaoEncontradoException("error.veiculo.veiculoNaoEncontrado", new Object[] { codigoVeiculo });
 		}
 		Integer odometroAtual = veiculo.getOdometro();
 		if (odometroAtual.intValue() > odometro.intValue()) {
-			throw new Exception("A quilometragem atual do veículo " + veiculo.getNome() + " (" + odometroAtual 
-					+ ") é maior que a informada (" + odometro + ")");
+			throw new QuilometragemExeption("error.veiculo.quilometragemMaiorQueAtual", new Object[] { veiculo.getNome(), odometroAtual, odometro });
 		}
 		veiculo.setOdometro(odometro);
 		this.update(veiculo);
 	}
 
-	public void update(VeiculoCompletoDTO dto) throws Exception {
+	public void update(VeiculoCompletoDTO dto) throws GestaoAutoException {
 		Veiculo veiculo = this.getById(dto.getCodigo());
 		if (veiculo == null) {
-			throw new ObjectNotFoundException("Veículo não encontrado");
+			throw new ObjetoNaoEncontradoException("error.veiculo.veiculoNaoEncontrado", new Object[] { dto.getCodigo() });
 		}
 		if (veiculo.getOdometro() > dto.getOdometro()) {
-			throw new Exception("A quilometragem atual do veículo " + veiculo.getNome() + " (" + veiculo.getOdometro() + ") é maior que a informada ("
-					+ dto.getOdometro() + ")");
+			throw new QuilometragemExeption("error.veiculo.quilometragemMaiorQueAtual", new Object[] { veiculo.getNome(), veiculo.getOdometro(), dto.getOdometro() });
 		}
 		veiculo.setOdometro(dto.getOdometro());
 		veiculo.setNome(dto.getNome());
