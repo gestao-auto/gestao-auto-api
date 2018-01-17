@@ -17,5 +17,4 @@ public class ProprietarioDAO extends DAO<Integer, Proprietario> {
 		query.setParameter("usuario", codigoUsuario);
 		return (Proprietario) query.getSingleResult();
 	}
-
 }

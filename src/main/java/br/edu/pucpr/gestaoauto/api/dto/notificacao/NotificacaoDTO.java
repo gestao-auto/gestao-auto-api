@@ -1,13 +1,11 @@
 package br.edu.pucpr.gestaoauto.api.dto.notificacao;
 
+import br.edu.pucpr.gestaoauto.model.notificacao.TipoNotificacao;
+
 public class NotificacaoDTO {
     private Integer codigo;
-    private String titulo;
+    private TipoNotificacao tipoNotificacao;
     private String mensagem;
-
-    public String getTitulo() {
-        return titulo;
-    }
 
     public Integer getCodigo() {
         return codigo;
@@ -17,8 +15,11 @@ public class NotificacaoDTO {
         this.codigo = codigo;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public TipoNotificacao getTipoNotificacao(){
+        return this.tipoNotificacao;
+    }
+    public void setTipoNotificacao(TipoNotificacao tipoNotificacao) {
+        this.tipoNotificacao = tipoNotificacao;
     }
 
     public String getMensagem() {

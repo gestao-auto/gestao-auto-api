@@ -20,8 +20,6 @@ public class UsuarioDAO extends DAO<Integer, Usuario> {
 		}catch (Exception e) {
 			throw e;
 		}
-		return user; 
-		
+		return user;
 	}
-	
 }

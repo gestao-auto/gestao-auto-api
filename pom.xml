@@ -108,18 +108,21 @@
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
 			<version>${rs.version}</version>
+            <scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>${jackson.version}</version>
+            <scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
 			<version>${jackson.version}</version>
+            <scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -148,7 +151,5 @@
   			<artifactId>java-jwt</artifactId>
   			<version>${auth0.version}</version>
 		</dependency>
-
-	</dependencies>
-
+    </dependencies>
 </project>

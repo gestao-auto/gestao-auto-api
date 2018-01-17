@@ -1,5 +1,6 @@
 package br.edu.pucpr.gestaoauto.manager.usuario;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -11,7 +12,9 @@ import javax.inject.Inject;
 import br.edu.pucpr.gestaoauto.api.dto.usuario.PreferenciaDTO;
 import br.edu.pucpr.gestaoauto.dao.usuario.PreferenciaDAO;
 import br.edu.pucpr.gestaoauto.manager.Manager;
+import br.edu.pucpr.gestaoauto.model.manutencao.Revisao;
 import br.edu.pucpr.gestaoauto.model.usuario.Preferencia;
+import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
 
 @Stateless
 @LocalBean
@@ -62,4 +65,24 @@ public class PreferenciaManager implements Manager<Integer, Preferencia> {
 		preferencia.setHodometroAntecedenciaNotificacaoRevisao(dto.getHodometroAntecedenciaNotificacaoRevisao());
 		return preferencia;
 	}
+
+    public boolean aptoAGerarNotificacao(Preferencia preferencia, Revisao proxima, Veiculo veiculo) {
+		return (this.aptoNotificarPorKm(preferencia, proxima, veiculo)
+                || this.aptoNotificarPorData(preferencia, proxima));
+    }
+
+    private boolean aptoNotificarPorKm(Preferencia preferencia, Revisao proxima, Veiculo veiculo) {
+        return (preferencia.getHodometroAntecedenciaNotificacaoRevisao().intValue() > 0
+            && ((proxima.getOdometroPrevisto().intValue()
+                    - preferencia.getHodometroAntecedenciaNotificacaoRevisao().intValue())
+                >= veiculo.getOdometro().intValue()));
+    }
+
+    private boolean aptoNotificarPorData(Preferencia preferencia, Revisao proxima) {
+        return (preferencia.getDiasAntecedenciaNotificacaoRevisao().intValue() > 0
+                && (proxima.getDataPrevista().minusDays(
+                        preferencia.getHodometroAntecedenciaNotificacaoRevisao().longValue())
+                    .isAfter(LocalDate.now())
+                ));
+    }
 }

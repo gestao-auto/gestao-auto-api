@@ -1,14 +1,15 @@
 package br.edu.pucpr.gestaoauto.api.service;
 
-import br.edu.pucpr.gestaoauto.api.dto.notificacao.NotificacaoDTOFull;
-import br.edu.pucpr.gestaoauto.model.notificacao.Notificacao;
 import br.edu.pucpr.gestaoauto.manager.NotificacaoManager;
-import br.edu.pucpr.gestaoauto.model.notificacao.StatusNotificacao;
+import br.edu.pucpr.gestaoauto.model.notificacao.Notificacao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;

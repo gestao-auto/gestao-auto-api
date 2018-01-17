@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,6 +28,7 @@ public class Proprietario implements Serializable {
 	private String sobrenome;
 	private String sexo;
 	private LocalDate dataNascimento;
+	private Locale idioma;
 
 	public Proprietario() {
 	}
@@ -87,5 +89,14 @@ public class Proprietario implements Serializable {
 
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+
+	@Column(name = "idioma", length = 10)
+    public Locale getIdioma() {
+        return idioma;
+    }
+
+	public void setIdioma(Locale idioma) {
+	    this.idioma = (idioma == null) ? new Locale("pt", "BR") : idioma;
 	}
 }
