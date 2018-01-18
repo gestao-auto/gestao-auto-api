@@ -16,12 +16,15 @@
 
 		<!-- Hibernate / JPA -->
 		<hibernate.version>5.2.12.Final</hibernate.version>
+        <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
 		
 		<!-- Driver MySQL -->
 		<mysql.connector.version>5.1.35</mysql.connector.version>
-		
+
+		<!-- JEE -->
 		<ejb.api.version>3.0</ejb.api.version>
 		<jee.version>7.0</jee.version>
+        <transaction.api.version>1.0.1.GA</transaction.api.version>
 
 		<!-- REST -->
 		<rs.version>2.0.1</rs.version>
@@ -75,13 +78,13 @@
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.1-api</artifactId>
-			<version>1.0.0.Final</version>
+			<version>${hibernate.jpa.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.javaee</groupId>
 			<artifactId>jboss-transaction-api</artifactId>
-			<version>1.0.1.GA</version>
+			<version>${transaction.api.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -105,18 +108,21 @@
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
 			<version>${rs.version}</version>
+            <scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>${jackson.version}</version>
+            <scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
 			<version>${jackson.version}</version>
+            <scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -145,7 +151,5 @@
   			<artifactId>java-jwt</artifactId>
   			<version>${auth0.version}</version>
 		</dependency>
-
-	</dependencies>
-
+    </dependencies>
 </project>

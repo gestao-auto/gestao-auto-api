@@ -1,18 +1,11 @@
 package br.edu.pucpr.gestaoauto.manager.veiculo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ejb.EJB;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-
 import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoAlteracaoDTO;
 import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoCompletoDTO;
 import br.edu.pucpr.gestaoauto.dao.usuario.ProprietarioDAO;
 import br.edu.pucpr.gestaoauto.dao.veiculo.VeiculoDAO;
 import br.edu.pucpr.gestaoauto.manager.Manager;
+import br.edu.pucpr.gestaoauto.manager.NotificacaoManager;
 import br.edu.pucpr.gestaoauto.model.usuario.Proprietario;
 import br.edu.pucpr.gestaoauto.model.veiculo.Carro;
 import br.edu.pucpr.gestaoauto.model.veiculo.Modelo;
@@ -21,6 +14,14 @@ import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
 import br.edu.pucpr.gestaoauto.util.GestaoAutoException;
 import br.edu.pucpr.gestaoauto.util.ObjetoNaoEncontradoException;
 import br.edu.pucpr.gestaoauto.util.QuilometragemExeption;
+
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Stateless
 @LocalBean
@@ -31,7 +32,8 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 
     @EJB VeiculoDAO veiculoDAO;
 	@EJB ProprietarioDAO proprietarioDAO;
-	@Inject ModeloManager modeloManager;
+    @Inject ModeloManager modeloManager;
+    @Inject NotificacaoManager notificacaoManager;
 
 	@Override
 	public Veiculo save(Veiculo entity) {
@@ -39,7 +41,7 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void delete(Integer id) throws GestaoAutoException {
 		veiculoDAO.delete(this.getById(id));
 	}
 
@@ -49,14 +51,12 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 	}
 
 	@Override
-	public Veiculo getById(Integer id) {
-		return veiculoDAO.getById(id);
-	}
-
-	public void deleteAll(List<Veiculo> veiculoList) {
-		for (Veiculo veiculo : veiculoList) {
-			this.delete(veiculo.getCodigo());
-		}
+	public Veiculo getById(Integer id) throws GestaoAutoException {
+        Veiculo veiculo = veiculoDAO.getById(id);
+        if (veiculo == null) {
+            throw new ObjetoNaoEncontradoException("error.veiculo.veiculoNaoEncontrado", new Object[] { id });
+        }
+	    return veiculo;
 	}
 
 	public List<Veiculo> getListByUsuario(Integer codigoUsuario) {
@@ -71,26 +71,27 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		return veiculoDTOList;
 	}
 
-	public void updateOdometro(Integer codigoVeiculo, Integer odometro) throws GestaoAutoException {
+	public void updateOdometro(Integer codigoVeiculo, Integer novoOdometro) throws Exception {
 		Veiculo veiculo = this.getById(codigoVeiculo);
-		if (veiculo == null) {
-			throw new ObjetoNaoEncontradoException("error.veiculo.veiculoNaoEncontrado", new Object[] { codigoVeiculo });
-		}
 		Integer odometroAtual = veiculo.getOdometro();
-		if (odometroAtual.intValue() > odometro.intValue()) {
-			throw new QuilometragemExeption("error.veiculo.quilometragemMaiorQueAtual", new Object[] { veiculo.getNome(), odometroAtual, odometro });
+		if (odometroAtual.intValue() > novoOdometro.intValue()) {
+			throw new QuilometragemExeption(
+			        "error.veiculo.quilometragemMaiorQueAtual"
+                    , new Object[] { veiculo.getNome(), odometroAtual, novoOdometro });
 		}
-		veiculo.setOdometro(odometro);
-		this.update(veiculo);
+		else if(odometroAtual.intValue() < novoOdometro.intValue()) {
+            veiculo.setOdometro(novoOdometro);
+            this.update(veiculo);
+            notificacaoManager.conferirRevisao(veiculo);
+        }
 	}
 
 	public void update(VeiculoCompletoDTO dto) throws GestaoAutoException {
 		Veiculo veiculo = this.getById(dto.getCodigo());
-		if (veiculo == null) {
-			throw new ObjetoNaoEncontradoException("error.veiculo.veiculoNaoEncontrado", new Object[] { dto.getCodigo() });
-		}
 		if (veiculo.getOdometro() > dto.getOdometro()) {
-			throw new QuilometragemExeption("error.veiculo.quilometragemMaiorQueAtual", new Object[] { veiculo.getNome(), veiculo.getOdometro(), dto.getOdometro() });
+			throw new QuilometragemExeption(
+			        "error.veiculo.quilometragemMaiorQueAtual"
+                    , new Object[] { veiculo.getNome(), veiculo.getOdometro(), dto.getOdometro() });
 		}
 		veiculo.setOdometro(dto.getOdometro());
 		veiculo.setNome(dto.getNome());
@@ -149,8 +150,9 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		Modelo modelo = modeloManager.getById(veiculoDTO.getModelo().getCodigo());
 		veiculo.setModelo(modelo);
 
-		Proprietario proprietario = proprietarioDAO.getById(veiculoDTO.getProprietario());
-		veiculo.setProprietario(proprietario);
+        Proprietario proprietario = null;
+        proprietario = proprietarioDAO.getById(veiculoDTO.getProprietario());
+        veiculo.setProprietario(proprietario);
 
 		return veiculo;
 	}

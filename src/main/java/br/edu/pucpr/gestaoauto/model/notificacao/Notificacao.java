@@ -3,7 +3,6 @@ package br.edu.pucpr.gestaoauto.model.notificacao;
 import br.edu.pucpr.gestaoauto.model.usuario.Usuario;
 
 import javax.persistence.*;
-import java.util.Date;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -11,7 +10,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "notificacao", catalog = "gestao_auto")
 public class Notificacao implements java.io.Serializable {
     private Integer codigo;
-    private String titulo;
+    private TipoNotificacao tipoNotificacao;
     private String mensagem;
     private StatusNotificacao status;
     private Usuario usuario;
@@ -22,7 +21,7 @@ public class Notificacao implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = IDENTITY)
 
-    @Column(name = "codnotificacao", unique = true, nullable = false)
+    @Column(name = "cod_notificacao", unique = true, nullable = false)
     public Integer getCodigo() {
             return this.codigo;
         }
@@ -31,13 +30,13 @@ public class Notificacao implements java.io.Serializable {
             this.codigo = codigo;
         }
 
-    @Column(name = "titulo", length = 120)
-    public String getTitulo() {
-        return titulo;
+    @Column(name = "tipo_notificacao")
+    public TipoNotificacao getTipoNotificacao() {
+        return tipoNotificacao;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTipoNotificacao(TipoNotificacao tipoNotificacao) {
+        this.tipoNotificacao = tipoNotificacao;
     }
 
     @Column(name = "mensagem", length = 400)

@@ -17,5 +17,4 @@ public class PerfilDAO extends DAO<Integer, Perfil> {
 		query.setParameter("usuario", codigoUsuario);
 		return (Perfil) query.getSingleResult();
 	}
-
 }

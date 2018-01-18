@@ -30,6 +30,7 @@ import br.edu.pucpr.gestaoauto.model.revisao.ModeloRevisao;
 import br.edu.pucpr.gestaoauto.model.revisao.PacoteRevisao;
 import br.edu.pucpr.gestaoauto.model.veiculo.Modelo;
 import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
+import br.edu.pucpr.gestaoauto.util.GestaoAutoException;
 import br.edu.pucpr.gestaoauto.util.ObjetoNaoEncontradoException;
 
 @Stateless
@@ -89,11 +90,12 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		return dao.getListManutencaoByVeiculo(codigoVeiculo);
 	}
 
-	public void carregarPacoteRevisaoParaManutencao(Integer codigoVeiculo) throws ObjetoNaoEncontradoException {
+	public List<Revisao> getProximaRevisaoByVeiculo(Integer codigoVeiculo){
+	    return dao.getProximaRevisaoByVeiculo(codigoVeiculo);
+    }
+
+	public void carregarPacoteRevisaoParaManutencao(Integer codigoVeiculo) throws GestaoAutoException {
 		Veiculo veiculo = veiculoManager.getById(codigoVeiculo);
-		if (veiculo == null) {
-			throw new ObjetoNaoEncontradoException("error.manutencao.veiculoNaoEncontrado", new Object[] { codigoVeiculo });
-		}
 		PacoteRevisao pacoteRevisao = pacoteRevisaoManager.getPacoteRevisaoPorModeloVeiculo(veiculo.getModelo());
 		if (pacoteRevisao == null) {
 			throw new ObjetoNaoEncontradoException("error.manutencao.pacoteRevisaoNaoEncontrado",
@@ -203,7 +205,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		return dto;
 	}
 
-	public Manutencao convertDTOToEntity(ManutencaoDTO dto) {
+	public Manutencao convertDTOToEntity(ManutencaoDTO dto) throws GestaoAutoException {
 		if (dto.getTipoManutencao().equals(TipoManutencaoDTO.REPARO)) {
 			Reparo reparo = (dto.getCodigo() != null ? (Reparo) this.getById(dto.getCodigo()) : new Reparo());
 			reparo.setDescricao("MANUT");
@@ -244,4 +246,8 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 			return this.convertEntityToDTO((Revisao) manutencao);
 		}
 	}
+
+    public List<Revisao> findByDate(LocalDate data) {
+        return dao.revisaoPendenteByData(data);
+    }
 }
