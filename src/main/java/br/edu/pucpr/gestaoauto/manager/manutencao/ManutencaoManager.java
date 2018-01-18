@@ -44,12 +44,12 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 
 	@Override
 	public Manutencao save(Manutencao manutencao) throws Exception {
-		veiculoManager.updateOdometro(manutencao.getVeiculo().getCodigo(), manutencao.getOdometro());
 		dao.save(manutencao);
 		for (ItemManutencao item : manutencao.getItemManutencao()) {
 			item.setManutencao(manutencao);
 			itemManutencaoManager.save(item);
 		}
+		veiculoManager.updateOdometro(manutencao.getVeiculo().getCodigo(), manutencao.getOdometro());
 		return manutencao;
 	}
 
