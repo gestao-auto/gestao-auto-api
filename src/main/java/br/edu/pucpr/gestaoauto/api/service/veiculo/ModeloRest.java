@@ -24,14 +24,12 @@ public class ModeloRest extends AbstractRest {
 
 	private static Logger log = LoggerFactory.getLogger(ModeloRest.class);
 
-	@Inject
-    ModeloManager modeloManager;
-	@Inject
-	MarcaManager marcaManager;
+	@Inject ModeloManager modeloManager;
+	@Inject MarcaManager marcaManager;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/lista/porMarca/{codigo}")
+	@Path("/marca/{codigo}")
 	public Response getListModeloPorMarca(@PathParam("codigo") Integer codigoMarca) {
 		try {
 			Marca marca = marcaManager.getById(codigoMarca);
