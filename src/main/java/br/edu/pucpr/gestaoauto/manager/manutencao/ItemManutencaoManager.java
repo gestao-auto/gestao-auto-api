@@ -1,24 +1,22 @@
 package br.edu.pucpr.gestaoauto.manager.manutencao;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ejb.EJB;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-
 import br.edu.pucpr.gestaoauto.api.dto.manutencao.ItemManutencaoDTO;
 import br.edu.pucpr.gestaoauto.dao.manutencao.ItemManutencaoDAO;
 import br.edu.pucpr.gestaoauto.manager.Manager;
 import br.edu.pucpr.gestaoauto.model.manutencao.ItemManutencao;
 import br.edu.pucpr.gestaoauto.model.manutencao.Manutencao;
 
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+
 @Stateless
 @LocalBean
 public class ItemManutencaoManager implements Manager<Integer, ItemManutencao> {
+	@Inject ItemManutencaoDAO dao;
 
-	@EJB ItemManutencaoDAO dao;
 	@Inject PecaServicoManager pecaServicoManager;
 
 	@Override

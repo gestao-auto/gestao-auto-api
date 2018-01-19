@@ -3,7 +3,6 @@ package br.edu.pucpr.gestaoauto.job;
 import br.edu.pucpr.gestaoauto.manager.NotificacaoManager;
 import br.edu.pucpr.gestaoauto.manager.manutencao.ManutencaoManager;
 import br.edu.pucpr.gestaoauto.model.manutencao.Revisao;
-import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

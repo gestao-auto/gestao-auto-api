@@ -1,20 +1,18 @@
 package br.edu.pucpr.gestaoauto.manager.manutencao;
 
-import javax.ejb.EJB;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-
 import br.edu.pucpr.gestaoauto.api.dto.manutencao.PecaServicoDTO;
 import br.edu.pucpr.gestaoauto.dao.manutencao.PecaServicoDAO;
 import br.edu.pucpr.gestaoauto.manager.Manager;
 import br.edu.pucpr.gestaoauto.model.manutencao.PecaServico;
 
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+
 @Stateless
 @LocalBean
 public class PecaServicoManager implements Manager<Integer, PecaServico> {
-
-	@EJB
-	PecaServicoDAO dao;
+	@Inject	PecaServicoDAO dao;
 
 	@Override
 	public PecaServico save(PecaServico entity) {

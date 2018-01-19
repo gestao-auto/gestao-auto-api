@@ -13,7 +13,6 @@ import br.edu.pucpr.gestaoauto.model.usuario.Preferencia;
 import br.edu.pucpr.gestaoauto.model.usuario.Proprietario;
 import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
 
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -25,7 +24,7 @@ import java.util.ResourceBundle;
 @LocalBean
 public class NotificacaoManager implements Manager<Integer, Notificacao> {
 
-    @EJB NotificacaoDAO dao;
+    @Inject NotificacaoDAO dao;
 
     @Inject UsuarioManager usuarioManager;
     @Inject PreferenciaManager preferenciaManager;

@@ -6,40 +6,37 @@ import br.edu.pucpr.gestaoauto.manager.Manager;
 import br.edu.pucpr.gestaoauto.model.veiculo.Marca;
 import br.edu.pucpr.gestaoauto.model.veiculo.Modelo;
 
-import javax.ejb.EJB;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModeloManager implements Manager<Integer, Modelo> {
+	@Inject	ModeloVeiculoDAO dao;
 
-	@EJB
-	ModeloVeiculoDAO modeloDAO;
-	@Inject
-    MarcaManager marcaManager;
+	@Inject MarcaManager marcaManager;
 	
 	@Override
 	public Modelo save(Modelo entity) {
-		return modeloDAO.save(entity);
+		return dao.save(entity);
 	}
 
 	@Override
 	public Modelo update(Modelo entity) {
-		return modeloDAO.update(entity);
+		return dao.update(entity);
 	}
 
 	@Override
 	public void delete(Integer id) {
-		modeloDAO.delete(this.getById(id));
+		dao.delete(this.getById(id));
 	}
 
 	@Override
 	public Modelo getById(Integer id) {
-		return modeloDAO.getById(id);
+		return dao.getById(id);
 	}
 
 	public List<Modelo> getListByMarca(Marca marca) {
-		return modeloDAO.getModeloVeiculoPorMarca(marca);
+		return dao.getModeloVeiculoPorMarca(marca);
 	}
 
 	public ModeloDTO convertModeloVeiculoToDTO(Modelo modelo) {

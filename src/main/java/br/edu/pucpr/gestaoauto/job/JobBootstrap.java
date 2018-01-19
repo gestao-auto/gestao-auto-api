@@ -5,15 +5,15 @@ import br.edu.pucpr.gestaoauto.model.job.Job;
 
 import javax.batch.runtime.BatchRuntime;
 import javax.batch.runtime.BatchStatus;
-import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.inject.Inject;
 
 @Startup
 @Singleton
 public class JobBootstrap {
-    @EJB JobDAO dao;
+    @Inject JobDAO dao;
 
     @Schedule(hour = "*", minute = "*", second = "0", persistent = false)
     public void hourly() {

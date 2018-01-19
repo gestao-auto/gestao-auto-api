@@ -15,11 +15,9 @@ import br.edu.pucpr.gestaoauto.util.GestaoAutoException;
 import br.edu.pucpr.gestaoauto.util.ObjetoNaoEncontradoException;
 import br.edu.pucpr.gestaoauto.util.QuilometragemExeption;
 
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +28,9 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
     public static final String CARRO = "Carro";
     public static final String MOTOCICLETA = "Motocicleta";
 
-    @EJB VeiculoDAO veiculoDAO;
-	@EJB ProprietarioDAO proprietarioDAO;
+    @Inject VeiculoDAO veiculoDAO;
+	@Inject ProprietarioDAO proprietarioDAO;
+
     @Inject ModeloManager modeloManager;
     @Inject NotificacaoManager notificacaoManager;
 

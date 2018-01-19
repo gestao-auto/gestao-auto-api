@@ -1,14 +1,5 @@
 package br.edu.pucpr.gestaoauto.manager.usuario;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-
-import javax.ejb.EJB;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-
 import br.edu.pucpr.gestaoauto.api.dto.usuario.PreferenciaDTO;
 import br.edu.pucpr.gestaoauto.dao.usuario.PreferenciaDAO;
 import br.edu.pucpr.gestaoauto.manager.Manager;
@@ -16,11 +7,19 @@ import br.edu.pucpr.gestaoauto.model.manutencao.Revisao;
 import br.edu.pucpr.gestaoauto.model.usuario.Preferencia;
 import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
 
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 @Stateless
 @LocalBean
 public class PreferenciaManager implements Manager<Integer, Preferencia> {
 
-	@EJB PreferenciaDAO dao;
+    @Inject PreferenciaDAO dao;
+
 	@Inject UsuarioManager usuarioManager;
 
 	@Override

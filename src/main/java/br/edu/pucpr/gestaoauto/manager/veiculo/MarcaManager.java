@@ -5,41 +5,39 @@ import br.edu.pucpr.gestaoauto.dao.veiculo.MarcaVeiculoDAO;
 import br.edu.pucpr.gestaoauto.manager.Manager;
 import br.edu.pucpr.gestaoauto.model.veiculo.Marca;
 
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
 @LocalBean
 public class MarcaManager implements Manager<Integer, Marca> {
-
-	@EJB
-	MarcaVeiculoDAO marcaDAO;
+	@Inject	MarcaVeiculoDAO dao;
 
 	@Override
 	public Marca save(Marca entity) {
-		return marcaDAO.save(entity);
+		return dao.save(entity);
 	}
 
 	@Override
 	public Marca update(Marca entity) {
-		return marcaDAO.update(entity);
+		return dao.update(entity);
 	}
 
 	@Override
 	public void delete(Integer id) {
-		marcaDAO.delete(this.getById(id));
+		dao.delete(this.getById(id));
 	}
 
 	@Override
 	public Marca getById(Integer id) {
-		return marcaDAO.getById(id);
+		return dao.getById(id);
 	}
 
 	public List<Marca> getList() {
-		return marcaDAO.findAll();
+		return dao.findAll();
 	}
 
 	public List<MarcaDTO> convertListToDTO(List<Marca> listMarcaVeiculo) {

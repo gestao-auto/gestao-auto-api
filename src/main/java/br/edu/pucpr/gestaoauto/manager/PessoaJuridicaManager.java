@@ -1,22 +1,20 @@
 package br.edu.pucpr.gestaoauto.manager;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ejb.EJB;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-
 import br.edu.pucpr.gestaoauto.api.dto.pessoaJuridica.PessoaJuridicaDTO;
 import br.edu.pucpr.gestaoauto.dao.pessoaJuridica.PessoaJuridicaDAO;
 import br.edu.pucpr.gestaoauto.model.pessoaJuridica.PessoaJuridica;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 @Stateless
 @LocalBean
 public class PessoaJuridicaManager implements Manager<Integer, PessoaJuridica> {
 
-	@EJB
-	PessoaJuridicaDAO pessoaJuridicaDAO;
+	@Inject	PessoaJuridicaDAO pessoaJuridicaDAO;
 
 	@Override
 	public PessoaJuridica save(PessoaJuridica entity) {

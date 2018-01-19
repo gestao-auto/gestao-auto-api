@@ -1,15 +1,5 @@
 package br.edu.pucpr.gestaoauto.manager.usuario;
 
-import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-
-import javax.ejb.EJB;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-
 import br.edu.pucpr.gestaoauto.api.dto.usuario.UsuarioCompletoDTO;
 import br.edu.pucpr.gestaoauto.api.dto.usuario.UsuarioDTO;
 import br.edu.pucpr.gestaoauto.dao.usuario.UsuarioDAO;
@@ -21,11 +11,20 @@ import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
 import br.edu.pucpr.gestaoauto.seguranca.REQUEST_Autenticacao;
 import br.edu.pucpr.gestaoauto.seguranca.util.SegurancaUtil;
 
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 @Stateless
 @LocalBean
 public class UsuarioManager implements Manager<Integer, Usuario>  {
 
-	@EJB UsuarioDAO dao;
+	@Inject UsuarioDAO dao;
+
 	@Inject ManutencaoManager manutencaoManager;
 	@Inject VeiculoManager veiculoManager;
 	@Inject ProprietarioManager proprietarioManager;
