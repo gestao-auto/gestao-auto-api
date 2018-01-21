@@ -29,6 +29,8 @@ public class NotificacaoRevisaoBatchlet extends AbstractBatchlet {
         log.info("NotificacaoRevisaoBatchlet - process - " + this.jobContext.getExecutionId());
 
         List<Revisao> revisoes = this.manutencaoManager.findByDate(LocalDate.now());
+        log.info("NotificacaoRevisaoBatchlet - process - LocalDate:" + LocalDate.now());
+        log.info("NotificacaoRevisaoBatchlet - process - revisoes:" + revisoes.size());
         for (Revisao revisao: revisoes) {
             try {
                 this.notificacaoManager.conferirRevisao(revisao.getVeiculo());

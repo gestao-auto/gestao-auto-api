@@ -89,9 +89,10 @@ public class NotificacaoManager implements Manager<Integer, Notificacao> {
     }
 
     private void notificarRevisao(Veiculo veiculo) throws Exception {
-        final ResourceBundle bundle = ResourceBundle.getBundle("messages", veiculo.getProprietario().getIdioma());
+        final ResourceBundle bundle = ResourceBundle.getBundle("i18n/messages", veiculo.getProprietario().getIdioma());
 
         Notificacao notificacao = new Notificacao();
+        notificacao.setUsuario(veiculo.getProprietario().getUsuario());
         notificacao.setTipoNotificacao(TipoNotificacao.REVISAO);
         notificacao.setMensagem(bundle.getString("revisao.aviso").concat(veiculo.getPlaca()));
         this.save(notificacao);

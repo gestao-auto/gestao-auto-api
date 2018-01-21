@@ -15,7 +15,7 @@ import javax.inject.Inject;
 public class JobBootstrap {
     @Inject JobDAO dao;
 
-    @Schedule(hour = "*", minute = "*", second = "0", persistent = false)
+    @Schedule(hour = "*", minute = "0", second = "0", persistent = false)
     public void hourly() {
         Job entity = new Job();
         entity.setStatus(BatchStatus.STARTED);
