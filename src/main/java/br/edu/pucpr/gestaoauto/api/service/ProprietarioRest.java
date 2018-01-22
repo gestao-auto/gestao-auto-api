@@ -70,7 +70,11 @@ public class ProprietarioRest extends AbstractRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProprietarioByUsuario(@PathParam("codigo") Integer codigoUsuario) {
 		try {
-			return Response.ok(manager.convertEntityToDTO(manager.getByUsuario(codigoUsuario))).build();
+			Proprietario proprietario = manager.getByUsuario(codigoUsuario);
+			if (proprietario == null) {
+				return Response.noContent().build();
+			}
+			return Response.ok(manager.convertEntityToDTO(proprietario)).build();
 		} catch (Exception e) {
 			log.error(e.toString());
 			return super.serverError(e);

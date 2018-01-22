@@ -8,6 +8,7 @@ public class ProprietarioDTO {
 	private String sobrenome;
 	private String sexo;
 	private String dataNascimento;
+	private String idioma;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -52,5 +53,13 @@ public class ProprietarioDTO {
 
 	public void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+
+	public String getIdioma() {
+		return idioma;
+	}
+
+	public void setIdioma(String idioma) {
+		this.idioma = idioma;
 	}
 }
