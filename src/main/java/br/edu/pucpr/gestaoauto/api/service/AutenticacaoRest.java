@@ -31,14 +31,20 @@ public class AutenticacaoRest extends AbstractRest {
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response createUsuario(UsuarioCompletoDTO dto) {
 		log.info("AutenticacaoRest -> create");
+		Status status = Status.INTERNAL_SERVER_ERROR;
+		String token = null;
 		try {
-			return Response.ok().entity(manager.convertUsuarioToDTO(manager.save(manager.convertUsuarioCompletoDTOToEntity(dto)))).build();
+			Usuario usuario = manager.save(manager.convertUsuarioCompletoDTOToEntity(dto));
+			
+			token = TokenHandler.getToken(usuario.getCodigo().toString(), usuario.getEmail());
+
+			return Response.status(Status.OK).entity(token).build();
 		} catch (Exception e) {
 			log.error(e.toString());
-			return this.serverError(e);
+			return Response.status(status).entity(e.getMessage()).build();
 		}
 	}
 
@@ -47,7 +53,7 @@ public class AutenticacaoRest extends AbstractRest {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response login(REQUEST_Autenticacao credenciais) {
-
+		log.info("AutenticacaoRest -> login");
 		String token = null;
 		Status status = Status.INTERNAL_SERVER_ERROR;// Prepara a requisição para um erro inesperado
 

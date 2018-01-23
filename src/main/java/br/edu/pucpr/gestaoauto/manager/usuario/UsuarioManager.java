@@ -1,5 +1,14 @@
 package br.edu.pucpr.gestaoauto.manager.usuario;
 
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+
 import br.edu.pucpr.gestaoauto.api.dto.usuario.UsuarioCompletoDTO;
 import br.edu.pucpr.gestaoauto.api.dto.usuario.UsuarioDTO;
 import br.edu.pucpr.gestaoauto.dao.usuario.UsuarioDAO;
@@ -10,14 +19,6 @@ import br.edu.pucpr.gestaoauto.model.usuario.Usuario;
 import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
 import br.edu.pucpr.gestaoauto.seguranca.REQUEST_Autenticacao;
 import br.edu.pucpr.gestaoauto.seguranca.util.SegurancaUtil;
-
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Stateless
 @LocalBean
@@ -67,7 +68,7 @@ public class UsuarioManager implements Manager<Integer, Usuario>  {
 	public Usuario convertUsuarioCompletoDTOToEntity(UsuarioCompletoDTO dto) throws Exception {
 		Usuario entity = (dto.getCodigo() != null ? this.getById(dto.getCodigo()) : new Usuario());
 		entity.setCodigo(dto.getCodigo());
-		entity.setDataAceiteTermoUso((dto.getDataAceiteTermoUso() != null ? LocalDateTime.parse(dto.getDataAceiteTermoUso(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) : null));
+		entity.setDataAceiteTermoUso((dto.getDataAceiteTermoUso() != null ? LocalDate.parse(dto.getDataAceiteTermoUso(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null));
 		entity.setEmail(dto.getEmail());
 		entity.setFoto(dto.getFoto());
 		entity.setSenha(dto.getSenha());
@@ -78,7 +79,7 @@ public class UsuarioManager implements Manager<Integer, Usuario>  {
 	public UsuarioCompletoDTO convertUsuarioToDTOCompleto(Usuario entity){
 		UsuarioCompletoDTO dto = new UsuarioCompletoDTO();
 		dto.setCodigo(entity.getCodigo());
-		dto.setDataAceiteTermoUso(entity.getDataAceiteTermoUso() != null ? entity.getDataAceiteTermoUso().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) : null);
+		dto.setDataAceiteTermoUso(entity.getDataAceiteTermoUso() != null ? entity.getDataAceiteTermoUso().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
 		dto.setEmail(entity.getEmail());
 		dto.setFoto(entity.getFoto());
 		dto.setTokenRecuperarSenha(entity.getTokenRecuperarSenha());
@@ -88,7 +89,7 @@ public class UsuarioManager implements Manager<Integer, Usuario>  {
 	public UsuarioDTO convertUsuarioToDTO(Usuario entity) {
 		UsuarioDTO dto = new UsuarioDTO();
 		dto.setCodigo(entity.getCodigo());
-		dto.setDataAceiteTermoUso(entity.getDataAceiteTermoUso() != null ? entity.getDataAceiteTermoUso().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) : null);
+		dto.setDataAceiteTermoUso(entity.getDataAceiteTermoUso() != null ? entity.getDataAceiteTermoUso().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
 		dto.setEmail(entity.getEmail());
 		return dto;
 	}
