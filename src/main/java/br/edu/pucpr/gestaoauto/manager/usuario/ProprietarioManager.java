@@ -2,6 +2,7 @@ package br.edu.pucpr.gestaoauto.manager.usuario;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -52,6 +53,7 @@ public class ProprietarioManager implements Manager<Integer, Proprietario>{
         entity.setSobrenome(dto.getSobrenome());
         entity.setSexo(dto.getSexo());
 		entity.setUsuario(usuarioDAO.getById(dto.getCodigoUsuario()));
+		entity.setIdioma(new Locale(dto.getIdioma()));
         return entity;
     }
 
@@ -63,6 +65,7 @@ public class ProprietarioManager implements Manager<Integer, Proprietario>{
 		dto.setSobrenome(entity.getSobrenome());
 		dto.setSexo(entity.getSexo());
 		dto.setCodigoUsuario(entity.getUsuario().getCodigo());
+		dto.setIdioma(entity.getIdioma().toString());
 		return dto;
     }
 }

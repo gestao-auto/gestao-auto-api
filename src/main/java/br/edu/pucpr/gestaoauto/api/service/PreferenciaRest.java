@@ -26,7 +26,7 @@ public class PreferenciaRest extends AbstractRest {
 	@Inject PreferenciaManager manager;
 	
 	@POST
-	@Path("/create")
+	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(PreferenciaDTO dto) {
@@ -39,7 +39,7 @@ public class PreferenciaRest extends AbstractRest {
 	}
 
 	@PUT
-	@Path("/update")
+	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(PreferenciaDTO dto) {
@@ -56,7 +56,7 @@ public class PreferenciaRest extends AbstractRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getByUsuario(@PathParam("codigo") Integer codigoUsuario) {
 		try {
-			Preferencia preferenciaUsuario = manager.getById(codigoUsuario);
+			Preferencia preferenciaUsuario = manager.getByUsuario(codigoUsuario);
 			if (preferenciaUsuario != null) {
 				return Response.ok(manager.convertEntityToDTO(preferenciaUsuario)).build();
 			} else {
