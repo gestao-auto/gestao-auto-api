@@ -173,7 +173,6 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		}
 		dto.setStatus(revisao.getStatus().getNome());
 		dto.setItemManutencaoList(itemManutencaoManager.convertItemManutencaoListToDTO(revisao.getItemManutencao()));
-		dto.setTempoUsoPrevisto(revisao.getModeloRevisao().getTempoUso());
 		return dto;
 	}
 
