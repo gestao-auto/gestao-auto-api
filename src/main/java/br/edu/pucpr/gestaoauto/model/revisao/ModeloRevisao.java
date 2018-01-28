@@ -24,7 +24,7 @@ public class ModeloRevisao implements java.io.Serializable {
 	private Integer codigo;
 	private PacoteRevisao pacote;
 	private String descricao;
-	private Integer tempouso;
+	private Integer tempoUso;
 	private Integer odometro;
 	private List<ItemRevisao> itemRevisaoList = new ArrayList<>();
 
@@ -63,12 +63,12 @@ public class ModeloRevisao implements java.io.Serializable {
 	}
 
 	@Column(name = "tempouso")
-	public Integer getTempouso() {
-		return this.tempouso;
+	public Integer getTempoUso() {
+		return this.tempoUso;
 	}
 
-	public void setTempouso(Integer tempouso) {
-		this.tempouso = tempouso;
+	public void setTempoUso(Integer tempoUso) {
+		this.tempoUso = tempoUso;
 	}
 
 	@Column(name = "odometro")

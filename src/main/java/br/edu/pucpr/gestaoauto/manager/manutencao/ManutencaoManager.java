@@ -1,5 +1,14 @@
 package br.edu.pucpr.gestaoauto.manager.manutencao;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+
 import br.edu.pucpr.gestaoauto.api.dto.manutencao.ManutencaoDTO;
 import br.edu.pucpr.gestaoauto.api.dto.manutencao.TipoManutencaoDTO;
 import br.edu.pucpr.gestaoauto.dao.manutencao.ManutencaoDAO;
@@ -7,7 +16,12 @@ import br.edu.pucpr.gestaoauto.manager.Manager;
 import br.edu.pucpr.gestaoauto.manager.PessoaJuridicaManager;
 import br.edu.pucpr.gestaoauto.manager.revisao.PacoteRevisaoManager;
 import br.edu.pucpr.gestaoauto.manager.veiculo.VeiculoManager;
-import br.edu.pucpr.gestaoauto.model.manutencao.*;
+import br.edu.pucpr.gestaoauto.model.manutencao.ItemManutencao;
+import br.edu.pucpr.gestaoauto.model.manutencao.Manutencao;
+import br.edu.pucpr.gestaoauto.model.manutencao.Reparo;
+import br.edu.pucpr.gestaoauto.model.manutencao.Revisao;
+import br.edu.pucpr.gestaoauto.model.manutencao.Sinistro;
+import br.edu.pucpr.gestaoauto.model.manutencao.Status;
 import br.edu.pucpr.gestaoauto.model.pessoaJuridica.Reparador;
 import br.edu.pucpr.gestaoauto.model.pessoaJuridica.Seguradora;
 import br.edu.pucpr.gestaoauto.model.revisao.ItemRevisao;
@@ -17,14 +31,6 @@ import br.edu.pucpr.gestaoauto.model.veiculo.Modelo;
 import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
 import br.edu.pucpr.gestaoauto.util.GestaoAutoException;
 import br.edu.pucpr.gestaoauto.util.ObjetoNaoEncontradoException;
-
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 @Stateless
 @LocalBean
@@ -119,7 +125,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 	}
 
 	private LocalDate getDataPrevistaRevisao(Veiculo veiculo, ModeloRevisao revisaoProgramada) {
-		return veiculo.getDataAquisicaoPrimeiroDono().plusMonths(revisaoProgramada.getTempouso());
+		return veiculo.getDataAquisicaoPrimeiroDono().plusMonths(revisaoProgramada.getTempoUso());
 	}
 
 	private Status getStatusRevisaoPorTempoDeUsoOuOdometroPrevisto(Veiculo veiculo, ModeloRevisao revisaoProgramada) {
@@ -167,6 +173,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		}
 		dto.setStatus(revisao.getStatus().getNome());
 		dto.setItemManutencaoList(itemManutencaoManager.convertItemManutencaoListToDTO(revisao.getItemManutencao()));
+		dto.setTempoUsoPrevisto(revisao.getModeloRevisao().getTempoUso());
 		return dto;
 	}
 

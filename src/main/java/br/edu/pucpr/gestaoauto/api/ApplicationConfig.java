@@ -14,6 +14,7 @@ import br.edu.pucpr.gestaoauto.api.service.PessoaJuridicaRest;
 import br.edu.pucpr.gestaoauto.api.service.PreferenciaRest;
 import br.edu.pucpr.gestaoauto.api.service.ProprietarioRest;
 import br.edu.pucpr.gestaoauto.api.service.UsuarioRest;
+import br.edu.pucpr.gestaoauto.api.service.home.HomeRest;
 import br.edu.pucpr.gestaoauto.api.service.indicador.IndicadorIndividualRest;
 import br.edu.pucpr.gestaoauto.api.service.veiculo.MarcaRest;
 import br.edu.pucpr.gestaoauto.api.service.veiculo.ModeloRest;
@@ -39,6 +40,7 @@ public class ApplicationConfig extends javax.ws.rs.core.Application {
 		classes.add(NotificacaoRest.class);
 		classes.add(ProprietarioRest.class);
 		classes.add(IndicadorIndividualRest.class);
+		classes.add(HomeRest.class);
 		//Filtros 
 		classes.add(JWTRequestFilter.class);
 		return classes;
