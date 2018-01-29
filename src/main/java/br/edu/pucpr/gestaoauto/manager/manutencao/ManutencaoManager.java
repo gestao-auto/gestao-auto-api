@@ -9,6 +9,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import br.edu.pucpr.gestaoauto.api.dto.manutencao.ItemManutencaoDTO;
 import br.edu.pucpr.gestaoauto.api.dto.manutencao.ManutencaoDTO;
 import br.edu.pucpr.gestaoauto.api.dto.manutencao.TipoManutencaoDTO;
 import br.edu.pucpr.gestaoauto.dao.manutencao.ManutencaoDAO;
@@ -137,10 +138,11 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		return Status.PENDENTE;
 	}
 
-	private Double getValorUnitarioMedioPecaServicoPrevisto(Modelo modelo, ModeloRevisao modeloRevisao, ItemManutencao item) {
-		// TODO: implementar
-		return null;
-	}
+    private Double getValorUnitarioMedioPecaServicoPrevisto(Modelo modelo, ModeloRevisao modeloRevisao, ItemManutencao item) {
+        double valor = modelo.getMarca().getCodigo() * 0.15 * item.getCodigo() * (modeloRevisao.getOdometro() * 0.05);
+        //TODO remover calculo fake
+        return valor;
+    }
 
 	public List<ManutencaoDTO> convertListToDTO(List<Manutencao> manutencaoList) {
 		List<ManutencaoDTO> dtoList = new ArrayList<>();
@@ -158,7 +160,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		return dtoList;
 	}
 
-	public ManutencaoDTO convertEntityToDTO(Revisao revisao) {
+    public ManutencaoDTO convertEntityToDTO(Revisao revisao) {
 		ManutencaoDTO dto = new ManutencaoDTO();
 		dto.setTipoManutencao(TipoManutencaoDTO.REVISAO);
 		dto.setCodigo(revisao.getCodigo());
@@ -170,9 +172,15 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setOdometroPrevisto(revisao.getOdometroPrevisto());
 		if (revisao.getReparador() != null) {
 			dto.setCodigoReparador(revisao.getReparador().getCodigo());
+			dto.setNomeReparador(revisao.getReparador().getNomeFantasia());
 		}
 		dto.setStatus(revisao.getStatus().getNome());
 		dto.setItemManutencaoList(itemManutencaoManager.convertItemManutencaoListToDTO(revisao.getItemManutencao()));
+        Double valorTotal = 0.0;
+		for(ItemManutencaoDTO item: dto.getItemManutencaoList()){
+            valorTotal += item.getValorUnitario() * item.getQuantidade();
+        }
+        dto.setValorTotal(valorTotal);
 		return dto;
 	}
 
@@ -186,6 +194,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setOdometro(reparo.getOdometro());
 		dto.setMotivo(reparo.getMotivo());
 		dto.setCodigoReparador(reparo.getReparador().getCodigo());
+		dto.setNomeReparador(reparo.getReparador().getNomeFantasia());
 		dto.setItemManutencaoList(itemManutencaoManager.convertItemManutencaoListToDTO(reparo.getItemManutencao()));
 		return dto;
 	}
@@ -199,7 +208,9 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setData(sinistro.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		dto.setOdometro(sinistro.getOdometro());
 		dto.setCodigoReparador(sinistro.getReparador().getCodigo());
+		dto.setNomeReparador(sinistro.getReparador().getNomeFantasia());
 		dto.setCodigoSeguradora(sinistro.getSeguradora().getCodigo());
+		dto.setNomeSeguradora(sinistro.getSeguradora().getNomeFantasia());
 		dto.setItemManutencaoList(itemManutencaoManager.convertItemManutencaoListToDTO(sinistro.getItemManutencao()));
 		return dto;
 	}

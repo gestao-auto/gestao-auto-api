@@ -8,7 +8,9 @@ public class ManutencaoDTO {
 	private Integer codigo;
 	private String descricao;
 	private Integer codigoReparador;
+	private String nomeReparador;
 	private Integer codigoSeguradora;
+	private String nomeSeguradora;
 	private Integer codigoVeiculo;
 	private Integer odometro;
 	private String data;
@@ -17,8 +19,9 @@ public class ManutencaoDTO {
 	private Integer odometroPrevisto;
 	private String motivo;
 	private List<ItemManutencaoDTO> itemManutencaoList;
+    private Double valorTotal;
 
-	public Integer getCodigo() {
+    public Integer getCodigo() {
 		return codigo;
 	}
 
@@ -42,12 +45,28 @@ public class ManutencaoDTO {
 		this.codigoReparador = codigoReparador;
 	}
 
+	public String getNomeReparador() {
+		return nomeReparador;
+	}
+
+	public void setNomeReparador(String nomeReparador) {
+		this.nomeReparador = nomeReparador;
+	}
+
 	public Integer getCodigoSeguradora() {
 		return codigoSeguradora;
 	}
 
 	public void setCodigoSeguradora(Integer codigoSeguradora) {
 		this.codigoSeguradora = codigoSeguradora;
+	}
+
+	public String getNomeSeguradora() {
+		return nomeSeguradora;
+	}
+
+	public void setNomeSeguradora(String nomeSeguradora) {
+		this.nomeSeguradora = nomeSeguradora;
 	}
 
 	public Integer getCodigoVeiculo() {
@@ -122,4 +141,10 @@ public class ManutencaoDTO {
 		this.tipoManutencao = tipoManutencao;
 	}
 
+    public Double getValorTotal() {
+        return valorTotal;
+    }
+    public void setValorTotal(Double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
 }
