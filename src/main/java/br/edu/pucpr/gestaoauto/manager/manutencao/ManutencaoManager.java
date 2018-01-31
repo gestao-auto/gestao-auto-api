@@ -144,6 +144,14 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
         return valor;
     }
 
+	public Double getValorTotal(Manutencao manutencao) {
+		Double valor = 0d;
+		for (ItemManutencao item : manutencao.getItemManutencao()) {
+			valor += item.getValorUnitario() * item.getQuantidade();
+		}
+		return valor;
+	}
+
 	public List<ManutencaoDTO> convertListToDTO(List<Manutencao> manutencaoList) {
 		List<ManutencaoDTO> dtoList = new ArrayList<>();
 		for (Object manutencao : manutencaoList) {

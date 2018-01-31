@@ -1,38 +1,27 @@
 package br.edu.pucpr.gestaoauto.api.dto.indicador;
 
 public class ItemManutencaoDTO {
-	private String nomePecaServico;
-	private Double valorUnitario;
-	private Float quantidade;
+	private String nome;
+	private Double quantidade;
 
-	public ItemManutencaoDTO(String nomePecaServico, Double valorUnitario, Float quantidade) {
-		this.nomePecaServico = nomePecaServico;
-		this.valorUnitario = valorUnitario;
+	public ItemManutencaoDTO(String nome, Double quantidade) {
+		this.nome = nome;
 		this.quantidade = quantidade;
 	}
 
-	public String getNomePecaServico() {
-		return nomePecaServico;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setNomePecaServico(String nomePecaServico) {
-		this.nomePecaServico = nomePecaServico;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public Double getValorUnitario() {
-		return valorUnitario;
-	}
-
-	public void setValorUnitario(Double valorUnitario) {
-		this.valorUnitario = valorUnitario;
-	}
-
-	public Float getQuantidade() {
+	public Double getQuantidade() {
 		return quantidade;
 	}
 
-	public void setQuantidade(Float quantidade) {
+	public void setQuantidade(Double quantidade) {
 		this.quantidade = quantidade;
 	}
-
 }

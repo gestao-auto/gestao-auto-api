@@ -1,112 +1,61 @@
 package br.edu.pucpr.gestaoauto.api.dto.indicador;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import br.edu.pucpr.gestaoauto.model.manutencao.ItemManutencao;
-import br.edu.pucpr.gestaoauto.model.manutencao.Manutencao;
-import br.edu.pucpr.gestaoauto.model.manutencao.Sinistro;
 
 public class GastoIndividualComManutencaoDTO {
 	
-	private String nomeVeiculo;
-	private String modeloVeiculo;
-	private String marcaVeiculo;
-	private String descricao;
-	private String nomeReparador;
-	private String nomeSeguradora;
-	private Integer odometro;
-	private String data;
-	private List<ItemManutencaoDTO> itemManutencaoList;
+	private Integer dias;
+	private Integer registros;
+	private String custoTotal;
+	private String custoPorDia;
+	private String custoPorQuilometragem;
+	private List<ItemManutencaoDTO> itensManuteidos;
 
-	public GastoIndividualComManutencaoDTO(Manutencao manutencao) {
-		this.nomeVeiculo = manutencao.getVeiculo().getNome();
-		this.modeloVeiculo = manutencao.getVeiculo().getModelo().getNome();
-		this.marcaVeiculo = manutencao.getVeiculo().getModelo().getMarca().getNome();
-		this.descricao = manutencao.getDescricao();
-		this.nomeReparador = manutencao.getReparador().getNomeFantasia();
-		this.nomeSeguradora = (manutencao instanceof Sinistro) ? ((Sinistro) manutencao).getSeguradora().getNomeFantasia() : null;
-		this.odometro = manutencao.getOdometro();
-		this.itemManutencaoList = this.convertItemManutencaoToDTO(manutencao.getItemManutencao());
+	public Integer getDias() {
+		return dias;
 	}
 
-	public String getNomeVeiculo() {
-		return nomeVeiculo;
+	public void setDias(Integer dias) {
+		this.dias = dias;
 	}
 
-	public void setNomeVeiculo(String nomeVeiculo) {
-		this.nomeVeiculo = nomeVeiculo;
+	public Integer getRegistros() {
+		return registros;
 	}
 
-	public String getModeloVeiculo() {
-		return modeloVeiculo;
+	public void setRegistros(Integer registros) {
+		this.registros = registros;
 	}
 
-	public void setModeloVeiculo(String modeloVeiculo) {
-		this.modeloVeiculo = modeloVeiculo;
+	public String getCustoTotal() {
+		return custoTotal;
 	}
 
-	public String getMarcaVeiculo() {
-		return marcaVeiculo;
+	public void setCustoTotal(String custoTotal) {
+		this.custoTotal = custoTotal;
 	}
 
-	public void setMarcaVeiculo(String marcaVeiculo) {
-		this.marcaVeiculo = marcaVeiculo;
+	public String getCustoPorDia() {
+		return custoPorDia;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public void setCustoPorDia(String custoPorDia) {
+		this.custoPorDia = custoPorDia;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public String getCustoPorQuilometragem() {
+		return custoPorQuilometragem;
 	}
 
-	public String getNomeReparador() {
-		return nomeReparador;
+	public void setCustoPorQuilometragem(String custoPorQuilometragem) {
+		this.custoPorQuilometragem = custoPorQuilometragem;
 	}
 
-	public void setNomeReparador(String nomeReparador) {
-		this.nomeReparador = nomeReparador;
+	public List<ItemManutencaoDTO> getItensManuteidos() {
+		return itensManuteidos;
 	}
 
-	public String getNomeSeguradora() {
-		return nomeSeguradora;
-	}
-
-	public void setNomeSeguradora(String nomeSeguradora) {
-		this.nomeSeguradora = nomeSeguradora;
-	}
-
-	public Integer getOdometro() {
-		return odometro;
-	}
-
-	public void setOdometro(Integer odometro) {
-		this.odometro = odometro;
-	}
-
-	public String getData() {
-		return data;
-	}
-
-	public void setData(String data) {
-		this.data = data;
-	}
-
-	public List<ItemManutencaoDTO> getItemManutencaoList() {
-		return itemManutencaoList;
-	}
-
-	public void setItemManutencaoList(List<ItemManutencaoDTO> itemManutencaoList) {
-		this.itemManutencaoList = itemManutencaoList;
-	}
-
-	public List<ItemManutencaoDTO> convertItemManutencaoToDTO(List<ItemManutencao> itens) {
-		List<ItemManutencaoDTO> dto = new ArrayList<>();
-		for (ItemManutencao item : itens) {
-			dto.add(new ItemManutencaoDTO(item.getPecaServico().getNome(), item.getValorUnitario(), item.getQuantidade()));
-		}
-		return dto;
+	public void setItensManuteidos(List<ItemManutencaoDTO> itensManuteidos) {
+		this.itensManuteidos = itensManuteidos;
 	}
 }

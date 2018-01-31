@@ -1,7 +1,5 @@
 package br.edu.pucpr.gestaoauto.api.service.indicador;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -31,8 +29,8 @@ public class IndicadorIndividualRest extends AbstractRest {
 	public Response getGastosComManutencao(@PathParam("veiculo") Integer codigoVeiculo, @PathParam("dataInicial") String dataInicial,
 			@PathParam("dataFinal") String dataFinal) {
 		try {
-			List<GastoIndividualComManutencaoDTO> result = manager.getGastosComManutencaoByVeiculo(dataInicial, dataFinal, codigoVeiculo);
-			if (result.isEmpty()) {
+			GastoIndividualComManutencaoDTO result = manager.getGastosComManutencaoByVeiculo(dataInicial, dataFinal, codigoVeiculo);
+			if (result == null) {
 				return Response.noContent().build();
 			}
 			return Response.ok().entity(result).build();
