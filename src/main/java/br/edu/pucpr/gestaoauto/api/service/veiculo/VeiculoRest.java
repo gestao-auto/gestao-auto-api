@@ -63,7 +63,7 @@ public class VeiculoRest extends AbstractRest {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(VeiculoAlteracaoDTO dto) {
+	public Response create(VeiculoCompletoDTO dto) {
 		log.info("VeiculoRest -> create");
 		try {
 			return Response.ok().entity(veiculoManager.convertVeiculoToDTO(
@@ -94,7 +94,7 @@ public class VeiculoRest extends AbstractRest {
 	@Path("/{codigo}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response update(@PathParam("codigo") Integer codigoVeiculo, VeiculoAlteracaoDTO dto) {
+	public Response update(@PathParam("codigo") Integer codigoVeiculo, VeiculoCompletoDTO dto) {
         log.info("VeiculoRest -> update");
 		try {
             dto.setCodigo(codigoVeiculo);

@@ -107,7 +107,6 @@ public abstract class Veiculo implements Serializable {
 	public void setOdometro(Integer odometro) {
 		this.odometro = odometro;
 	}
-
 	public Short getRodas() {
 		return this.rodas;
 	}
