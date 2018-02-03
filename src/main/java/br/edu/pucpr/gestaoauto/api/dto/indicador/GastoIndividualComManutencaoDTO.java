@@ -1,7 +1,5 @@
 package br.edu.pucpr.gestaoauto.api.dto.indicador;
 
-import java.util.List;
-
 public class GastoIndividualComManutencaoDTO {
 	
 	private Integer dias;
@@ -9,7 +7,8 @@ public class GastoIndividualComManutencaoDTO {
 	private String custoTotal;
 	private String custoPorDia;
 	private String custoPorQuilometragem;
-	private List<ItemManutencaoDTO> itensManuteidos;
+	private String[] nomeItensManuteidos;
+	private Double[] quantidadeItensManuteidos;
 
 	public Integer getDias() {
 		return dias;
@@ -51,11 +50,19 @@ public class GastoIndividualComManutencaoDTO {
 		this.custoPorQuilometragem = custoPorQuilometragem;
 	}
 
-	public List<ItemManutencaoDTO> getItensManuteidos() {
-		return itensManuteidos;
+	public String[] getNomeItensManuteidos() {
+		return nomeItensManuteidos;
 	}
 
-	public void setItensManuteidos(List<ItemManutencaoDTO> itensManuteidos) {
-		this.itensManuteidos = itensManuteidos;
+	public void setNomeItensManuteidos(String[] nomeItensManuteidos) {
+		this.nomeItensManuteidos = nomeItensManuteidos;
+	}
+
+	public Double[] getQuantidadeItensManuteidos() {
+		return quantidadeItensManuteidos;
+	}
+
+	public void setQuantidadeItensManuteidos(Double[] quantidadeItensManuteidos) {
+		this.quantidadeItensManuteidos = quantidadeItensManuteidos;
 	}
 }
