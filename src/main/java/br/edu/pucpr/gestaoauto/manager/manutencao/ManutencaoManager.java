@@ -126,6 +126,9 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 	}
 
 	private LocalDate getDataPrevistaRevisao(Veiculo veiculo, ModeloRevisao revisaoProgramada) {
+		if (veiculo.getUnicoDono()) {
+			return veiculo.getDataAquisicao().plusMonths(revisaoProgramada.getTempoUso());
+		}
 		return veiculo.getDataAquisicaoPrimeiroDono().plusMonths(revisaoProgramada.getTempoUso());
 	}
 
@@ -139,7 +142,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 	}
 
     private Double getValorUnitarioMedioPecaServicoPrevisto(Modelo modelo, ModeloRevisao modeloRevisao, ItemManutencao item) {
-        double valor = modelo.getMarca().getCodigo() * 0.15 * item.getCodigo() * (modeloRevisao.getOdometro() * 0.05);
+		double valor = modelo.getMarca().getCodigo() * 0.15 * (modeloRevisao.getOdometro() * 0.05);
         //TODO remover calculo fake
         return valor;
     }

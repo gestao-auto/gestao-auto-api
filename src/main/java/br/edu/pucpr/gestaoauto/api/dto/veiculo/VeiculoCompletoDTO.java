@@ -6,11 +6,14 @@ public class VeiculoCompletoDTO {
 	private String nome;
 	private ModeloDTO modelo;
 	private String placa;
-	private Integer ano;
+	private String ano;
 	private String modalidade;
 	private String renavam;
 	private Integer odometro;
 	private Integer proprietario;
+	private Boolean unicoDono;
+	private String dataAquisicao;
+	private String dataAquisicaoPrimeiroDono;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -44,11 +47,11 @@ public class VeiculoCompletoDTO {
 		this.nome = nome;
 	}
 
-	public Integer getAno() {
+	public String getAno() {
 		return ano;
 	}
 
-	public void setAno(Integer ano) {
+	public void setAno(String ano) {
 		this.ano = ano;
 	}
 
@@ -83,6 +86,29 @@ public class VeiculoCompletoDTO {
 	public void setProprietario(Integer proprietario) {
 		this.proprietario = proprietario;
 	}
-	
+
+	public Boolean isUnicoDono() {
+		return unicoDono;
+	}
+
+	public void setUnicoDono(Boolean unicoDono) {
+		this.unicoDono = unicoDono;
+	}
+
+	public String getDataAquisicao() {
+		return dataAquisicao;
+	}
+
+	public void setDataAquisicao(String dataAquisicao) {
+		this.dataAquisicao = dataAquisicao;
+	}
+
+	public String getDataAquisicaoPrimeiroDono() {
+		return dataAquisicaoPrimeiroDono;
+	}
+
+	public void setDataAquisicaoPrimeiroDono(String dataAquisicaoPrimeiroDono) {
+		this.dataAquisicaoPrimeiroDono = dataAquisicaoPrimeiroDono;
+	}
 	
 }

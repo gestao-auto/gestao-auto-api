@@ -17,7 +17,6 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoAlteracaoDTO;
 import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoCompletoDTO;
 import br.edu.pucpr.gestaoauto.api.service.AbstractRest;
 import br.edu.pucpr.gestaoauto.manager.usuario.UsuarioManager;

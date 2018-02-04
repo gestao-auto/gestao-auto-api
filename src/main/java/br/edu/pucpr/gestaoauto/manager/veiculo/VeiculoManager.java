@@ -1,6 +1,14 @@
 package br.edu.pucpr.gestaoauto.manager.veiculo;
 
-import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoAlteracaoDTO;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+
 import br.edu.pucpr.gestaoauto.api.dto.veiculo.VeiculoCompletoDTO;
 import br.edu.pucpr.gestaoauto.dao.usuario.ProprietarioDAO;
 import br.edu.pucpr.gestaoauto.dao.veiculo.VeiculoDAO;
@@ -15,12 +23,6 @@ import br.edu.pucpr.gestaoauto.util.GestaoAutoException;
 import br.edu.pucpr.gestaoauto.util.ObjetoNaoEncontradoException;
 import br.edu.pucpr.gestaoauto.util.QuilometragemExeption;
 
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
-
 @Stateless
 @LocalBean
 public class VeiculoManager implements Manager<Integer, Veiculo> {
@@ -30,7 +32,6 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 
     @Inject VeiculoDAO veiculoDAO;
 	@Inject ProprietarioDAO proprietarioDAO;
-
     @Inject ModeloManager modeloManager;
     @Inject NotificacaoManager notificacaoManager;
 
@@ -96,8 +97,7 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		veiculo.setNome(dto.getNome());
 		veiculo.setPlaca(dto.getPlaca());
 		veiculo.setRenavam(dto.getRenavam());
-		veiculo.setAno(dto.getAno());
-		// Demais informações não poderão ser alteradas.
+		veiculo.setAno(Integer.parseInt(dto.getAno()));
 		this.update(veiculo);
 	}
 
@@ -109,28 +109,15 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		veiculoDTO.setModelo(modeloManager.convertModeloVeiculoToDTO(veiculo.getModelo()));
 		veiculoDTO.setOdometro(veiculo.getOdometro());
 		veiculoDTO.setRenavam(veiculo.getRenavam());
-		veiculoDTO.setAno(veiculo.getAno());
+		veiculoDTO.setAno(veiculo.getAno().toString());
 		veiculoDTO.setPlaca(veiculo.getPlaca());
 		veiculoDTO.setProprietario(veiculo.getProprietario().getCodigo());
+		veiculoDTO.setDataAquisicao(veiculo.getDataAquisicao() != null ? veiculo.getDataAquisicao().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+		veiculoDTO.setUnicoDono(veiculo.getUnicoDono());
+		veiculoDTO.setDataAquisicaoPrimeiroDono(veiculo.getDataAquisicaoPrimeiroDono() != null ? veiculo.getDataAquisicaoPrimeiroDono().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+
 		return veiculoDTO;
 	}
-
-    public Veiculo convertDTOToEntity(VeiculoAlteracaoDTO veiculoDTO) {
-        VeiculoCompletoDTO completoDTO = new VeiculoCompletoDTO();
-        completoDTO.setCodigo(veiculoDTO.getCodigo());
-        completoDTO.setNome(veiculoDTO.getNome());
-
-        Modelo modelo = modeloManager.getById(veiculoDTO.getModelo());
-        completoDTO.setModelo(modeloManager.convertModeloVeiculoToDTO(modelo));
-
-        completoDTO.setPlaca(veiculoDTO.getPlaca());
-        completoDTO.setAno(veiculoDTO.getAno());
-        completoDTO.setModalidade(veiculoDTO.getModalidade());
-        completoDTO.setRenavam(veiculoDTO.getRenavam());
-        completoDTO.setOdometro(veiculoDTO.getOdometro());
-        completoDTO.setProprietario(veiculoDTO.getProprietario());
-	    return this.convertDTOToEntity(completoDTO);
-    }
 
 	public Veiculo convertDTOToEntity(VeiculoCompletoDTO veiculoDTO) {
 		Veiculo veiculo = null;
@@ -143,9 +130,16 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		veiculo.setNome(veiculoDTO.getNome());
 		veiculo.setOdometro(veiculoDTO.getOdometro());
 		veiculo.setRenavam(veiculoDTO.getRenavam());
-		veiculo.setAno(veiculoDTO.getAno());
+		veiculo.setAno(Integer.parseInt(veiculoDTO.getAno()));
 		veiculo.setPlaca(veiculoDTO.getPlaca());
-
+		veiculo.setDataAquisicao(veiculoDTO.getDataAquisicao() != null ? LocalDate.parse(veiculoDTO.getDataAquisicao(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+		veiculo.setUnicoDono(veiculoDTO.isUnicoDono());
+		if (veiculo.getUnicoDono()) {
+			veiculo.setDataAquisicaoPrimeiroDono(null);
+		} else {
+			veiculo.setDataAquisicaoPrimeiroDono(veiculoDTO.getDataAquisicaoPrimeiroDono() != null ? LocalDate.parse(veiculoDTO.getDataAquisicaoPrimeiroDono(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+		}
+		
 		Modelo modelo = modeloManager.getById(veiculoDTO.getModelo().getCodigo());
 		veiculo.setModelo(modelo);
 

@@ -1,12 +1,24 @@
 package br.edu.pucpr.gestaoauto.model.veiculo;
 
-import br.edu.pucpr.gestaoauto.model.usuario.Proprietario;
+import static javax.persistence.GenerationType.IDENTITY;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import br.edu.pucpr.gestaoauto.model.usuario.Proprietario;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -28,7 +40,6 @@ public abstract class Veiculo implements Serializable {
 	private Integer odometroAquisicao;
 	private Boolean unicoDono;
 	private LocalDate dataAquisicaoPrimeiroDono;
-	private String localizacao;
 
 	protected Short rodas;
 
