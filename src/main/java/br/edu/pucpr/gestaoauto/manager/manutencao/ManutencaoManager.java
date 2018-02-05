@@ -64,7 +64,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
         if(manutencao.getOdometro() != null) {
             veiculoManager.updateOdometro(manutencao.getVeiculo().getCodigo(), manutencao.getOdometro());
         }
-        
+
 		return manutencao;
 	}
 
@@ -181,8 +181,8 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setCodigo(revisao.getCodigo());
 		dto.setDescricao(revisao.getDescricao());
 		dto.setCodigoVeiculo(revisao.getVeiculo().getCodigo());
-		dto.setData(revisao.getData() != null ? revisao.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : null);
-		dto.setDataPrevista(revisao.getDataPrevista() != null ? revisao.getDataPrevista().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : null);
+		dto.setData(revisao.getData() != null ? revisao.getData().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+		dto.setDataPrevista(revisao.getDataPrevista() != null ? revisao.getDataPrevista().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
 		dto.setOdometro(revisao.getOdometro());
 		dto.setOdometroPrevisto(revisao.getOdometroPrevisto());
 		if (revisao.getReparador() != null) {
@@ -205,7 +205,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setCodigo(reparo.getCodigo());
 		dto.setDescricao(reparo.getDescricao());
 		dto.setCodigoVeiculo(reparo.getVeiculo().getCodigo());
-        dto.setData(reparo.getData() != null ? reparo.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : null);
+        dto.setData(reparo.getData() != null ? reparo.getData().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
 		dto.setOdometro(reparo.getOdometro());
 		dto.setMotivo(reparo.getMotivo());
 		dto.setCodigoReparador(reparo.getReparador().getCodigo());
@@ -220,7 +220,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setCodigo(sinistro.getCodigo());
 		dto.setDescricao(sinistro.getDescricao());
 		dto.setCodigoVeiculo(sinistro.getVeiculo().getCodigo());
-        dto.setData(sinistro.getData() != null ? sinistro.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : null);
+        dto.setData(sinistro.getData() != null ? sinistro.getData().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
 		dto.setOdometro(sinistro.getOdometro());
 		dto.setCodigoReparador(sinistro.getReparador().getCodigo());
 		dto.setNomeReparador(sinistro.getReparador().getNomeFantasia());
