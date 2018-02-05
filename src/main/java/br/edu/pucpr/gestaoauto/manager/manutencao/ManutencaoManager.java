@@ -283,7 +283,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 
     private void validarManutencao(Manutencao manutencao) throws GestaoAutoException{
         if(manutencao.getItemManutencao().isEmpty()){
-            //throw new ObjetoNaoEncontradoException("error.manutencao.item.vazio");
+            throw new ObjetoNaoEncontradoException("error.manutencao.item.vazio");
         }
         else if(manutencao.getData() == null){
             throw new ObjetoNaoEncontradoException("error.manutencao.data.vazia");
@@ -302,7 +302,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 
     private void validarManutencao(ManutencaoDTO dto) throws GestaoAutoException{
         if(dto.getItemManutencaoList().isEmpty()){
-            //throw new ObjetoNaoEncontradoException("error.manutencao.item.vazio");
+            throw new ObjetoNaoEncontradoException("error.manutencao.item.vazio");
         }
         else if(dto.getData() == null){
             throw new ObjetoNaoEncontradoException("error.manutencao.data.vazia");
