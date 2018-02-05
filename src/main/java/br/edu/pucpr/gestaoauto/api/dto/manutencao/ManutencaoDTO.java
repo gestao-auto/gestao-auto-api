@@ -1,5 +1,8 @@
 package br.edu.pucpr.gestaoauto.api.dto.manutencao;
 
+import br.edu.pucpr.gestaoauto.model.manutencao.Status;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ManutencaoDTO {
@@ -14,7 +17,7 @@ public class ManutencaoDTO {
 	private Integer codigoVeiculo;
 	private Integer odometro;
 	private String data;
-	private String status;
+	private Status status;
 	private String dataPrevista;
 	private Integer odometroPrevisto;
 	private String motivo;
@@ -85,11 +88,11 @@ public class ManutencaoDTO {
 		this.odometro = odometro;
 	}
 
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 
@@ -126,7 +129,10 @@ public class ManutencaoDTO {
 	}
 
 	public List<ItemManutencaoDTO> getItemManutencaoList() {
-		return itemManutencaoList;
+		if(this.itemManutencaoList == null) {
+		    this.itemManutencaoList = new ArrayList<>();
+        }
+        return itemManutencaoList;
 	}
 
 	public void setItemManutencaoList(List<ItemManutencaoDTO> itemManutencaoList) {
