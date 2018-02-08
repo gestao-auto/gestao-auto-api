@@ -1,13 +1,21 @@
 package br.edu.pucpr.gestaoauto.model.notificacao;
 
 public enum TipoNotificacao {
-   REVISAO("revisao")
-    , DOCUMENTO("documento")
-    , RODIZIO("rodizio");
+	REVISAO("Revisão programada"), 
+	DOCUMENTO("Documentos"), 
+	RODIZIO("Rodízio");
 
-    private String tipo;
+	private String nome;
 
-    TipoNotificacao(String tipo){
-        this.tipo = tipo;
-    }
+	TipoNotificacao(String nome) {
+		this.nome = nome;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 }

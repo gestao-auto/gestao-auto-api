@@ -1,12 +1,22 @@
 package br.edu.pucpr.gestaoauto.model.notificacao;
 
 public enum StatusNotificacao {
-   GERADA("gerada")
-    , LIDA("lida");
+	
+	GERADA("Gerada"), 
+	LIDA("Lida");
 
-    private String status;
+    private String nome;
 
-    StatusNotificacao(String status){
-        this.status = status;
+    StatusNotificacao(String nome){
+        this.nome = nome;
     }
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}  
+    
 }

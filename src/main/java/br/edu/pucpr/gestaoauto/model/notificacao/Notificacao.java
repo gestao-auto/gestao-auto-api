@@ -1,15 +1,25 @@
 package br.edu.pucpr.gestaoauto.model.notificacao;
 
-import br.edu.pucpr.gestaoauto.model.usuario.Usuario;
-
-import javax.persistence.*;
-
 import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import br.edu.pucpr.gestaoauto.model.usuario.Usuario;
 
 @Entity
 @Table(name = "notificacao", catalog = "gestao_auto")
 public class Notificacao implements java.io.Serializable {
-    private Integer codigo;
+
+	private static final long serialVersionUID = 124825933065413328L;
+
+	private Integer codigo;
     private TipoNotificacao tipoNotificacao;
     private String mensagem;
     private StatusNotificacao status;
