@@ -36,7 +36,7 @@ public class HomeManager {
 		dto.setQuilometragemPrevista(revisao.getOdometroPrevisto());
 		dto.setDiasRestantes((int) ChronoUnit.DAYS.between(LocalDate.now(), revisao.getDataPrevista()));
 		dto.setQuilometrosRestantes(revisao.getOdometroPrevisto() - revisao.getVeiculo().getOdometro());
-		dto.setStatus(revisao.getStatus().getNome());
+		dto.setStatus(revisao.getStatus());
 		dto.setValorMedio(null);
 		return dto;
 	}

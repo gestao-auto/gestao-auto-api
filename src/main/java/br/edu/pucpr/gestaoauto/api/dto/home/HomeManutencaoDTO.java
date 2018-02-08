@@ -1,11 +1,13 @@
 package br.edu.pucpr.gestaoauto.api.dto.home;
 
+import br.edu.pucpr.gestaoauto.model.manutencao.Status;
+
 public class HomeManutencaoDTO {
 
 	private Integer codigo;
 	private String descricao;
 	private Integer codigoVeiculo;
-	private String status;
+	private Status status;
 	private Integer quilometragemPrevista;
 	private Integer tempoUsoPrevisto;
 	private Integer diasRestantes;
@@ -30,10 +32,10 @@ public class HomeManutencaoDTO {
 	public void setCodigoVeiculo(Integer codigoVeiculo) {
 		this.codigoVeiculo = codigoVeiculo;
 	}
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 
