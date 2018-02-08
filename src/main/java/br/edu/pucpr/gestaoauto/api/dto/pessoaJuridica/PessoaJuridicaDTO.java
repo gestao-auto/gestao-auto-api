@@ -5,6 +5,7 @@ public class PessoaJuridicaDTO {
     private Integer cnpj;
     private String razaosocial;
     private String nomefantasia;
+    private String tipo;
 
     public Integer getCodigo() {
         return codigo;
@@ -37,4 +38,12 @@ public class PessoaJuridicaDTO {
     public void setNomefantasia(String nomefantasia) {
         this.nomefantasia = nomefantasia;
     }
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 }

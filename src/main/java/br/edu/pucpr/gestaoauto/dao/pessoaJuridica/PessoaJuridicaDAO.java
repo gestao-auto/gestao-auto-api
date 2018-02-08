@@ -8,6 +8,7 @@ import br.edu.pucpr.gestaoauto.model.pessoaJuridica.Seguradora;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -29,6 +30,19 @@ public class PessoaJuridicaDAO extends DAO<Integer, PessoaJuridica> {
                 "select p from Seguradora p where p.nomeFantasia = :nome order by p.nomeFantasia desc"
                 , Seguradora.class);
         query.setParameter("nome", nome);
+        query.setMaxResults(10);
+        return query.getResultList();
+    }
+    
+    @SuppressWarnings("unchecked")
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<PessoaJuridica> getPJByNome(String nome, PessoaJuridica p) {
+    	
+        Query query = super.entityManager.createQuery(
+                "select p from PessoaJuridica p where p.nomeFantasia like :nome and TYPE(p) = :type order by p.nomeFantasia desc"
+                , PessoaJuridica.class);
+        query.setParameter("nome", "%"+ nome + "%");
+        query.setParameter("type", p.getClass() );
         query.setMaxResults(10);
         return query.getResultList();
     }

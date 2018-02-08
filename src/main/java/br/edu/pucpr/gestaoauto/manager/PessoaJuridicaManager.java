@@ -4,8 +4,11 @@ import br.edu.pucpr.gestaoauto.api.dto.manutencao.ManutencaoDTO;
 import br.edu.pucpr.gestaoauto.api.dto.pessoaJuridica.PessoaJuridicaDTO;
 import br.edu.pucpr.gestaoauto.dao.pessoaJuridica.PessoaJuridicaDAO;
 import br.edu.pucpr.gestaoauto.model.pessoaJuridica.PessoaJuridica;
+import br.edu.pucpr.gestaoauto.model.pessoaJuridica.PostoCombustivel;
 import br.edu.pucpr.gestaoauto.model.pessoaJuridica.Reparador;
 import br.edu.pucpr.gestaoauto.model.pessoaJuridica.Seguradora;
+import br.edu.pucpr.gestaoauto.model.veiculo.Carro;
+import br.edu.pucpr.gestaoauto.model.veiculo.Moto;
 import br.edu.pucpr.gestaoauto.util.ObjetoNaoEncontradoException;
 
 import javax.ejb.LocalBean;
@@ -17,6 +20,7 @@ import java.util.List;
 @Stateless
 @LocalBean
 public class PessoaJuridicaManager implements Manager<Integer, PessoaJuridica> {
+
 
 	@Inject	PessoaJuridicaDAO pessoaJuridicaDAO;
 
@@ -43,6 +47,18 @@ public class PessoaJuridicaManager implements Manager<Integer, PessoaJuridica> {
 	public List<PessoaJuridica> getListPessoaJuridica() {
 		return pessoaJuridicaDAO.findAll();
 	}
+	
+	public List<PessoaJuridica> getListPessoaJuridica(String nome,String tipo) {
+		PessoaJuridica pj;
+		if (PessoaJuridica.REPARADOR.equals(tipo)) {
+			pj = new Reparador();
+		} else if(PessoaJuridica.SEGURADORA.equals(tipo)){
+			pj = new Seguradora();
+		} else {
+			pj = new PostoCombustivel();
+		}
+		return pessoaJuridicaDAO.getPJByNome(nome, pj);
+	}
 
 	public List<PessoaJuridicaDTO> convertListToDTO(List<PessoaJuridica> pessoaJuridicas) {
 		List<PessoaJuridicaDTO> dtoList = new ArrayList<>();
@@ -58,6 +74,7 @@ public class PessoaJuridicaManager implements Manager<Integer, PessoaJuridica> {
 		pessoaJuridicaDTO.setCnpj(pessoaJuridica.getCnpj());
 		pessoaJuridicaDTO.setNomefantasia(pessoaJuridica.getNomeFantasia());
 		pessoaJuridicaDTO.setRazaosocial(pessoaJuridica.getRazaoSocial());
+		pessoaJuridicaDTO.setTipo(pessoaJuridica.getTipo());
 		return pessoaJuridicaDTO;
 	}
 
