@@ -13,6 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import br.edu.pucpr.gestaoauto.manager.manutencao.ItemManutencaoManager;
 import br.edu.pucpr.gestaoauto.manager.manutencao.ManutencaoManager;
 import br.edu.pucpr.gestaoauto.manager.usuario.PreferenciaManager;
 import br.edu.pucpr.gestaoauto.model.manutencao.Manutencao;
+import br.edu.pucpr.gestaoauto.util.ObjetoNaoEncontradoException;
 
 @Path("/manutencao")
 public class ManutencaoRest extends AbstractRest {
@@ -83,6 +85,8 @@ public class ManutencaoRest extends AbstractRest {
 				manutencaoList.addAll(manutencaoManager.getListManutencaoByVeiculo(codigoVeiculo));
 			}
 			return Response.ok(manutencaoManager.convertListToDTO(manutencaoManager.getListManutencaoByVeiculo(codigoVeiculo))).build();
+		} catch (ObjetoNaoEncontradoException e) {
+			return Response.status(Status.NO_CONTENT).entity(e.getMessage()).build();
 		} catch (Exception e) {
 			log.error(e.toString());
 			return super.serverError(e);
