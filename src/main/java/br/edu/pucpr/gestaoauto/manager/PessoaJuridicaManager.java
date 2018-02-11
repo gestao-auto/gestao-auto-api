@@ -1,5 +1,12 @@
 package br.edu.pucpr.gestaoauto.manager;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+
 import br.edu.pucpr.gestaoauto.api.dto.manutencao.ManutencaoDTO;
 import br.edu.pucpr.gestaoauto.api.dto.pessoaJuridica.PessoaJuridicaDTO;
 import br.edu.pucpr.gestaoauto.dao.pessoaJuridica.PessoaJuridicaDAO;
@@ -7,15 +14,7 @@ import br.edu.pucpr.gestaoauto.model.pessoaJuridica.PessoaJuridica;
 import br.edu.pucpr.gestaoauto.model.pessoaJuridica.PostoCombustivel;
 import br.edu.pucpr.gestaoauto.model.pessoaJuridica.Reparador;
 import br.edu.pucpr.gestaoauto.model.pessoaJuridica.Seguradora;
-import br.edu.pucpr.gestaoauto.model.veiculo.Carro;
-import br.edu.pucpr.gestaoauto.model.veiculo.Moto;
 import br.edu.pucpr.gestaoauto.util.ObjetoNaoEncontradoException;
-
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 @Stateless
 @LocalBean
