@@ -1,29 +1,19 @@
 package br.edu.pucpr.gestaoauto.api.service;
 
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import br.edu.pucpr.gestaoauto.api.dto.manutencao.ManutencaoDTO;
 import br.edu.pucpr.gestaoauto.manager.manutencao.ItemManutencaoManager;
 import br.edu.pucpr.gestaoauto.manager.manutencao.ManutencaoManager;
-import br.edu.pucpr.gestaoauto.manager.usuario.PreferenciaManager;
 import br.edu.pucpr.gestaoauto.model.manutencao.Manutencao;
 import br.edu.pucpr.gestaoauto.util.ObjetoNaoEncontradoException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import java.util.List;
 
 @Path("/manutencao")
 public class ManutencaoRest extends AbstractRest {
@@ -32,7 +22,6 @@ public class ManutencaoRest extends AbstractRest {
 	
 	@Inject ManutencaoManager manutencaoManager;
 	@Inject ItemManutencaoManager itemManutencaoManager;
-	@Inject PreferenciaManager manager;
 	
 	@POST
 	@Path("/")

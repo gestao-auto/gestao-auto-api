@@ -21,7 +21,7 @@ public class ManutencaoDTO {
 	private String dataPrevista;
 	private Integer odometroPrevisto;
 	private String motivo;
-	private List<ItemManutencaoDTO> itemManutencaoList;
+	private List<ItemManutencaoDTO> itensManutencao;
     private Double valorTotal;
 
     public Integer getCodigo() {
@@ -128,15 +128,15 @@ public class ManutencaoDTO {
 		this.motivo = motivo;
 	}
 
-	public List<ItemManutencaoDTO> getItemManutencaoList() {
-		if(this.itemManutencaoList == null) {
-		    this.itemManutencaoList = new ArrayList<>();
+	public List<ItemManutencaoDTO> getItensManutencao() {
+		if(this.itensManutencao == null) {
+		    this.itensManutencao = new ArrayList<>();
         }
-        return itemManutencaoList;
+        return itensManutencao;
 	}
 
-	public void setItemManutencaoList(List<ItemManutencaoDTO> itemManutencaoList) {
-		this.itemManutencaoList = itemManutencaoList;
+	public void setItensManutencao(List<ItemManutencaoDTO> itensManutencao) {
+		this.itensManutencao = itensManutencao;
 	}
 
 	public TipoManutencaoDTO getTipoManutencao() {

@@ -195,9 +195,9 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 			dto.setNomeReparador(revisao.getReparador().getNomeFantasia());
 		}
 		dto.setStatus(revisao.getStatus());
-		dto.setItemManutencaoList(itemManutencaoManager.convertItemManutencaoListToDTO(revisao.getItemManutencao()));
+		dto.setItensManutencao(itemManutencaoManager.convertItemManutencaoListToDTO(revisao.getItemManutencao()));
         Double valorTotal = 0.0;
-		for(ItemManutencaoDTO item: dto.getItemManutencaoList()){
+		for(ItemManutencaoDTO item: dto.getItensManutencao()){
             valorTotal += item.getValorUnitario() * item.getQuantidade();
         }
         dto.setValorTotal(valorTotal);
@@ -215,7 +215,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setMotivo(reparo.getMotivo());
 		dto.setCodigoReparador(reparo.getReparador().getCodigo());
 		dto.setNomeReparador(reparo.getReparador().getNomeFantasia());
-		dto.setItemManutencaoList(itemManutencaoManager.convertItemManutencaoListToDTO(reparo.getItemManutencao()));
+		dto.setItensManutencao(itemManutencaoManager.convertItemManutencaoListToDTO(reparo.getItemManutencao()));
 		return dto;
 	}
 
@@ -231,7 +231,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setNomeReparador(sinistro.getReparador().getNomeFantasia());
 		dto.setCodigoSeguradora(sinistro.getSeguradora().getCodigo());
 		dto.setNomeSeguradora(sinistro.getSeguradora().getNomeFantasia());
-		dto.setItemManutencaoList(itemManutencaoManager.convertItemManutencaoListToDTO(sinistro.getItemManutencao()));
+		dto.setItensManutencao(itemManutencaoManager.convertItemManutencaoListToDTO(sinistro.getItemManutencao()));
 		return dto;
 	}
 
@@ -248,7 +248,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
         manutencao.setReparador(pessoaJuridicaManager.carregaReparador(dto));
         manutencao.setItemManutencao(
                 itemManutencaoManager.convertListItemManutencaoDTOToEntity(
-                        dto.getItemManutencaoList(), manutencao));
+                        dto.getItensManutencao(), manutencao));
 		if (dto.getTipoManutencao().equals(TipoManutencaoDTO.REPARO)) {
 			Reparo reparo = (Reparo) manutencao;
 			reparo.setMotivo(dto.getMotivo());
@@ -306,7 +306,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
     }
 
     private void validarManutencao(ManutencaoDTO dto) throws GestaoAutoException{
-        if(dto.getItemManutencaoList().isEmpty()){
+        if(dto.getItensManutencao().isEmpty()){
             throw new ObjetoNaoEncontradoException("error.manutencao.item.vazio");
         }
         else if(dto.getData() == null){
