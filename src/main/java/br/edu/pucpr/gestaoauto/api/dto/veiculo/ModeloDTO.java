@@ -6,6 +6,7 @@ public class ModeloDTO {
 	private String nome;
 	private MarcaDTO marca;
 	private Integer ano;
+	private String versao;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -39,4 +40,11 @@ public class ModeloDTO {
 		this.ano = ano;
 	}
 
+	public String getVersao() {
+		return versao;
+	}
+
+	public void setVersao(String versao) {
+		this.versao = versao;
+	}
 }

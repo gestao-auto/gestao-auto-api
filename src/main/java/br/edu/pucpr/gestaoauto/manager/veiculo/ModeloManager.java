@@ -1,14 +1,15 @@
 package br.edu.pucpr.gestaoauto.manager.veiculo;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import br.edu.pucpr.gestaoauto.api.dto.veiculo.ModeloDTO;
 import br.edu.pucpr.gestaoauto.dao.veiculo.ModeloVeiculoDAO;
 import br.edu.pucpr.gestaoauto.manager.Manager;
 import br.edu.pucpr.gestaoauto.model.veiculo.Marca;
 import br.edu.pucpr.gestaoauto.model.veiculo.Modelo;
-
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ModeloManager implements Manager<Integer, Modelo> {
 	@Inject	ModeloVeiculoDAO dao;
@@ -44,6 +45,7 @@ public class ModeloManager implements Manager<Integer, Modelo> {
 		modeloDTO.setCodigo(modelo.getCodigo());
 		modeloDTO.setNome(modelo.getNome());
 		modeloDTO.setAno(modelo.getAno());
+		modeloDTO.setVersao(modelo.getVersao());
 		modeloDTO.setMarca(marcaManager.convertEntityToDTO(modelo.getMarca()));
 		return modeloDTO;
 	}
