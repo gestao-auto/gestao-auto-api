@@ -63,7 +63,7 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		return veiculoDAO.getListByUsuario(codigoUsuario);
 	}
 
-	public List<VeiculoCompletoDTO> convertListToDTO(List<Veiculo> veiculoList) {
+	public List<VeiculoCompletoDTO> convertListToDTO(List<Veiculo> veiculoList) throws GestaoAutoException {
 		List<VeiculoCompletoDTO> veiculoDTOList = new ArrayList<>();
 		for (Veiculo veiculo : veiculoList) {
 			veiculoDTOList.add(this.convertVeiculoToDTO(veiculo));
@@ -101,7 +101,9 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		this.update(veiculo);
 	}
 
-	public VeiculoCompletoDTO convertVeiculoToDTO(Veiculo veiculo) {
+	public VeiculoCompletoDTO convertVeiculoToDTO(Veiculo veiculo) throws GestaoAutoException {
+		this.validar(veiculo);
+
 		VeiculoCompletoDTO veiculoDTO = new VeiculoCompletoDTO();
 		veiculoDTO.setCodigo(veiculo.getCodigo());
 		veiculoDTO.setNome(veiculo.getNome());
@@ -109,44 +111,74 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 		veiculoDTO.setModelo(modeloManager.convertModeloVeiculoToDTO(veiculo.getModelo()));
 		veiculoDTO.setOdometro(veiculo.getOdometro());
 		veiculoDTO.setRenavam(veiculo.getRenavam());
-		veiculoDTO.setAno(veiculo.getAno().toString());
+		veiculoDTO.setAno(veiculo.getAno() != null
+                ? veiculo.getAno().toString() : null);
 		veiculoDTO.setPlaca(veiculo.getPlaca());
 		veiculoDTO.setProprietario(veiculo.getProprietario().getCodigo());
-		veiculoDTO.setDataAquisicao(veiculo.getDataAquisicao() != null ? veiculo.getDataAquisicao().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+		veiculoDTO.setDataAquisicao(veiculo.getDataAquisicao() != null
+                ? veiculo.getDataAquisicao().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
 		veiculoDTO.setUnicoDono(veiculo.getUnicoDono());
-		veiculoDTO.setDataAquisicaoPrimeiroDono(veiculo.getDataAquisicaoPrimeiroDono() != null ? veiculo.getDataAquisicaoPrimeiroDono().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+		veiculoDTO.setDataAquisicaoPrimeiroDono(veiculo.getDataAquisicaoPrimeiroDono() != null
+                ? veiculo.getDataAquisicaoPrimeiroDono().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
 
 		return veiculoDTO;
 	}
 
-	public Veiculo convertDTOToEntity(VeiculoCompletoDTO veiculoDTO) {
+	public Veiculo convertDTOToEntity(VeiculoCompletoDTO dto) throws GestaoAutoException {
+		this.validar(dto);
+
 		Veiculo veiculo = null;
-		if (veiculoDTO.getModalidade().equals(CARRO)) {
+		if (dto.getModalidade().equals(CARRO)) {
 			veiculo = new Carro();
 		} else {
 			veiculo = new Moto();
 		}
-		veiculo.setCodigo(veiculoDTO.getCodigo());
-		veiculo.setNome(veiculoDTO.getNome());
-		veiculo.setOdometro(veiculoDTO.getOdometro());
-		veiculo.setRenavam(veiculoDTO.getRenavam());
-		veiculo.setAno(Integer.parseInt(veiculoDTO.getAno()));
-		veiculo.setPlaca(veiculoDTO.getPlaca());
-		veiculo.setDataAquisicao(veiculoDTO.getDataAquisicao() != null ? LocalDate.parse(veiculoDTO.getDataAquisicao(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
-		veiculo.setUnicoDono(veiculoDTO.isUnicoDono());
+		veiculo.setCodigo(dto.getCodigo());
+		veiculo.setNome(dto.getNome());
+		veiculo.setOdometro(dto.getOdometro());
+		veiculo.setRenavam(dto.getRenavam());
+        if(dto.getAno() != null) {
+            veiculo.setAno(Integer.parseInt(dto.getAno()));
+        }
+		veiculo.setPlaca(dto.getPlaca());
+		veiculo.setDataAquisicao(dto.getDataAquisicao() != null
+				? LocalDate.parse(dto.getDataAquisicao(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+		veiculo.setUnicoDono(dto.isUnicoDono());
 		if (veiculo.getUnicoDono()) {
 			veiculo.setDataAquisicaoPrimeiroDono(null);
 		} else {
-			veiculo.setDataAquisicaoPrimeiroDono(veiculoDTO.getDataAquisicaoPrimeiroDono() != null ? LocalDate.parse(veiculoDTO.getDataAquisicaoPrimeiroDono(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+			veiculo.setDataAquisicaoPrimeiroDono(dto.getDataAquisicaoPrimeiroDono() != null
+					? LocalDate.parse(dto.getDataAquisicaoPrimeiroDono(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
 		}
 		
-		Modelo modelo = modeloManager.getById(veiculoDTO.getModelo().getCodigo());
+		Modelo modelo = modeloManager.getById(dto.getModelo().getCodigo());
 		veiculo.setModelo(modelo);
 
         Proprietario proprietario = null;
-        proprietario = proprietarioDAO.getById(veiculoDTO.getProprietario());
+        proprietario = proprietarioDAO.getById(dto.getProprietario());
         veiculo.setProprietario(proprietario);
 
 		return veiculo;
+	}
+
+	private void validar(Veiculo veiculo) throws GestaoAutoException {
+	    if(veiculo.getModelo() == null){
+            throw new ObjetoNaoEncontradoException("error.veiculo.modelo.vazio");
+        }
+        else if(veiculo.getProprietario() == null){
+            throw new ObjetoNaoEncontradoException("error.veiculo.proprietario.vazio");
+        }
+	}
+
+	private void validar(VeiculoCompletoDTO dto) throws GestaoAutoException {
+        if(dto.getModalidade() == null){
+            throw new ObjetoNaoEncontradoException("error.veiculo.modalidade.vazio");
+        }
+        else if(dto.getModelo() == null){
+            throw new ObjetoNaoEncontradoException("error.veiculo.modelo.vazio");
+        }
+        else if(dto.getProprietario() == null){
+            throw new ObjetoNaoEncontradoException("error.veiculo.proprietario.vazio");
+        }
 	}
 }
