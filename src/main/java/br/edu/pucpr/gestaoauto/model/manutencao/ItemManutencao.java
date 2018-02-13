@@ -2,6 +2,9 @@ package br.edu.pucpr.gestaoauto.model.manutencao;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -23,6 +27,7 @@ public class ItemManutencao implements java.io.Serializable {
 	private Double valorUnitario;
 	private Float quantidade;
 	private String observacao;
+	private List<PosicaoItem> posicaoItem = new ArrayList<>();
 
 	public ItemManutencao() {
 	}
@@ -84,5 +89,14 @@ public class ItemManutencao implements java.io.Serializable {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
+	}
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "itemManutencao")
+	public List<PosicaoItem> getPosicaoItem() {
+		return posicaoItem;
+	}
+
+	public void setPosicaoItem(List<PosicaoItem> posicaoItem) {
+		this.posicaoItem = posicaoItem;
 	}
 }

@@ -1,5 +1,7 @@
 package br.edu.pucpr.gestaoauto.api.dto.manutencao;
 
+import java.util.List;
+
 public class ItemManutencaoDTO {
 
 	private Integer codigo;
@@ -7,6 +9,7 @@ public class ItemManutencaoDTO {
 	private Double valorUnitario;
 	private Float quantidade;
 	private String observacao;
+	private List<PosicaoItemDTO> posicoes;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -46,6 +49,14 @@ public class ItemManutencaoDTO {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
+	}
+
+	public List<PosicaoItemDTO> getPosicoes() {
+		return posicoes;
+	}
+
+	public void setPosicoes(List<PosicaoItemDTO> posicoes) {
+		this.posicoes = posicoes;
 	}
 
 
