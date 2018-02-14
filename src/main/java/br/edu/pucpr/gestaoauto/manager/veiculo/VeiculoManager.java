@@ -14,6 +14,7 @@ import br.edu.pucpr.gestaoauto.dao.usuario.ProprietarioDAO;
 import br.edu.pucpr.gestaoauto.dao.veiculo.VeiculoDAO;
 import br.edu.pucpr.gestaoauto.manager.Manager;
 import br.edu.pucpr.gestaoauto.manager.NotificacaoManager;
+import br.edu.pucpr.gestaoauto.manager.manutencao.ManutencaoManager;
 import br.edu.pucpr.gestaoauto.model.usuario.Proprietario;
 import br.edu.pucpr.gestaoauto.model.veiculo.Carro;
 import br.edu.pucpr.gestaoauto.model.veiculo.Modelo;
@@ -34,6 +35,7 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 	@Inject ProprietarioDAO proprietarioDAO;
     @Inject ModeloManager modeloManager;
     @Inject NotificacaoManager notificacaoManager;
+    @Inject ManutencaoManager manutencaoManager;
 
 	@Override
 	public Veiculo save(Veiculo entity) {
@@ -42,6 +44,7 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 
 	@Override
 	public void delete(Integer id) throws GestaoAutoException {
+		manutencaoManager.deleteByVeiculo(id);
 		veiculoDAO.delete(this.getById(id));
 	}
 

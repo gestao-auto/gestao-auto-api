@@ -17,11 +17,10 @@ import br.edu.pucpr.gestaoauto.model.manutencao.Status;
 @Stateless
 public class ManutencaoDAO extends DAO<Integer, Manutencao> {
 
-
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public List<Manutencao> getListManutencaoByVeiculo(Integer codigoVeiculo) {
-		Query query = super.entityManager.createQuery(
-				"select m from Manutencao m where m.veiculo.codigo = :veiculo order by m.codigo desc");
+		Query query = super.entityManager
+				.createQuery("select m from Manutencao m where m.veiculo.codigo = :veiculo order by m.codigo desc");
 		query.setParameter("veiculo", codigoVeiculo);
 		return query.getResultList();
 	}
@@ -36,22 +35,27 @@ public class ManutencaoDAO extends DAO<Integer, Manutencao> {
 
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public List<Revisao> getProximaRevisaoByVeiculo(Integer codigoVeiculo) {
-		return super.entityManager.createQuery(
-		        "select m from Revisao m where m.veiculo.codigo = :veiculo and m.status = :status")
-                .setParameter("veiculo", codigoVeiculo)
-                .setParameter("status", Status.PENDENTE)
-                .setMaxResults(1)
-                .getResultList();
+		return super.entityManager
+				.createQuery("select m from Revisao m where m.veiculo.codigo = :veiculo and m.status = :status")
+				.setParameter("veiculo", codigoVeiculo).setParameter("status", Status.PENDENTE).setMaxResults(1)
+				.getResultList();
 	}
 
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public List<Revisao> revisaoPendenteByData(LocalDate data) {
-        return super.entityManager
-                .createQuery("select m from Revisao m " +
-                        "where m.dataPrevista = :data" +
-                        " and m.status = :status")
-                .setParameter("data", data)
-                .setParameter("status", Status.PENDENTE)
-				.getResultList();
+	public List<Revisao> revisaoPendenteByData(LocalDate data) {
+		return super.entityManager
+				.createQuery("select m from Revisao m " + "where m.dataPrevista = :data" + " and m.status = :status")
+				.setParameter("data", data).setParameter("status", Status.PENDENTE).getResultList();
+	}
+
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public void removeByVeiculo(Integer veiculo) {
+		String query = "SELECT m FROM Manutencao m INNER JOIN m.veiculo v WHERE v.codigo = :codigo";
+		List<Manutencao> lista = entityManager.createQuery(query).setParameter("codigo", veiculo).getResultList();
+		if (lista != null && !lista.isEmpty()) {
+			for (Manutencao m : lista) {
+				entityManager.remove(m);
+			}
+		}
 	}
 }

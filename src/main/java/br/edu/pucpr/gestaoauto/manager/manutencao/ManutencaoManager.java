@@ -91,6 +91,10 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 			dao.delete(manutencao);
 		}
 	}
+	
+	public void deleteByVeiculo(Integer veiculo) {
+		dao.removeByVeiculo(veiculo);
+	}
 
 	@Override
 	public Manutencao getById(Integer id) {
