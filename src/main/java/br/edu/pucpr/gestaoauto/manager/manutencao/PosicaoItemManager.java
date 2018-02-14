@@ -74,7 +74,7 @@ public class PosicaoItemManager implements Manager<Integer, PosicaoItem> {
 	}
 
 	private PosicaoItem converPosicaoItemDTOToEntity(PosicaoItemDTO dto, ItemManutencao itemManutencao) {
-		PosicaoItem posicaoItem = (dto.getCodigo() != null ? this.getById(dto.getCodigo()) : new PosicaoItem());
+		PosicaoItem posicaoItem = new PosicaoItem();
 		posicaoItem.setItemManutencao(itemManutencao);
 		posicaoItem.setPosicao(dto.getPosicao());
 		return posicaoItem;

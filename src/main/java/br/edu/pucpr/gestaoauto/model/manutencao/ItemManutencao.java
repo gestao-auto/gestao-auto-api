@@ -5,6 +5,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -91,7 +92,7 @@ public class ItemManutencao implements java.io.Serializable {
 		this.observacao = observacao;
 	}
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "itemManutencao")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "itemManutencao", cascade = CascadeType.REMOVE,orphanRemoval = true)
 	public List<PosicaoItem> getPosicaoItem() {
 		return posicaoItem;
 	}

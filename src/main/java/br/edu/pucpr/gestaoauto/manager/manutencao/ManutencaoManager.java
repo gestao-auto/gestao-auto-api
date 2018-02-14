@@ -62,8 +62,10 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
         this.validarManutencao(manutencao);
 
 		dao.update(manutencao);
+		itemManutencaoManager.removeByManutencao(manutencao.getCodigo());
 		for (ItemManutencao item : manutencao.getItemManutencao()) {
-			itemManutencaoManager.update(item);
+			item.setManutencao(manutencao);
+			itemManutencaoManager.save(item);
 		}
 
         if(manutencao.getOdometro() != null) {

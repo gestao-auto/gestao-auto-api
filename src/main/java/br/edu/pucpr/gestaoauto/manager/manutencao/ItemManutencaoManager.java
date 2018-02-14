@@ -104,8 +104,7 @@ public class ItemManutencaoManager implements Manager<Integer, ItemManutencao> {
 	}
 
 	private ItemManutencao converItemManutencaoDTOToEntity(ItemManutencaoDTO dto, Manutencao manutencao) {
-		ItemManutencao itemManutencao = (dto.getCodigo() != null ? this.getById(dto.getCodigo())
-				: new ItemManutencao());
+		ItemManutencao itemManutencao =  new ItemManutencao();
 		itemManutencao.setManutencao(manutencao);
 		itemManutencao.setPecaServico(pecaServicoManager.getById(dto.getPecaServico().getCodigo()));
 		itemManutencao.setQuantidade(dto.getQuantidade());
@@ -114,5 +113,9 @@ public class ItemManutencaoManager implements Manager<Integer, ItemManutencao> {
 		if (dto.getPosicoes() != null && !dto.getPosicoes().isEmpty())
 			itemManutencao.setPosicaoItem(posicaoItemManager.convertListPosicaoItemDTOToEntity(dto.getPosicoes(), itemManutencao));
 		return itemManutencao;
+	}
+	
+	public void removeByManutencao(Integer manutencao) {
+		dao.removeByManutencao(manutencao);
 	}
 }

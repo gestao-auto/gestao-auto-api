@@ -19,5 +19,15 @@ public class ItemManutencaoDAO extends DAO<Integer, ItemManutencao> {
 		}
 		return itemManutencaoList;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
+	public void removeByManutencao(Integer manutencao) {
+		String query = "SELECT i FROM ItemManutencao i INNER JOIN i.manutencao m WHERE m.codigo = :codigo";  
+		List<ItemManutencao> itens = entityManager.createQuery(query).setParameter("codigo", manutencao).getResultList();  
+		for (ItemManutencao m: itens) {  
+			entityManager.remove(m);
+		}
+	}
 
 }
