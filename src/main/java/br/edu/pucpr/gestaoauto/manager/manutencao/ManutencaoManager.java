@@ -179,7 +179,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 	private Double getValorUnitarioMedioPecaServicoPrevisto(Modelo modelo, ModeloRevisao modeloRevisao,
 			ItemManutencao item) {
 		// TODO implementar
-		return null;
+		return new Double(0);
 	}
 
 	public Double getValorTotal(Manutencao manutencao) {
@@ -227,7 +227,9 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setItensManutencao(itemManutencaoManager.convertItemManutencaoListToDTO(revisao.getItemManutencao()));
 		Double valorTotal = 0.0;
 		for (ItemManutencaoDTO item : dto.getItensManutencao()) {
-			valorTotal += item.getValorUnitario() * item.getQuantidade();
+			if (item.getValorUnitario() != null && item.getQuantidade() != null) {
+				valorTotal += item.getValorUnitario() * item.getQuantidade();
+			}
 		}
 		dto.setValorTotal(valorTotal);
 		return dto;
@@ -268,19 +270,13 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 
 	public Manutencao convertDTOToEntity(ManutencaoDTO dto) throws GestaoAutoException {
 		this.validarManutencao(dto);
-
 		Manutencao manutencao = this.getEntity(dto);
-		manutencao.setDescricao(
-				(dto.getDescricao() != null && dto.getDescricao().isEmpty()) ? dto.getTipoManutencao().getNome()
-						: dto.getDescricao());
+		manutencao.setDescricao((dto.getDescricao() != null && dto.getDescricao().isEmpty()) ? dto.getTipoManutencao().getNome() : dto.getDescricao());
 		manutencao.setVeiculo(veiculoManager.getById(dto.getCodigoVeiculo()));
-		manutencao.setData(
-				(dto.getData() != null ? LocalDate.parse(dto.getData(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-						: null));
+		manutencao.setData((dto.getData() != null ? LocalDate.parse(dto.getData(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null));
 		manutencao.setOdometro(dto.getOdometro());
 		manutencao.setReparador(pessoaJuridicaManager.carregaReparador(dto));
-		manutencao.setItemManutencao(
-				itemManutencaoManager.convertListItemManutencaoDTOToEntity(dto.getItensManutencao(), manutencao));
+		manutencao.setItemManutencao(itemManutencaoManager.convertListItemManutencaoDTOToEntity(dto.getItensManutencao(), manutencao));
 		if (dto.getTipoManutencao().equals(TipoManutencaoDTO.REPARO)) {
 			Reparo reparo = (Reparo) manutencao;
 			reparo.setMotivo(dto.getMotivo());

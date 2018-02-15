@@ -20,7 +20,7 @@ public class ManutencaoDAO extends DAO<Integer, Manutencao> {
 	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public List<Manutencao> getListManutencaoByVeiculo(Integer codigoVeiculo) {
 		Query query = super.entityManager
-				.createQuery("select m from Manutencao m where m.veiculo.codigo = :veiculo order by m.codigo");
+				.createQuery("select m from Manutencao m where m.veiculo.codigo = :veiculo order by IFNULL(m.data, m.dataPrevista)");
 		query.setParameter("veiculo", codigoVeiculo);
 		return query.getResultList();
 	}
