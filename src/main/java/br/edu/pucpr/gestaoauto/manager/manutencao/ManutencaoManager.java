@@ -30,21 +30,27 @@ import br.edu.pucpr.gestaoauto.model.veiculo.Modelo;
 import br.edu.pucpr.gestaoauto.model.veiculo.Veiculo;
 import br.edu.pucpr.gestaoauto.util.GestaoAutoException;
 import br.edu.pucpr.gestaoauto.util.ObjetoNaoEncontradoException;
+import br.edu.pucpr.gestaoauto.util.QuilometragemExeption;
 
 @Stateless
 @LocalBean
 public class ManutencaoManager implements Manager<Integer, Manutencao> {
-	
-	@Inject ManutencaoDAO dao;
-	@Inject VeiculoManager veiculoManager;
-	@Inject PacoteRevisaoManager pacoteRevisaoManager;
-	@Inject PessoaJuridicaManager pessoaJuridicaManager;
-	@Inject ItemManutencaoManager itemManutencaoManager;
+
+	@Inject
+	ManutencaoDAO dao;
+	@Inject
+	VeiculoManager veiculoManager;
+	@Inject
+	PacoteRevisaoManager pacoteRevisaoManager;
+	@Inject
+	PessoaJuridicaManager pessoaJuridicaManager;
+	@Inject
+	ItemManutencaoManager itemManutencaoManager;
 
 	@Override
 	public Manutencao save(Manutencao manutencao) throws Exception {
 		this.validarManutencao(manutencao);
-
+		this.validarOdometro(manutencao.getVeiculo().getCodigo(), manutencao.getOdometro());
 		dao.save(manutencao);
 		for (ItemManutencao item : manutencao.getItemManutencao()) {
 			item.setManutencao(manutencao);
@@ -55,6 +61,17 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 			veiculoManager.updateOdometro(manutencao.getVeiculo().getCodigo(), manutencao.getOdometro());
 		}
 		return manutencao;
+	}
+
+	private void validarOdometro(Integer codigoVeiculo, Integer novoOdometro) throws GestaoAutoException {
+		if (novoOdometro != null) {
+			Veiculo veiculo = veiculoManager.getById(codigoVeiculo);
+			Integer odometroAtual = veiculo.getOdometro();
+			if (odometroAtual.intValue() > novoOdometro.intValue()) {
+				throw new QuilometragemExeption("error.veiculo.quilometragemMaiorQueAtual",
+						new Object[] { veiculo.getNome(), odometroAtual, novoOdometro });
+			}
+		}
 	}
 
 	@Override
@@ -80,7 +97,8 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 	public void delete(Integer id) {
 		Manutencao manutencao = this.getById(id);
 		if (manutencao instanceof Revisao) {
-			this.criarManutencaoConformeModeloRevisao(((Revisao) manutencao).getModeloRevisao(), manutencao.getVeiculo());
+			this.criarManutencaoConformeModeloRevisao(((Revisao) manutencao).getModeloRevisao(),
+					manutencao.getVeiculo());
 		}
 		itemManutencaoManager.deleteAll(manutencao.getItemManutencao());
 		dao.delete(manutencao);
@@ -92,7 +110,7 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 			dao.delete(manutencao);
 		}
 	}
-	
+
 	public void deleteByVeiculo(Integer veiculo) {
 		dao.removeByVeiculo(veiculo);
 	}
@@ -135,7 +153,8 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 			ItemManutencao itemManutencao = new ItemManutencao();
 			itemManutencao.setPecaServico(itemRevisao.getPecaServico());
 			itemManutencao.setQuantidade(itemRevisao.getQuantidade());
-			itemManutencao.setValorUnitario(this.getValorUnitarioMedioPecaServicoPrevisto(veiculo.getModelo(), modelo, itemManutencao));
+			itemManutencao.setValorUnitario(
+					this.getValorUnitarioMedioPecaServicoPrevisto(veiculo.getModelo(), modelo, itemManutencao));
 			itemManutencao.setManutencao(revisao);
 			itemManutencaoManager.save(itemManutencao);
 		}
@@ -157,7 +176,8 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		return Status.PENDENTE;
 	}
 
-	private Double getValorUnitarioMedioPecaServicoPrevisto(Modelo modelo, ModeloRevisao modeloRevisao, ItemManutencao item) {
+	private Double getValorUnitarioMedioPecaServicoPrevisto(Modelo modelo, ModeloRevisao modeloRevisao,
+			ItemManutencao item) {
 		// TODO implementar
 		return null;
 	}
@@ -192,8 +212,11 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setCodigo(revisao.getCodigo());
 		dto.setDescricao(revisao.getDescricao());
 		dto.setCodigoVeiculo(revisao.getVeiculo().getCodigo());
-		dto.setData(revisao.getData() != null ? revisao.getData().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
-		dto.setDataPrevista(revisao.getDataPrevista() != null ? revisao.getDataPrevista().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+		dto.setData(
+				revisao.getData() != null ? revisao.getData().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+		dto.setDataPrevista(revisao.getDataPrevista() != null
+				? revisao.getDataPrevista().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+				: null);
 		dto.setOdometro(revisao.getOdometro());
 		dto.setOdometroPrevisto(revisao.getOdometroPrevisto());
 		if (revisao.getReparador() != null) {
@@ -216,7 +239,8 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setCodigo(reparo.getCodigo());
 		dto.setDescricao(reparo.getDescricao());
 		dto.setCodigoVeiculo(reparo.getVeiculo().getCodigo());
-		dto.setData(reparo.getData() != null ? reparo.getData().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+		dto.setData(
+				reparo.getData() != null ? reparo.getData().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
 		dto.setOdometro(reparo.getOdometro());
 		dto.setMotivo(reparo.getMotivo());
 		dto.setCodigoReparador(reparo.getReparador().getCodigo());
@@ -231,7 +255,8 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		dto.setCodigo(sinistro.getCodigo());
 		dto.setDescricao(sinistro.getDescricao());
 		dto.setCodigoVeiculo(sinistro.getVeiculo().getCodigo());
-		dto.setData(sinistro.getData() != null ? sinistro.getData().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+		dto.setData(sinistro.getData() != null ? sinistro.getData().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+				: null);
 		dto.setOdometro(sinistro.getOdometro());
 		dto.setCodigoReparador(sinistro.getReparador().getCodigo());
 		dto.setNomeReparador(sinistro.getReparador().getNomeFantasia());
@@ -245,13 +270,17 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 		this.validarManutencao(dto);
 
 		Manutencao manutencao = this.getEntity(dto);
-		manutencao
-				.setDescricao((dto.getDescricao() != null && dto.getDescricao().isEmpty()) ? dto.getTipoManutencao().getNome() : dto.getDescricao());
+		manutencao.setDescricao(
+				(dto.getDescricao() != null && dto.getDescricao().isEmpty()) ? dto.getTipoManutencao().getNome()
+						: dto.getDescricao());
 		manutencao.setVeiculo(veiculoManager.getById(dto.getCodigoVeiculo()));
-		manutencao.setData((dto.getData() != null ? LocalDate.parse(dto.getData(), DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null));
+		manutencao.setData(
+				(dto.getData() != null ? LocalDate.parse(dto.getData(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+						: null));
 		manutencao.setOdometro(dto.getOdometro());
 		manutencao.setReparador(pessoaJuridicaManager.carregaReparador(dto));
-		manutencao.setItemManutencao(itemManutencaoManager.convertListItemManutencaoDTOToEntity(dto.getItensManutencao(), manutencao));
+		manutencao.setItemManutencao(
+				itemManutencaoManager.convertListItemManutencaoDTOToEntity(dto.getItensManutencao(), manutencao));
 		if (dto.getTipoManutencao().equals(TipoManutencaoDTO.REPARO)) {
 			Reparo reparo = (Reparo) manutencao;
 			reparo.setMotivo(dto.getMotivo());
@@ -294,7 +323,8 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 			throw new ObjetoNaoEncontradoException("error.manutencao.item.vazio");
 		} else if (manutencao.getData() == null) {
 			throw new ObjetoNaoEncontradoException("error.manutencao.data.vazia");
-		} else if (!(manutencao instanceof Revisao) && (manutencao.getOdometro() == null || manutencao.getOdometro().intValue() <= 0)) {
+		} else if (!(manutencao instanceof Revisao)
+				&& (manutencao.getOdometro() == null || manutencao.getOdometro().intValue() <= 0)) {
 			throw new ObjetoNaoEncontradoException("error.manutencao.odometro.vazio");
 		} else if (manutencao.getVeiculo() == null) {
 			throw new ObjetoNaoEncontradoException("error.manutencao.veiculo.vazio");
@@ -308,7 +338,8 @@ public class ManutencaoManager implements Manager<Integer, Manutencao> {
 			throw new ObjetoNaoEncontradoException("error.manutencao.item.vazio");
 		} else if (dto.getData() == null) {
 			throw new ObjetoNaoEncontradoException("error.manutencao.data.vazia");
-		} else if (!dto.getTipoManutencao().equals(TipoManutencaoDTO.REVISAO) && (dto.getOdometro() == null || dto.getOdometro().intValue() <= 0)) {
+		} else if (!dto.getTipoManutencao().equals(TipoManutencaoDTO.REVISAO)
+				&& (dto.getOdometro() == null || dto.getOdometro().intValue() <= 0)) {
 			throw new ObjetoNaoEncontradoException("error.manutencao.odometro.vazio");
 		} else if (dto.getCodigoVeiculo() == null) {
 			throw new ObjetoNaoEncontradoException("error.manutencao.veiculo.vazio");

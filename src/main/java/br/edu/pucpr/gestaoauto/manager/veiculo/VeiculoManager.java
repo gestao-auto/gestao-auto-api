@@ -76,17 +76,9 @@ public class VeiculoManager implements Manager<Integer, Veiculo> {
 
 	public void updateOdometro(Integer codigoVeiculo, Integer novoOdometro) throws Exception {
 		Veiculo veiculo = this.getById(codigoVeiculo);
-		Integer odometroAtual = veiculo.getOdometro();
-		if (odometroAtual.intValue() > novoOdometro.intValue()) {
-			throw new QuilometragemExeption(
-			        "error.veiculo.quilometragemMaiorQueAtual"
-                    , new Object[] { veiculo.getNome(), odometroAtual, novoOdometro });
-		}
-		else if(odometroAtual.intValue() < novoOdometro.intValue()) {
             veiculo.setOdometro(novoOdometro);
             this.update(veiculo);
             notificacaoManager.conferirRevisao(veiculo);
-        }
 	}
 
 	public void update(VeiculoCompletoDTO dto) throws GestaoAutoException {
