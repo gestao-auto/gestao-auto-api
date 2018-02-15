@@ -85,7 +85,7 @@ public abstract class Manutencao {
 		this.data = data;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "manutencao", cascade = CascadeType.REMOVE,orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "manutencao", cascade = CascadeType.REMOVE)
 	public List<ItemManutencao> getItemManutencao() {
 		return itemManutencao;
 	}

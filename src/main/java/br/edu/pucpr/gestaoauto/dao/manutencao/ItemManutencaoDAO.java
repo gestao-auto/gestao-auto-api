@@ -28,6 +28,7 @@ public class ItemManutencaoDAO extends DAO<Integer, ItemManutencao> {
 		for (ItemManutencao m: itens) {  
 			entityManager.remove(m);
 		}
+		
 	}
 
 }
