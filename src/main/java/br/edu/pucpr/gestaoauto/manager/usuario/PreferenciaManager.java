@@ -75,7 +75,7 @@ public class PreferenciaManager implements Manager<Integer, Preferencia> {
         return (preferencia.getHodometroAntecedenciaNotificacaoRevisao().intValue() > 0
             && ((proxima.getOdometroPrevisto().intValue()
                     - preferencia.getHodometroAntecedenciaNotificacaoRevisao().intValue())
-                >= veiculo.getOdometro().intValue()));
+				<= veiculo.getOdometro().intValue()));
     }
 
     private boolean aptoNotificarPorData(Preferencia preferencia, Revisao proxima) {
